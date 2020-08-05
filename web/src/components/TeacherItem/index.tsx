@@ -3,34 +3,55 @@ import React from 'react';
 import whatsappIcon from '../../assets/images/icons/whatsapp.svg';
 
 import './styles.css';
+import api from '../../services/api';
 
-function TeacherItem() {
+export interface TeacherItemProps {
+  id: number,
+  user_id: string,
+  name: string,
+  subject: string,
+  bio: string,
+  avatar: string,
+  cost: number,
+  whatsapp: string,
+}
+
+const TeacherItem: React.FC<TeacherItemProps> = ({ user_id, avatar, name, subject, bio, cost, whatsapp }) => {
+  const whatsappMessageURI = encodeURI(`Olá, eu gostaria de fazer uma aula de ${subject}`);
+
+  function handleCreateConnection() {
+    api.post('/connections', {
+      user_id,
+    })
+  }
+
   return (
     <article className="teacher-item">
       <header>
-        <img src="https://pbs.twimg.com/profile_images/1210212385576955905/PCYCf6KR_400x400.jpg" alt="Marcelo Lupatini"/>
+        <img src={avatar} alt={name}/>
         <div>
-          <strong>Marcelo Lupatini</strong>
-          <span>Química</span>
+          <strong>{name}</strong>
+          <span>{subject}</span>
         </div>
       </header>
 
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sem mauris, consequat sit amet volutpat sit amet, dictum at odio. Nulla facilisi.
-        Quisque quis condimentum risus, nec efficitur erat. Pellentesque semper magna id libero faucibus, at eleifend ligula suscipit. Suspendisse elit lorem, cursus a lacus id, posuere convallis tortor. Quisque non diam convallis, posuere lacus at, consectetur nibh. Etiam facilisis pulvinar neque non accumsan. Pellentesque elementum bibendum posuere.
-        <br/> <br/>
-        Quisque sed consectetur justo, ac consectetur est. Sed pulvinar mi non dui ultricies aliquet. Etiam sed lacus in ex pellentesque euismod eget non mauris.
+       {bio}
       </p>
 
       <footer>
         <p>
           Preço/hora
-          <strong>R$ 80,00</strong>
+          <strong>R$ {cost}</strong>
         </p>
-        <button type="button">
+        <a
+          target="_blank"
+          onClick={handleCreateConnection}
+          href={`https://wa.me/${whatsapp}?text=${whatsappMessageURI}`}
+        >
           <img src={whatsappIcon} alt="Whatsapp"/>
           Entrar em contato
-        </button>
+        </a>
       </footer>
     </article>
   )
