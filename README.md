@@ -14,15 +14,11 @@
   <img src="https://img.shields.io/github/stars/Marcel099/proffy?style=social">
 </div>
 
-## Sobre o projeto
-
-🚧 Em construção...  🚧
-
 ## Índice
 
 <!--ts-->
-   * [Sobre](#sobre-o-projeto)
    * [Índice](#índice)
+   * [Sobre](#sobre-o-projeto)
    * [Funcionalidades](#funcionalidades)
    * [Como rodar na sua máquina?](#como-rodar-na-sua-máquina)
       * [Back-End](#back-end)
@@ -30,6 +26,10 @@
       * [Front-End Mobile](#front-end-mobile)
    * [Licença](#licença)
 <!--te-->
+
+## Sobre o projeto
+
+🚧 Em construção...  🚧
 
 ## Funcionalidades
 
