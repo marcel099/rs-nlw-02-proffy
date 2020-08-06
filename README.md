@@ -1,6 +1,5 @@
 <h1 align="center">
   <img alt="Banner Proffy" title="#BannerProffy" src="./assets/screenshots/banner.png" />
-</h1>
 <!-- <p align="center">:green_book: Plataforma de estudos online conectando alunos e professores </p> -->
 <hr />
 
@@ -10,32 +9,31 @@
 
 <div align="center" style="display: flex">
   <img src="https://img.shields.io/badge/languages-3-blue">
-  <img src="https://img.shields.io/badge/last%20comit-agost-yellowgreen">
+  <img src="https://img.shields.io/badge/last%20comit-august-brightgreen">
   <img src="https://img.shields.io/github/issues/Marcel099/proffy">
   <img src="https://img.shields.io/github/license/Marcel099/proffy">
   <img src="https://img.shields.io/github/stars/Marcel099/proffy?style=social">
 </div>
 
-<h3> Sobre o projeto </h3>
-=====
+### Sobre o projeto
 
 🚧 Em construção...  🚧
 
-<h3>Índice</h3>
-=====
+<h2>Índice</h2>
+========
 
 <!--ts-->
-   * [Sobre](#Sobre-o-projeto)
-   * [Índice](#indice)
-   * [Funcionalidades](#funcionalidades)
-   * [Como rodar na sua máquina?](#como-rodar-na-sua-maquina)
+   * [Sobre](#sobre-o-projeto)
+   * [Índice](#índice)
+   * [Funcionalidades](#:pushpin:-funcionalidades)
+   * [Como rodar na sua máquina?](#como-rodar-na-sua-máquina)
       * [Back-End](#back-end)
-      * [Front-End Web](#web)
-      * [Front-End Mobile](#mobile)
-   * [Licença](#licenca)
+      * [Front-End Web](#front-end-web)
+      * [Front-End Mobile](#front-end-mobile)
+   * [Licença](#licença)
 <!--te-->
 
-<h3> :pushpin: Funcionalidades</h3>
+### :pushpin: Funcionalidades
 =====
 
 - [x] Número de conexões já realizadas
@@ -45,16 +43,15 @@
 - [x] Contato com professores via What's App
 - [ ] Chamadas de vídeo
 
-<h3>Como rodar na sua máquina?</h3>
+### Como rodar na sua máquina?
 =====
 
 <b>Antes de tudo</b>, você precisa instalar as seguintes ferramentas:
-[Git](https://git-scm.com), [Node.js](https://nodejs.org/en/). 
+
+[Git](https://git-scm.com), [Node.js](https://nodejs.org/en/).
+
 Caso queira alterar algum arquivo sugiro também que instale algum editor também, como o [Visual Studio Code](https://code.visualstudio.com/) e o [Sublime](https://www.sublimetext.com/3).
 
-
-<h4> Back-End (API Node.js) </h4>
------
 Após isso, clone o repositório na pasta desejada utilizando a linha de comando:
 
 ```bash
@@ -93,9 +90,10 @@ $ npm start
 ```
 
 <h4>Front-End Mobile</h4>
------
+--------
 
 🚧 Em construção...  🚧
 
 <h3>Licença</h3>
-=====
+========
+Este projeto está sob a licença MIT. Para maiores detalhes acesse o <a href="https://github.com/Marcel099/proffy/LICENSE.md">arquivo de licença</a>.
