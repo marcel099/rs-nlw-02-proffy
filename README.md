@@ -15,17 +15,18 @@
   <img src="https://img.shields.io/github/stars/Marcel099/proffy?style=social">
 </div>
 
-### Sobre o projeto
+## Sobre o projeto
+========
 
 🚧 Em construção...  🚧
 
-<h2>Índice</h2>
+## Índice
 ========
 
 <!--ts-->
    * [Sobre](#sobre-o-projeto)
    * [Índice](#índice)
-   * [Funcionalidades](#:pushpin:-funcionalidades)
+   * [Funcionalidades](#funcionalidades)
    * [Como rodar na sua máquina?](#como-rodar-na-sua-máquina)
       * [Back-End](#back-end)
       * [Front-End Web](#front-end-web)
@@ -33,8 +34,8 @@
    * [Licença](#licença)
 <!--te-->
 
-### :pushpin: Funcionalidades
-=====
+## Funcionalidades
+========
 
 - [x] Número de conexões já realizadas
 - [x] Cadastro de aula
@@ -43,8 +44,8 @@
 - [x] Contato com professores via What's App
 - [ ] Chamadas de vídeo
 
-### Como rodar na sua máquina?
-=====
+## Como rodar na sua máquina?
+========
 
 <b>Antes de tudo</b>, você precisa instalar as seguintes ferramentas:
 
@@ -58,8 +59,8 @@ Após isso, clone o repositório na pasta desejada utilizando a linha de comando
 git clone https://github.com/Marcel099/proffy
 ```
 
-<h5>Back-End</h5>
------
+### Back-End
+========
 
 É necessário manter o servidor em execução através destes comandos para o correto funcionamento da aplicação.
 
@@ -74,7 +75,8 @@ $ npm install
 $ npm start
 ```
 
-<h4>Front-End Web</h4>
+### Front-End Web
+========
 
 É necessário abrir outra linha de comando para executar estes comandos, sem que a anterior seja fechada.
 
@@ -85,15 +87,15 @@ cd web
 # Instale as dependências
 npm install
 
-# Inicie a aplicação React. Após este comando será aberta, automaticamente, uma guia no seu navegador padrão.
+# Inicie a aplicação React
 $ npm start
 ```
 
-<h4>Front-End Mobile</h4>
---------
+### Front-End Mobile
+========
 
 🚧 Em construção...  🚧
 
-<h3>Licença</h3>
+## Licença
 ========
-Este projeto está sob a licença MIT. Para maiores detalhes acesse o <a href="https://github.com/Marcel099/proffy/LICENSE.md">arquivo de licença</a>.
+Este projeto está sob a licença MIT. Para maiores detalhes acesse o <a href="./LICENSE.md">arquivo de licença</a>.
