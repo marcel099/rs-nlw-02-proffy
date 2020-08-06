@@ -1,7 +1,6 @@
 <h1 align="center">
   <img alt="Banner Proffy" title="#BannerProffy" src="./assets/screenshots/banner.png" />
 <!-- <p align="center">:green_book: Plataforma de estudos online conectando alunos e professores </p> -->
-<hr />
 
 <h4 align="center"> 
 	🚧  Next Level Week #02 🚀 Em construção...  🚧
@@ -16,12 +15,10 @@
 </div>
 
 ## Sobre o projeto
-========
 
 🚧 Em construção...  🚧
 
 ## Índice
-========
 
 <!--ts-->
    * [Sobre](#sobre-o-projeto)
@@ -35,7 +32,6 @@
 <!--te-->
 
 ## Funcionalidades
-========
 
 - [x] Número de conexões já realizadas
 - [x] Cadastro de aula
@@ -45,22 +41,18 @@
 - [ ] Chamadas de vídeo
 
 ## Como rodar na sua máquina?
-========
 
-<b>Antes de tudo</b>, você precisa instalar as seguintes ferramentas:
+Antes de tudo, você precisa instalar as seguintes ferramentas: [Git](https://git-scm.com), [Node.js](https://nodejs.org/en/).
 
-[Git](https://git-scm.com), [Node.js](https://nodejs.org/en/).
+Caso queira alterar algum arquivo sugiro também que instale algum editor de texto, como o [Visual Studio Code](https://code.visualstudio.com/) e o [Sublime](https://www.sublimetext.com/3).
 
-Caso queira alterar algum arquivo sugiro também que instale algum editor também, como o [Visual Studio Code](https://code.visualstudio.com/) e o [Sublime](https://www.sublimetext.com/3).
-
-Após isso, clone o repositório na pasta desejada utilizando a linha de comando:
+Após isso, clone o repositório na pasta de sua escolha utilizando o seguinte comando na linha de comando:
 
 ```bash
 git clone https://github.com/Marcel099/proffy
 ```
 
 ### Back-End
-========
 
 É necessário manter o servidor em execução através destes comandos para o correto funcionamento da aplicação.
 
@@ -76,7 +68,6 @@ $ npm start
 ```
 
 ### Front-End Web
-========
 
 É necessário abrir outra linha de comando para executar estes comandos, sem que a anterior seja fechada.
 
@@ -92,10 +83,8 @@ $ npm start
 ```
 
 ### Front-End Mobile
-========
 
 🚧 Em construção...  🚧
 
 ## Licença
-========
 Este projeto está sob a licença MIT. Para maiores detalhes acesse o <a href="./LICENSE.md">arquivo de licença</a>.
