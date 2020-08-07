@@ -1,6 +1,9 @@
-import React from 'react';
-import { View, Image, Text } from 'react-native';
+import React, { useState } from 'react';
+import { View, Image, Text, Linking } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-community/async-storage';
+
+import api from '../../services/api';
 
 import heartOutlineIcon from '../../assets/images/icons/heart-outline.png';
 import unfavoriteIcon from '../../assets/images/icons/unfavorite.png';
@@ -8,39 +11,101 @@ import whatsappIcon from '../../assets/images/icons/whatsapp.png';
 
 import styles from './styles';
 
-function TeacherItem() {
+export interface TeacherItemProps {
+  id: number,
+  user_id: number,
+  name: string,
+  subject: string,
+  bio: string,
+  avatar: string,
+  cost: number,
+  whatsapp: string,
+  favorited: boolean,
+}
+
+const TeacherItem: React.FC<TeacherItemProps> = ({ id, user_id, avatar, name, subject, bio, cost, whatsapp, favorited }) => {
+  const [ isFavorited, setIsFavorited ] = useState(favorited)
+
+  function handleLinkToWhatsapp() {
+    api.post('connections', {
+      user_id
+    })
+
+    Linking.openURL(`whatsapp://send?phone=${whatsapp}`)
+  }
+
+  async function handleToggleFavorite() {
+    const favorites = await AsyncStorage.getItem('favorites');
+
+    let favoritesArray = [];
+    if (favorites) {
+      favoritesArray = JSON.parse(favorites);
+    }
+
+    if ( isFavorited ) {
+      setIsFavorited(false)
+
+      const favoritedIndex = favoritesArray
+        .map((favorited: TeacherItemProps) => favorited.id)
+        .find( (favoritedId: number) => favoritedId === user_id)
+
+      favoritesArray.splice(favoritedIndex, 1)
+    } else {
+      setIsFavorited(true)
+
+      favoritesArray.push({
+        id,
+        user_id,
+        avatar,
+        name,
+        subject,
+        bio,
+        cost,
+        whatsapp,
+        favorited,
+      })
+    }
+    
+    await AsyncStorage.setItem('favorites', JSON.stringify(favoritesArray))
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.profile}>
         <Image
           style={styles.avatar}
-          source={{ uri: 'https://pbs.twimg.com/profile_images/1210212385576955905/PCYCf6KR_400x400.jpg' }}
+          source={{ uri: avatar }}
         />
         <View style={styles.profileInfo}>
-          <Text style={styles.name}>Marcelo Lupatini</Text>
-          <Text style={styles.subject}>Química</Text>
+          <Text style={styles.name}>{name}</Text>
+          <Text style={styles.subject}>{subject}</Text>
         </View>
       </View>
 
       <Text style={styles.bio}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-        { '\n\n' }
-        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        {bio}
       </Text>
       
       <View style={styles.footer}>
         <Text style={styles.price}>
           Preço/hora {'   '}
-          <Text style={styles.priceValue}>R$ 20,00</Text>
+          <Text style={styles.priceValue}>R$ {cost}</Text>
         </Text>
 
         <View style={styles.buttonsContainer}>
-          <RectButton style={[ styles.favoriteButton, styles.favorited ]}>
-            {/* <Image source={heartOutlineIcon} /> */}
-            <Image source={unfavoriteIcon}/>
+          <RectButton
+            onPress={handleToggleFavorite}
+            style={[
+              styles.favoriteButton,
+              isFavorited ? styles.favorited : {},
+            ]}
+          >
+            { isFavorited
+              ? <Image source={unfavoriteIcon}/>
+              : <Image source={heartOutlineIcon} /> }
           </RectButton>
 
-          <RectButton style={styles.contactButton}>
+          <RectButton onPress={handleLinkToWhatsapp} style={styles.contactButton}>
             <Image source={whatsappIcon} />
             <Text style={styles.contactButtonText}>Entrar em contato</Text>
           </RectButton>
