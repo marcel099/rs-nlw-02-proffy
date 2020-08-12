@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 import db from './../database/connection';
+import authConfig from './../config/auth';
 
 export default class LoginController {
   async create(request: Request, response: Response) {
@@ -27,19 +28,16 @@ export default class LoginController {
         }
 
         return response.json({
-          token: jwt.sign({ id: userFound.id }, "secret", {
-            expiresIn: '10s',
+          token: jwt.sign({ id: userFound.id }, authConfig.secret, {
+            expiresIn: authConfig.expire,
           })
         })
       });
 
     } catch ( err ) {
-      console.error(err)
-
       return response.status(400)
         .json({
           msg: 'Falha na autenticação do usuário',
-          err,
         })
     }
   }

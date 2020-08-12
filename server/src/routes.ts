@@ -14,9 +14,11 @@ const connectionsController = new ConnectionsController;
 
 routes.post('/register', usersController.create)
 routes.post('/login', loginController.create)
-
+routes.put('/users/forgot-password', usersController.forgotPassword)
+routes.put('/users/reset-password', usersController.resetPassword)
 
 routes.use(authMiddleware)
+
 routes.get('/users', usersController.index)         // apenas para consulta interna
 
 routes.get('/classes', classesController.index)
