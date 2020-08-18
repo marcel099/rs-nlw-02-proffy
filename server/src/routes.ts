@@ -12,14 +12,14 @@ const loginController = new LoginController;
 const classesController = new ClassesController;
 const connectionsController = new ConnectionsController;
 
-routes.post('/register', usersController.create)
+routes.post('/register', usersController.create.bind(usersController))    // Isso é necessário para que a classe tenha visibilidade dentro do método
 routes.post('/login', loginController.create)
-routes.put('/users/forgot-password', usersController.forgotPassword)
-routes.put('/users/reset-password', usersController.resetPassword)
+routes.put('/forgot-password', usersController.forgotPassword)
+routes.put('/reset-password', usersController.resetPassword.bind(usersController))
 
 routes.use(authMiddleware)
 
-routes.get('/users', usersController.index)         // apenas para consulta interna
+// routes.get('/users', usersController.index)         // apenas para consulta interna
 
 routes.get('/classes', classesController.index)
 routes.post('/classes', classesController.create)

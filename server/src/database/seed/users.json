@@ -1,0 +1,40 @@
+[
+  {
+    "id": 1,
+    "email": "mar.lupatini@gmail.com",
+    "password": "$2b$10$d4d0Fa3n1C4QaI1Dewskl.bwVqNE201KA6C3MruB1LQecoszTiOSW",
+    "name": null,
+    "avatar": null,
+    "whatsapp": null,
+    "bio": null
+  },
+  {
+    "id": 2,
+    "email": "lari_rossi@hotmail.com",
+    "password": "$2b$10$n36mVanHrPJAkE2aJSbsyOcCQicaEiHVNB3atnBwrdfWSoVU4rom.",
+    "name": null,
+    "avatar": null,
+    "whatsapp": null,
+    "bio": null
+  },
+  {
+    "id": 3,
+    "email": "antonio.luis_rossi@yahoo.com",
+    "password": "$2b$10$E4x1aECzLwuQ.7Av4v8UdutDD0J.4uQ7t0kOwHD2k70DNcU6TImAG",
+    "name": null,
+    "avatar": null,
+    "whatsapp": null,
+    "bio": null
+  },
+  {
+    "id": 4,
+    "email": "teste_xau@outlook.com",
+    "password": "$2b$10$F7cxpbACx/WtokzOzCuqbucCXeLknQcW4wk8EouLvATYqi3keIBP.",
+    "password_reset_token": null,
+    "password_reset_expires": null,
+    "name": null,
+    "avatar": null,
+    "whatsapp": null,
+    "bio": null
+  }
+]
