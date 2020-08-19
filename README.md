@@ -12,7 +12,7 @@
   <img src="https://img.shields.io/github/last-commit/Marcel099/proffy/usuario.svg?label=working%20branch">
   <img src="https://img.shields.io/github/issues/Marcel099/proffy.svg">
   <img src="https://img.shields.io/github/license/Marcel099/proffy.svg">
-  <img src="https://img.shields.io/github/stars/Marcel099/proffy?style=social.svg">
+  <img src="https://img.shields.io/github/stars/Marcel099/proffy.svg?style=social">
 </div>
 
 ## Índice
