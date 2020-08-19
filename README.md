@@ -7,11 +7,12 @@
 </h4>
 
 <div align="center" style="display: flex">
-  <img src="https://img.shields.io/badge/languages-3-blue">
-  <img src="https://img.shields.io/badge/last%20comit-august-brightgreen">
-  <img src="https://img.shields.io/github/issues/Marcel099/proffy">
-  <img src="https://img.shields.io/github/license/Marcel099/proffy">
-  <img src="https://img.shields.io/github/stars/Marcel099/proffy?style=social">
+  <img src="https://img.shields.io/badge/languages-3-blue.svg">
+  <img src="https://img.shields.io/github/last-commit/Marcel099/proffy.svg">
+  <img src="https://img.shields.io/github/last-commit/Marcel099/proffy/usuario.svg?label=working%20branch">
+  <img src="https://img.shields.io/github/issues/Marcel099/proffy.svg">
+  <img src="https://img.shields.io/github/license/Marcel099/proffy.svg">
+  <img src="https://img.shields.io/github/stars/Marcel099/proffy?style=social.svg">
 </div>
 
 ## Índice
