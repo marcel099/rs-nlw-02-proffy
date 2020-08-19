@@ -33,12 +33,17 @@
 
 ## Funcionalidades
 
-- [x] Número de conexões já realizadas
-- [x] Cadastro de aula
-- [x] Listagem de aulas com filtros
-- [ ] Número de aulas por professor
-- [x] Contato com professores via What's App
-- [ ] Chamadas de vídeo
+⬜️ Cadastro de Usuários e autenticação
+⬜️ Redefinição de senha do usuário
+✅ Login e logout na plataforma
+⬜️ Logout na plataforma
+⬜️ Personalização do perfil do professor
+✅ Número de conexões já realizadas
+✅ Cadastro de aula
+⬜️ Páginação das aulas
+✅ Listagem de aulas com filtros
+⬜️ Número total de professores
+✅ Contato com professores via WhatsApp
 
 ## Como rodar na sua máquina?
 
