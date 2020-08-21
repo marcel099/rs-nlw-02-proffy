@@ -1,0 +1,5 @@
+main#login-wrapper {
+  display: flex;
+  width: 100vmax;
+  height: 100vmin;
+}
