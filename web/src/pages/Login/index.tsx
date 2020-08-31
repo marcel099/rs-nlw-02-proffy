@@ -8,38 +8,48 @@ import purpleHeartIcon from '../../assets/images/icons/purple-heart.svg';
 
 import './styles.css';
 import { Link } from 'react-router-dom';
+import InputLockScreen from '../../components/InputLockScreen';
 
 function Login() {
   return (
     <main id="login-wrapper">
       <LockScreen />
       <section>
-        <form>
-          <legend>Fazer login</legend>
+        <header>
+            <strong>Fazer login</strong>
+            <Link to="/register">Criar uma conta</Link>
+        </header>
+        <form>          
+          <fieldset>
+            <InputLockScreen
+              name="email"
+              label="e-mail"
+              type="email"
+              autoCapitalize="none"
+              autoComplete="email"
+            />
 
-          <Input
-            name="email"
-            label="e-mail"
-            type="email"
-          />
-
-          <Input
-            name="password"
-            label="Senha"
-            type="password"
-          />
-
+            <InputLockScreen
+              name="password"
+              label="Senha"
+              type="password"
+              autoCapitalize="none"
+              autoComplete="off"
+              // iconEye={true}
+            />
+          </fieldset>
+          
           <article>
-            <div className="input-block">
-              <label htmlFor="remember-me">Lembrar-me</label>
+            <div className="checkbox-block">
               <input type="checkbox" id="remember-me" />
+              <label htmlFor="remember-me"><span>Lembrar-me</span></label>
             </div>
             <Link to="/forgot-password">
               Esqueci minha senha
             </Link>
           </article>
 
-          <ButtonLockScreen>
+          <ButtonLockScreen disabled={true}>
             Entrar
           </ButtonLockScreen>
         </form>

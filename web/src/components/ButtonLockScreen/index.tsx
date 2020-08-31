@@ -5,9 +5,9 @@ import './styles.css';
 interface ButtonLockScreen extends ButtonHTMLAttributes<HTMLButtonElement>{
 };
 
-const ButtonLockScreen: React.FC<ButtonLockScreen> = ({ children }) => {
+const ButtonLockScreen: React.FC<ButtonLockScreen> = ({ children, disabled = false }) => {
   return (
-    <button type="submit">
+    <button className="button-lock-screen" type="submit" disabled={disabled}>
       {children}
     </button>
   )
