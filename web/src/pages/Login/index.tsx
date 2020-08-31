@@ -15,11 +15,12 @@ function Login() {
     <main id="login-wrapper">
       <LockScreen />
       <section>
-        <header>
-            <strong>Fazer login</strong>
+        <div></div>
+        <form>     
+          <header>
+            <h1>Fazer login</h1>
             <Link to="/register">Criar uma conta</Link>
-        </header>
-        <form>          
+          </header>
           <fieldset>
             <InputLockScreen
               name="email"

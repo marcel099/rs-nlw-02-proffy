@@ -7,7 +7,7 @@
   padding: 4rem 2rem;
 }
 
-#login-wrapper > section > header {
+#login-wrapper > section > form > header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -15,20 +15,20 @@
   margin-bottom: 2rem;
 }
 
-#login-wrapper > section > header > strong {
+#login-wrapper > section > form > header > h1 {
   font: 700 2.4rem Poppins;
   line-height: 4.2rem;
   color: var(--color-text-title);
 }
 
-#login-wrapper > section > header > a {
+#login-wrapper > section > form > header > a {
   text-decoration: none;
   color: var(--color-primary);
 
   transition: color 0.2s;
 }
 
-#login-wrapper > section > header > a:hover { 
+#login-wrapper > section > form > header > a:hover { 
   color: var(--color-primary-darker);
 }
 
@@ -57,6 +57,8 @@
 .checkbox-block label span {
   position: absolute;
   left: 3rem;
+
+  color: var(--color-text-complement);
 
   white-space: nowrap;
 }
@@ -126,29 +128,49 @@
   }
 
   #login-wrapper > section {
-    display: grid;
-    grid-template-rows: minmax(20vh, 1fr) 1fr minmax(10vh, 1fr);
-    grid-template-areas:
-      "none"
-      "form-login"
-      "cadastro";
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
   
     width: 45vmax;
   }
 
-  #login-wrapper > section > form {
-    grid-area: form-login;
+  #login-wrapper > section > form,
+  #login-wrapper > section > article {
+    width: 70%;
   }
-  
-  #login-wrapper > section > form article {
-    display: flex;
-    justify-content: space-between;
+
+  #login-wrapper > section > form > header > h1 {
+    font: 700 3.6rem Poppins;
+  }
+
+  #login-wrapper > section > form > header > a {
+    display: none;
   }
 
   #login-wrapper > section > article {
-    grid-area: cadastro;
     display: flex;
-    
-    align-self: end;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  #login-wrapper > section > article > div:nth-child(1) > a {
+    text-decoration: none;
+    font: 700 1.6rem Poppins;
+    color: var(--color-primary);
+  }
+
+  #login-wrapper > section > article > div:nth-child(1) > a:hover { 
+    color: var(--color-primary-darker);
+  }
+
+  #login-wrapper > section > article > div:nth-child(2) {
+    display: flex;
+  }
+
+  #login-wrapper > section > article > div:nth-child(2) > p {
+    color: var(--color-text-complement);
+    margin-right: 0.8rem;
   }
 }
