@@ -57,3 +57,18 @@
   right: 1.6rem; */
   /* bottom: 0; */
 }
+
+.input-block-lock-screen button.toggle-visibility {
+  background: transparent;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+
+  height: 2.4rem;
+  width: 2.4rem;
+
+  position: absolute;
+  right: 1.6rem;
+  top: 1.6rem;
+
+}

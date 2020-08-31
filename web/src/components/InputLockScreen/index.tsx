@@ -1,24 +1,37 @@
-import React, { InputHTMLAttributes } from 'react';
+import React, { useState, InputHTMLAttributes, useEffect } from 'react';
 
-import { Eye, EyeOff, Check } from 'react-feather';
+import { Eye, EyeOff } from 'react-feather';
 
 import './styles.css';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string,
   label: string,
-  iconEye?: boolean,
-  iconEyeOff?: boolean,
-  check?: boolean,
+  isPasswordField?: boolean,
 }
 
-const InputLockScreen: React.FC<InputProps> = ({ name, label, iconEye, iconEyeOff, ...rest }) => {
+const InputLockScreen: React.FC<InputProps> = ({ name, label, type = 'text', isPasswordField = false, ...rest }) => {
+  const [icon, setIcon] = useState(<Eye/>);
+  const [typeInput, setTypeInput] = useState(type);
+
+  const toggleVisibility = () => {
+    if (typeInput === 'password') {
+      setIcon(<EyeOff color="#8257E5"/>);
+      setTypeInput('text');
+    }
+    else {
+      setIcon(<Eye color="#9C98A6"/>);
+      setTypeInput('password');
+    }
+  }
+
   return (
     <div className="input-block-lock-screen">
       <label htmlFor={name}>{label}</label>
-      <input type="text" id={name} {...rest} />
-      { iconEye ? <span className="icon-eye"><Eye /></span> : ''}        {/* Mal-feito. Essa reusabilidade do input estraga qualquer ícone. */}
-      { iconEyeOff ? <span className="icon-eye-off"><EyeOff /></span> : ''}
+      <input type={typeInput} id={name} {...rest} />
+      { ( isPasswordField )
+        ? <button type="button" className="toggle-visibility" onClick={toggleVisibility}>{ icon }</button>
+        : null}
     </div>
   )
 }
