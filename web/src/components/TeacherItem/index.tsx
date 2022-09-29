@@ -46,6 +46,7 @@ const TeacherItem: React.FC<TeacherItemProps> = ({ user_id, avatar, name, subjec
         </p>
         <a
           target="_blank"
+          rel="noopener noreferrer"
           onClick={handleCreateConnection}
           href={`https://wa.me/${whatsapp}?text=${whatsappMessageURI}`}
         >
