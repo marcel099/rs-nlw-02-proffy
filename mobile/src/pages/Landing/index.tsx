@@ -7,11 +7,13 @@ import landingImage from '../../assets/images/landing.png';
 import studyIcon from '../../assets/images/icons/study.png';
 import giveClassesIcon from '../../assets/images/icons/give-classes.png';
 import heartIcon from '../../assets/images/icons/heart.png';
+import { AppStackScreenProp } from '../../routes/AppStack';
 
 import styles from './styles';
 
 function Landing() {
-  const { navigate } = useNavigation();
+  const { navigate } =
+    useNavigation<AppStackScreenProp<'Landing'>['navigation']>();
 
   function handleNavigateToGiveClasses() {
     navigate('GiveClasses');

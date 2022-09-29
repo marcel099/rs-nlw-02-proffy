@@ -1,41 +1,54 @@
 import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import {
+  BottomTabScreenProps,
+  createBottomTabNavigator
+} from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 
 import TeacherList from '../pages/TeacherList';
 import Favorites from '../pages/Favorites';
 
-const { Navigator, Screen } = createBottomTabNavigator();
+export type StudyTabsParamList = {
+  TeacherList: undefined;
+  Favorites: undefined;
+}
+
+export type StudyTabsScreenProp<T extends keyof StudyTabsParamList>
+  = BottomTabScreenProps<StudyTabsParamList, T>;
+
+const { Navigator, Screen } =
+  createBottomTabNavigator<StudyTabsParamList>();
 
 function StudyTabs() {
   return (
     <Navigator
-      tabBarOptions={{
-        style: {
-          elevation: 0,       // Android
-          shadowOpacity: 0,   // iOS
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: '#32264d',
+        tabBarInactiveTintColor: '#c1bccc',
+        tabBarStyle: {
+          // elevation: 0,       // Android
+          // shadowOpacity: 0,   // iOS
           height: 64,
         },
-        tabStyle: {
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-        },
-        iconStyle: {
-          flex: 0,
-          width: 20,
-          height: 20,
-        },
-        labelStyle: {
-          fontFamily: 'Archivo_700Bold',
-          fontSize: 13,
-          marginLeft: 16,
-        },
-        inactiveBackgroundColor: '#fafafc',   // Cor do background da tab
-        activeBackgroundColor: '#ebebf5',
-        inactiveTintColor: '#c1bccc',         // Cor do texto da tab
-        activeTintColor: '#32264d',
       }}
+      // tabBarOptions={{
+      //   tabStyle: {
+      //     flexDirection: 'row',
+      //     alignItems: 'center',
+      //     justifyContent: 'center',
+      //   },
+      //   iconStyle: {
+      //     flex: 0,
+      //     width: 20,
+      //     height: 20,
+      //   },
+      //   labelStyle: {
+      //     fontFamily: 'Archivo_700Bold',
+      //     fontSize: 13,
+      //     marginLeft: 16,
+      //   },
+      // }}
     >
       <Screen
         name="TeacherList"

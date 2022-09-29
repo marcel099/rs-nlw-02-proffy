@@ -5,6 +5,7 @@ import { BorderlessButton } from 'react-native-gesture-handler';
 
 import backIcon from '../../assets/images/icons/back.png';
 import logoImg from '../../assets/images/logo.png';
+import { AppStackScreenProp } from '../../routes/AppStack';
 
 import styles from './styles';
 
@@ -13,7 +14,8 @@ interface PageHeaderProps {
 }
 
 const PageHeader: React.FC<PageHeaderProps> = ({ title }) => {
-  const { navigate } = useNavigation()
+  const { navigate } =
+    useNavigation<AppStackScreenProp<'Study'>['navigation']>()
 
   function handleGoBack() {
     navigate('Landing')
