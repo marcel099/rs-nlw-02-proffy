@@ -1,12 +1,13 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import AppLoading from 'expo-app-loading';
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Archivo_400Regular, Archivo_700Bold, useFonts } from '@expo-google-fonts/archivo';
 import { Poppins_400Regular, Poppins_600SemiBold } from '@expo-google-fonts/poppins';
 
 import AppStack from './src/routes/AppStack';
 
-export default function App() {
+export function App() {
   let [ fontsLoaded ] = useFonts({
     Archivo_400Regular,
     Archivo_700Bold,
@@ -19,8 +20,10 @@ export default function App() {
   else {
     return (
       <>
-        <AppStack />
         <StatusBar style="light" />
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <AppStack />
+        </GestureHandlerRootView>
       </>
     );
   }
