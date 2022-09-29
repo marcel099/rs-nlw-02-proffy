@@ -1,29 +1,42 @@
+import React, { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-
-import { AppLoading } from 'expo';
+import * as SplashScreen from 'expo-splash-screen';
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Archivo_400Regular, Archivo_700Bold, useFonts } from '@expo-google-fonts/archivo';
 import { Poppins_400Regular, Poppins_600SemiBold } from '@expo-google-fonts/poppins';
 
 import AppStack from './src/routes/AppStack';
 
-export default function App() {
-  let [ fontsLoaded ] = useFonts({
+SplashScreen.preventAutoHideAsync();
+
+export function App() {
+  let [ hasFontsLoaded ] = useFonts({
     Archivo_400Regular,
     Archivo_700Bold,
     Poppins_400Regular,
     Poppins_600SemiBold,
   })
 
-  if ( !fontsLoaded )
-    return <AppLoading />
-  else {
-    return (
-      <>
-        <AppStack />
-        <StatusBar style="light" />
-      </>
-    );
+  useEffect(() => {
+    const hideSplashScreen = async () => {
+      await SplashScreen.hideAsync();
+    };
+
+    if (hasFontsLoaded) {
+      hideSplashScreen();
+    }
+  }, [hasFontsLoaded])
+
+  if (!hasFontsLoaded) {
+    return null;
   }
+
+  return (
+    <>
+      <StatusBar style="light" />
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <AppStack />
+      </GestureHandlerRootView>
+    </>
+  );
 }

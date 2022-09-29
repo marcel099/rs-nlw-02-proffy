@@ -1,13 +1,27 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  StackScreenProps
+} from '@react-navigation/stack';
 
 import Landing from '../pages/Landing';
 import GiveClasses from '../pages/GiveClasses';
 import StudyTabs from './StudyTabs';
 
+export type AppStackParamList = {
+  Landing: undefined;
+  GiveClasses: undefined;
+  Study: undefined;
+}
+
+export type AppStackScreenProp<T extends keyof AppStackParamList>
+  = StackScreenProps<AppStackParamList, T>;
+
+const { Navigator, Screen } =
+  createStackNavigator<AppStackParamList>();
+
 function AppStack() {
-  const { Navigator, Screen } = createStackNavigator();
 
   return (
     <NavigationContainer>
