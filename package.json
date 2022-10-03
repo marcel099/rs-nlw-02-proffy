@@ -2,23 +2,31 @@
   "name": "proffy",
   "version": "1.0.0",
   "description": "<h1 align=\"center\">\r   <img alt=\"Banner Proffy\" title=\"#BannerProffy\" src=\"./assets/screenshots/banner.png\" />\r <!-- <p align=\"center\">:green_book: Plataforma de estudos online conectando alunos e professores </p> -->",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "homepage": "https://github.com/marcel099/nlw-2-proffy#readme",
+  "author": "",
+  "license": "ISC",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/marcel099/nlw-2-proffy.git"
   },
-  "author": "",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/marcel099/nlw-2-proffy/issues"
   },
-  "homepage": "https://github.com/marcel099/nlw-2-proffy#readme",
+  "main": "index.js",
+  "scripts": {
+    "commit": "git-cz",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "devDependencies": {
     "@commitlint/cli": "^17.1.2",
     "@commitlint/config-conventional": "^17.1.0",
+    "commitizen": "^4.2.5",
+    "cz-conventional-changelog": "^3.3.0",
     "husky": "^8.0.1"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
