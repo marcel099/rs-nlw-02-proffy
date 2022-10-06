@@ -1,0 +1,33 @@
+#authentication-page {
+  width: 100vw;
+  height: 100vh;
+
+  position: relative;
+}
+
+#left-content-container, #right-content-container {
+  width: calc(100% - 34rem);
+
+  position: absolute;
+  top: 0;
+}
+
+@media (min-width: 1100px) {
+  #left-content-container, #right-content-container {
+    width: calc(100% - 58.3rem);
+  }
+}
+
+@media (min-width: 1440px) {
+  #left-content-container, #right-content-container {
+    width: calc(100% - 76.8rem);
+  }
+}
+
+#left-content-container {
+  left: 0;
+}
+
+#right-content-container {
+  right: 0;
+}
