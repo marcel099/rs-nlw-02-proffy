@@ -15,7 +15,7 @@ export function ProffyBanner({
 }: Props) {
   const [hasReceivedPropOnce, setHasReceivedPropOnce] = useState(false);
   const [totalSize, setTotalSize] = useState(false);
-  const [currentBannerSide, setCurrentBannerSide] = useState<BannerSideType>('left');
+  const [currentBannerSide, setCurrentBannerSide] = useState<BannerSideType>('right');
 
   useEffect(() => {
     if (hasReceivedPropOnce) {
@@ -53,6 +53,7 @@ export function ProffyBanner({
           <img
             src={logoImg}
             className="hero-image"
+            alt="Logo Proffy"
           />
           <p>Sua plataforma de<br />estudos online</p>
         </main>

@@ -1,0 +1,21 @@
+.submit-form-button {
+  display: grid;
+  place-items: center;
+
+  height: 5.6rem;
+  width: 100%;
+  border: 0;
+  border-radius: 0.8rem;
+
+  font: 700 1.6rem Archivo;
+  line-height: 2.6rem;
+  color: var(--color-button-text);
+  background-color: var(--color-secundary);
+  
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.submit-form-button:hover {
+  background: var(--color-secundary-dark);
+}

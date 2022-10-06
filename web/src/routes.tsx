@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { BrowserRouter, Redirect, Route } from 'react-router-dom';
 
 import Landing from './pages/Landing';
 import TeacherList from './pages/TeacherList';
@@ -9,10 +9,13 @@ import { Authentication } from './pages/Authentication';
 function Routes() {
   return (
     <BrowserRouter>
+      <Route path="/" exact>
+        <Redirect to="/authentication" />
+      </Route>
       <Route path="/authentication" component={Authentication} />
       <Route path="/study" component={TeacherList} />
       <Route path="/give-classes" component={TeacherForm} />
-      <Route path="/" component={Landing} exact />
+      <Route path="/dashboard" component={Landing} />
     </BrowserRouter>
   )
 }
