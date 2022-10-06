@@ -1,5 +1,5 @@
 import React, { FormEvent, useState } from 'react';
-import Input from '../../Input';
+import { InnerLabelInput } from '../../InnerLabelInput';
 import { SubmitFormButton } from '../SubmitFormButton';
 
 import './styles.css';
@@ -29,27 +29,37 @@ export function SignUp() {
       <p>Preencha os dados abaixo<br/>para começar</p>
 
       <form onSubmit={handleCreateUser}>
-        <Input
+        <InnerLabelInput
           name="name"
           label="Nome"
+          autoComplete="given-name"
+          autoCapitalize="words"
           value={firstName}
           onChange={ (e) => setFirstName(e.target.value) }
         />
-        <Input
+        <InnerLabelInput
           name="last-name"
           label="Sobrenome"
+          autoComplete="family-name"
+          autoCapitalize="words"
           value={lastName}
           onChange={ (e) => setLastName(e.target.value) }
         />
-        <Input
+        <InnerLabelInput
           name="email"
           label="E-mail"
+          autoComplete="email"
+          autoCapitalize="off"
           value={email}
           onChange={ (e) => setEmail(e.target.value) }
         />
-        <Input
+        <InnerLabelInput
           name="password"
           label="Senha"
+          type="password"
+          autoComplete="new-password"
+          autoCapitalize="off"
+          isPasswordField
           value={password}
           onChange={ (e) => setPassword(e.target.value) }
         />
