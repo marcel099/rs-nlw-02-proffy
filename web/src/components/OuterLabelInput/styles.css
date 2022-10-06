@@ -1,17 +1,17 @@
 
-.input-block {
+.outer-label-input-block {
   position: relative;
 }
 
-.input-block + .input-block {
+.outer-label-input-block + .outer-label-input-block {
   margin-top: 1.4rem; 
 }
 
-.input-block label {
+.outer-label-input-block label {
   font-size: 1.4rem;
 }
 
-.input-block input {
+.outer-label-input-block input {
   width: 100%;
   height: 5.6rem;
   margin-top: 0.8rem;
@@ -23,7 +23,7 @@
   font: 1.6rem Archivo;
 }
 
-.input-block:focus-within::after {
+.outer-label-input-block:focus-within::after {
   width: calc(100% - 3.2rem);
   height: 2px;
   content: '';

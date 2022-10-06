@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import api from '../../services/api';
 
 import PageHeader from '../../components/PageHeader';
-import Input from '../../components/Input';
+import { OuterLabelInput } from '../../components/OuterLabelInput';
 import Textarea from '../../components/Textarea';
 import Select from '../../components/Select';
 
@@ -90,19 +90,19 @@ function TeacherForm() {
           <fieldset>
             <legend>Seus dados</legend>
 
-            <Input
+            <OuterLabelInput
               name="name"
               label="Nome completo"
               value={name}
               onChange={ (e) => setName(e.target.value) }
             />
-            <Input
+            <OuterLabelInput
               name="avatar"
               label="Avatar"
               value={avatar}
               onChange={ (e) => setAvatar(e.target.value) }
             />
-            <Input
+            <OuterLabelInput
               name="whatsapp"
               label="WhatsApp"
               value={whatsapp}
@@ -136,7 +136,7 @@ function TeacherForm() {
                 { value: 'Educação Física', label: 'Educação Física' },
               ]}
             />
-            <Input
+            <OuterLabelInput
               name="cost"
               label="Custo da hora por aula"
               value={cost}
@@ -170,14 +170,14 @@ function TeacherForm() {
                       { value: '6', label: 'Sábado' },
                     ]}
                   />
-                  <Input
+                  <OuterLabelInput
                     name="from"
                     label="Das"
                     type="time"
                     value={scheduleItem.from}
                     onChange={ (e) => setScheduleItemValue(index, 'from', e.target.value) }
                   />
-                  <Input
+                  <OuterLabelInput
                     name="to"
                     label="Até"
                     type="time"

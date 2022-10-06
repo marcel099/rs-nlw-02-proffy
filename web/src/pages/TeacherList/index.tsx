@@ -2,7 +2,7 @@ import React, { useState, FormEvent } from 'react';
 
 import PageHeader from '../../components/PageHeader';
 import TeacherItem, { TeacherItemProps } from '../../components/TeacherItem';
-import Input from '../../components/Input';
+import { OuterLabelInput } from '../../components/OuterLabelInput';
 import Select from '../../components/Select';
 
 import './styles.css';
@@ -66,7 +66,7 @@ function TeacherList() {
               { value: '6', label: 'Sábado' },
             ]}
           />
-          <Input
+          <OuterLabelInput
             name="time"
             label="Hora"
             type="time"
