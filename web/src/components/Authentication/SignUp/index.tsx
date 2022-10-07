@@ -2,7 +2,7 @@ import React, { FormEvent, useState } from 'react';
 
 import api from '../../../services/api';
 import { InnerLabelInput } from '../../InnerLabelInput';
-import { SubmitFormButton } from '../SubmitFormButton';
+import { ConfirmationButton } from '../ConfirmationButton';
 
 import './styles.css';
 
@@ -71,9 +71,10 @@ export function SignUp() {
         />
 
         <footer className="submit-button-container">
-          <SubmitFormButton
+          <ConfirmationButton
             type="submit"
             title="Concluir cadastro"
+            isFullWidth
           />
         </footer>
       </form>

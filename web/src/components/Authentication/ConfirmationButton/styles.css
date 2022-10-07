@@ -1,13 +1,13 @@
-.submit-form-button {
+.confirmation-button {
   display: grid;
   place-items: center;
 
   height: 5.6rem;
-  width: 100%;
+  padding-inline: 4rem;
   border: 0;
   border-radius: 0.8rem;
 
-  font: 700 1.6rem Archivo;
+  font: 600 1.6rem Archivo;
   line-height: 2.6rem;
   color: var(--color-button-text);
   background-color: var(--color-secundary);
@@ -16,6 +16,10 @@
   transition: background-color 0.2s;
 }
 
-.submit-form-button:hover {
+.confirmation-button:hover {
   background: var(--color-secundary-dark);
+}
+
+.confirmation-button.full-width {
+  width: 100%;
 }

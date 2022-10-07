@@ -4,12 +4,13 @@ import './styles.css';
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   title: string;
+  isFullWidth?: boolean;
 }
 
-export function SubmitFormButton({ title, ...rest }: Props) {
+export function ConfirmationButton({ title, isFullWidth = false, ...rest }: Props) {
   return (
     <button
-      className="submit-form-button"
+      className={`confirmation-button ${isFullWidth ? 'full-width' : ''}`}
       {...rest}
     >
       { title }

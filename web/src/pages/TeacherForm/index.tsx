@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 
 import api from '../../services/api';
 
+import { ConfirmationButton } from '../../components/Authentication/ConfirmationButton';
 import PageHeader from '../../components/PageHeader';
 import { OuterLabelInput } from '../../components/OuterLabelInput';
 import Textarea from '../../components/Textarea';
@@ -196,9 +197,10 @@ function TeacherForm() {
               Importante: <br />
               Preencha todos os dados
             </p>
-            <button type="submit">
-              Salvar cadastro
-            </button>
+            <ConfirmationButton
+              type="submit"
+              title="Salvar cadastro"
+            />
           </footer>
         </form>
       </main>
