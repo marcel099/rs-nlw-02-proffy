@@ -1,4 +1,5 @@
 import React, { FormEvent, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import api from '../../../services/api';
 import { InnerLabelInput } from '../../InnerLabelInput';
@@ -7,6 +8,8 @@ import { ConfirmationButton } from '../ConfirmationButton';
 import './styles.css';
 
 export function SignUp() {
+  const history = useHistory();
+
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
@@ -23,7 +26,12 @@ export function SignUp() {
         password,
       });
 
-      alert('sucesso')
+      history.push("/confirmation", {
+        title: 'Cadastro concluído',
+        message: 'Agora você faz parte da plataforma Proffy.<br />Tenha uma ótima experiência.',
+        buttonTitle: 'Fazer login',
+        nextUri: '/authentication',
+      });
     } catch ( error ) {
       console.error(error);
     }
