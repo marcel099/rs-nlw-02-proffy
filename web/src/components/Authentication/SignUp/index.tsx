@@ -1,4 +1,6 @@
 import React, { FormEvent, useState } from 'react';
+
+import api from '../../../services/api';
 import { InnerLabelInput } from '../../InnerLabelInput';
 import { SubmitFormButton } from '../SubmitFormButton';
 
@@ -10,17 +12,21 @@ export function SignUp() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  function handleCreateUser(e: FormEvent) {
+  async function handleCreateUser(e: FormEvent) {
     e.preventDefault();
 
-    const data = {
-      firstName,
-      lastName,
-      email,
-      password,
-    }
+    try {
+      await api.post('/users', {
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        password,
+      });
 
-    console.log(data);
+      alert('sucesso')
+    } catch ( error ) {
+      console.error(error);
+    }
   }
 
   return (
