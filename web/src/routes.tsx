@@ -5,6 +5,7 @@ import Landing from './pages/Landing';
 import TeacherList from './pages/TeacherList';
 import TeacherForm from './pages/TeacherForm';
 import { Authentication } from './pages/Authentication';
+import { Confirmation } from './pages/Confirmation';
 
 function Routes() {
   return (
@@ -16,6 +17,7 @@ function Routes() {
       <Route path="/study" component={TeacherList} />
       <Route path="/give-classes" component={TeacherForm} />
       <Route path="/dashboard" component={Landing} />
+      <Route path="/confirmation" component={Confirmation} />
     </BrowserRouter>
   )
 }
