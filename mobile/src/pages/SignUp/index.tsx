@@ -7,10 +7,12 @@ import {
   StatusBar,
   Text,
   View,
+  Alert,
 } from "react-native";
 import { BorderlessButton } from 'react-native-gesture-handler';
 
 import backIcon from '../../assets/images/icons/back.png';
+import api from '../../services/api';
 
 import { Bullet } from '../../components/Bullet';
 import { ConfirmationButton } from '../../components/form/ConfirmationButton';
@@ -22,6 +24,7 @@ export function SignUp() {
   const { width } = useWindowDimensions();
 
   const [stepIndex, setStepIndex] = useState(0);
+  const [isSaving, setIsSaving] = useState(false);
 
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
@@ -68,6 +71,24 @@ export function SignUp() {
       handlePreviousStep();
     }
     return true;
+  }
+
+  async function handleCreateUser() {
+    try {
+      setIsSaving(true);
+      await api.post('/users', {
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        password,
+      });
+
+      console.log('salvou')
+    } catch ( error ) {
+      setIsSaving(false);
+      console.log(error);
+      Alert.alert('Cadastro', 'Não foi possível fazer o cadastro.');
+    }
   }
 
   useEffect(() => {
@@ -153,7 +174,9 @@ export function SignUp() {
             <ConfirmationButton
               title="Concluir cadastro"
               type="secondary"
-              enabled={!!email && !!password}
+              onPress={handleCreateUser}
+              enabled={!!email && !!password || isSaving}
+              isLoading={isSaving}
             />
           </View>
         </ScrollView>

@@ -1,4 +1,4 @@
-import { Text } from "react-native";
+import { ActivityIndicator, Text } from "react-native";
 import { RectButton, RectButtonProps } from "react-native-gesture-handler";
 
 import { styles } from "./styles";
@@ -6,10 +6,11 @@ import { styles } from "./styles";
 interface ConfirmationButtonProps extends RectButtonProps {
   title: string;
   type: 'primary' | 'secondary';
+  isLoading?: boolean;
 }
 
 export function ConfirmationButton({
-  title, type, enabled = true, ...rest
+  title, type, isLoading = false, enabled = true, ...rest
 }: ConfirmationButtonProps) {
   return (
     <RectButton
@@ -26,18 +27,24 @@ export function ConfirmationButton({
       enabled={enabled}
       {...rest}
     >
-      <Text
-        style={[
-          styles.title,
-          enabled === false ? {
-            color: '#9C98A6',
-          } : {
-            color: '#FFFFFF',
-          }
-        ]}
-      >
-        { title }
-      </Text>
+      {
+        isLoading ? (
+          <ActivityIndicator color="#9C98A6" />
+        ) : (
+          <Text
+            style={[
+              styles.title,
+              enabled === false ? {
+                color: '#9C98A6',
+              } : {
+                color: '#FFFFFF',
+              }
+            ]}
+          >
+            { title }
+          </Text>
+        )
+      }
     </RectButton>
   );
 }
