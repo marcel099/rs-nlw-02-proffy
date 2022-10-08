@@ -8,8 +8,10 @@ import {
 import Landing from '../pages/Landing';
 import GiveClasses from '../pages/GiveClasses';
 import StudyTabs from './StudyTabs';
+import { SignUp } from '../pages/SignUp';
 
 export type AppStackParamList = {
+  SignUp: undefined;
   Landing: undefined;
   GiveClasses: undefined;
   Study: undefined;
@@ -26,6 +28,7 @@ function AppStack() {
   return (
     <NavigationContainer>
       <Navigator screenOptions={{ headerShown: false}}>
+        <Screen name="SignUp" component={SignUp} />
         <Screen name="Landing" component={Landing} />
         <Screen name="GiveClasses" component={GiveClasses} />
         <Screen name="Study" component={StudyTabs} />
