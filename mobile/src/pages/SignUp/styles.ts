@@ -3,7 +3,6 @@ import { getStatusBarHeight } from "react-native-iphone-x-helper";
 
 export const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#F0F0F7',
     paddingHorizontal: 32,
   },
@@ -35,6 +34,7 @@ export const styles = StyleSheet.create({
   },
   stepsContainer: {
     marginTop: 102,
+    marginBottom: 40,
   },
   stepContent: {
     width: Dimensions.get('window').width - 64,

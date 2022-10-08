@@ -3,9 +3,12 @@ import {
   useWindowDimensions,
   BackHandler,
   Image,
+  Keyboard,
+  KeyboardAvoidingView,
   ScrollView,
   StatusBar,
   Text,
+  TouchableWithoutFeedback,
   View,
   Alert,
 } from "react-native";
@@ -101,11 +104,12 @@ export function SignUp() {
   }
 
   useEffect(() => {
+    BackHandler.removeEventListener('hardwareBackPress', handleGoBack);
     BackHandler.addEventListener('hardwareBackPress', handleGoBack);
 
     return () =>
       BackHandler.removeEventListener('hardwareBackPress', handleGoBack);
-  }, []);
+  }, [stepIndex]);
 
   return (
     <>
@@ -114,82 +118,96 @@ export function SignUp() {
         backgroundColor="#F0F0F7"
         translucent
       />
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <BorderlessButton onPress={handleGoBack}>
-            <Image source={backIcon} resizeMode="contain" />
-          </BorderlessButton>
-          <View style={styles.bulletsContainer}>
-            <Bullet active={stepIndex === 0} />
-            <Bullet active={stepIndex === 1} />
-          </View>
-        </View>
-        <View style={styles.contentHeader}>
-          <Text style={styles.title}>
-            Crie sua {'\n'}
-            conta gratuita
-          </Text>
-          <Text style={styles.description}>
-            Basta preencher esses dados {'\n'}
-            e você estará conosco
-          </Text>
-        </View>
-        <ScrollView
-          horizontal
-          scrollEnabled={false}
-          ref={scrollViewRef}
-          style={styles.stepsContainer}
-        >
-          <View style={styles.stepContent}>
-            <Text style={styles.stepContentTitle}>
-              01.  Quem é você?
-            </Text>
-            <View style={styles.stepContentForm}>
-              <InnerLabelInput
-                label="Nome"
-                value={firstName}
-                onChangeText={setFirstName}
-              />
-              <InnerLabelInput
-                label="Sobrenome"
-                value={lastName}
-                onChangeText={setLastName}
-              />
+      <KeyboardAvoidingView behavior="position" enabled>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <View
+            style={styles.container}
+          >
+            <View style={styles.header}>
+              <BorderlessButton onPress={handleGoBack}>
+                <Image source={backIcon} resizeMode="contain" />
+              </BorderlessButton>
+              <View style={styles.bulletsContainer}>
+                <Bullet active={stepIndex === 0} />
+                <Bullet active={stepIndex === 1} />
+              </View>
             </View>
-            <ConfirmationButton
-              title="Próximo"
-              type="primary"
-              onPress={handleNextStep}
-              enabled={!!firstName && !!lastName}
-            />
-          </View>
-          <View style={[ styles.stepContent, { marginLeft: 32 } ]}>
-            <Text style={styles.stepContentTitle}>
-              02.  Email e Senha
-            </Text>
-            <View style={styles.stepContentForm}>
-              <InnerLabelInput
-                label="E-mail"
-                value={email}
-                onChangeText={setEmail}
-              />
-              <InnerLabelInput
-                label="Senha"
-                isPasswordField
-                value={password}
-                onChangeText={setPassword}
-              />
+            <View style={styles.contentHeader}>
+              <Text style={styles.title}>
+                Crie sua {'\n'}
+                conta gratuita
+              </Text>
+              <Text style={styles.description}>
+                Basta preencher esses dados {'\n'}
+                e você estará conosco
+              </Text>
             </View>
-            <ConfirmationButton
-              title="Concluir cadastro"
-              type="secondary"
-              onPress={handleCreateUser}
-              enabled={!!email && !!password || isSaving}
-              isLoading={isSaving}
-            />
+            <ScrollView
+              horizontal
+              scrollEnabled={false}
+              showsHorizontalScrollIndicator={false}
+              ref={scrollViewRef}
+              style={styles.stepsContainer}
+            >
+              <View style={styles.stepContent}>
+                <Text style={styles.stepContentTitle}>
+                  01.  Quem é você?
+                </Text>
+                <View style={styles.stepContentForm}>
+                  <InnerLabelInput
+                    label="Nome"
+                    value={firstName}
+                    autoCapitalize="words"
+                    autoCorrect={false}
+                    onChangeText={setFirstName}
+                  />
+                  <InnerLabelInput
+                    label="Sobrenome"
+                    autoCapitalize="words"
+                    autoCorrect={false}
+                    value={lastName}
+                    onChangeText={setLastName}
+                  />
+                </View>
+                <ConfirmationButton
+                  title="Próximo"
+                  type="primary"
+                  onPress={handleNextStep}
+                  enabled={!!firstName && !!lastName}
+                />
+              </View>
+              <View style={[ styles.stepContent, { marginLeft: 32 } ]}>
+                <Text style={styles.stepContentTitle}>
+                  02.  Email e Senha
+                </Text>
+                <View style={styles.stepContentForm}>
+                  <InnerLabelInput
+                    label="E-mail"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    keyboardType="email-address"
+                    value={email}
+                    onChangeText={setEmail}
+                  />
+                  <InnerLabelInput
+                    label="Senha"
+                    isPasswordField
+                    value={password}
+                    onChangeText={setPassword}
+                  />
+                </View>
+                <ConfirmationButton
+                  title="Concluir cadastro"
+                  type="secondary"
+                  onPress={handleCreateUser}
+                  enabled={!!email && !!password || isSaving}
+                  isLoading={isSaving}
+                />
+              </View>
+            </ScrollView>
           </View>
-        </ScrollView>
-      </View>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </>
   );
 }
