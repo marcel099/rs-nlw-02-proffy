@@ -12,6 +12,7 @@ import { SignUp } from '../pages/SignUp';
 import { Confirmation } from '../pages/Confirmation';
 
 export type AppStackParamList = {
+  SignIn: undefined;
   SignUp: undefined;
   Landing: undefined;
   GiveClasses: undefined;

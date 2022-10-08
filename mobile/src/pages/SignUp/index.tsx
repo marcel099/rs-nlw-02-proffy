@@ -10,9 +10,11 @@ import {
   Alert,
 } from "react-native";
 import { BorderlessButton } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 
 import backIcon from '../../assets/images/icons/back.png';
 import api from '../../services/api';
+import { AppStackScreenProp } from '../../routes/AppStack';
 
 import { Bullet } from '../../components/Bullet';
 import { ConfirmationButton } from '../../components/form/ConfirmationButton';
@@ -22,6 +24,8 @@ import { styles } from "./styles";
 
 export function SignUp() {
   const { width } = useWindowDimensions();
+  const navigation =
+    useNavigation<AppStackScreenProp<'SignUp'>['navigation']>();
 
   const [stepIndex, setStepIndex] = useState(0);
   const [isSaving, setIsSaving] = useState(false);
@@ -66,7 +70,7 @@ export function SignUp() {
 
   function handleGoBack() {
     if (stepIndex === 0) {
-      console.log('handleGoBack')
+      navigation.navigate('SignIn')
     } else if (stepIndex === 1) {
       handlePreviousStep();
     }
@@ -83,7 +87,12 @@ export function SignUp() {
         password,
       });
 
-      console.log('salvou')
+      navigation.navigate('Confirmation', {
+        title: 'Cadastro\nconcluído!',
+        description: 'Agora você faz parte da\nplataforma Proffy',
+        buttonTitle: 'Fazer login',
+        nextScreenName: 'SignIn',
+      });
     } catch ( error ) {
       setIsSaving(false);
       console.log(error);
