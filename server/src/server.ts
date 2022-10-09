@@ -8,6 +8,6 @@ app.use(express.json());
 app.use(cors());    // Permite que aplicações que não estiverem no DNS do front-end possam acessar a API
 app.use(routes);
 
-app.listen(3333);
+app.listen(3333, () => console.log('Server is running'));
 
 
