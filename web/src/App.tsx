@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Routes from './routes';
+import { Routes } from './routes/index.routes';
 import { AuthContextProvider } from './contexts/AuthContext';
 
 import './assets/styles/global.css';

@@ -30,7 +30,7 @@ export function SignUp() {
         title: 'Cadastro concluído',
         message: 'Agora você faz parte da plataforma Proffy.<br />Tenha uma ótima experiência.',
         buttonTitle: 'Fazer login',
-        nextUri: '/authentication',
+        nextUri: '/',
       });
     } catch ( error ) {
       console.error(error);

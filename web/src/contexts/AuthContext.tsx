@@ -24,6 +24,7 @@ interface SignInDTO {
 
 interface AuthContextData {
   user: User | null;
+  isFetchingAuthData: boolean;
   signIn: (data: SignInDTO) => Promise<void>;
 }
 
@@ -37,6 +38,7 @@ export function AuthContextProvider({
   children
 }: AuthContextProviderProps) {
   const [user, setUser] = useState<User | null>(null);
+  const [isFetchingAuthData, setIsFetchingAuthData] = useState(true);
 
   async function fetchUser() {
     try {
@@ -100,18 +102,17 @@ export function AuthContextProvider({
         api.defaults.headers['Authorization'] = `Bearer ${token}`;
         await fetchUser();
       }
+
+      setIsFetchingAuthData(false);
     }
 
     loadTokenAndFetchUser();
   }, [])
 
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
-
   return (
     <AuthContext.Provider value={{
       user,
+      isFetchingAuthData,
       signIn,
     }}>
       { children }
