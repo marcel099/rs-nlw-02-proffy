@@ -2,41 +2,20 @@ import React, { useEffect, useState } from 'react';
 
 import bannerBackgroundImg from '../../assets/images/banner-background.svg'
 import logoImg from '../../assets/images/logo.svg'
-import { BannerSideType } from '../../pages/Authentication';
+import { BannerSidesType } from '../../pages/Authentication';
 
 import './styles.css';
 
 interface Props {
-  bannerSide: BannerSideType;
+  bannerSide: BannerSidesType;
+  isBannerExpanded: boolean;
 }
 
 export function ProffyBanner({
-  bannerSide
+  bannerSide, isBannerExpanded
 }: Props) {
-  const [hasReceivedPropOnce, setHasReceivedPropOnce] = useState(false);
-  const [totalSize, setTotalSize] = useState(false);
-  const [currentBannerSide, setCurrentBannerSide] = 
-    useState<BannerSideType>('left');
-
-  useEffect(() => {
-    if (hasReceivedPropOnce) {
-      setTotalSize(true);
-    
-      setTimeout(() => {
-        setTotalSize(false);
-        setCurrentBannerSide(bannerSide);
-      }, 600);
-    } else {
-      setHasReceivedPropOnce(true);
-    }
-  }, [bannerSide])
-  
   return (
     <div id="proffy-banner-container">
-      {/* <div
-        id="proffy-banner-helper-box"
-        className={currentBannerSide === 'right' ? 'expanded' : ''}
-      /> */}
       <aside
         id="proffy-banner"
         style={{
@@ -44,9 +23,9 @@ export function ProffyBanner({
         }}
         className={
           `${
-            totalSize === true ? 'expanded' : ''
+            isBannerExpanded === true ? 'expanded' : ''
           } ${
-            currentBannerSide === 'left' ? 'left' : 'right'
+            bannerSide === 'left' ? 'left' : 'right'
           }`
         }
       >

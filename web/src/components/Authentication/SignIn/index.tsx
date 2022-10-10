@@ -9,9 +9,12 @@ import './styles.css';
 
 interface SignInProps {
   openSignUp: () => void;
+  openForgottenPassword: () => void;
 }
 
-export function SignIn({ openSignUp }: SignInProps) {
+export function SignIn({
+  openSignUp, openForgottenPassword
+}: SignInProps) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -66,7 +69,7 @@ export function SignIn({ openSignUp }: SignInProps) {
               />
               <label htmlFor="remember-me">Lembrar-me</label>
             </fieldset>
-            <a>Esqueci minha senha</a>
+            <a onClick={openForgottenPassword}>Esqueci minha senha</a>
           </div>
 
           <footer className="submit-button-container">

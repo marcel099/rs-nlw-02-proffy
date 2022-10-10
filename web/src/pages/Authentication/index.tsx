@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { SignUp } from '../../components/Authentication/SignUp';
 import { SignIn } from '../../components/Authentication/SignIn';
@@ -7,50 +7,64 @@ import backIcon from '../../assets/images/icons/back.svg';
 
 import './styles.css';
 
-export type BannerSideType = 'left' | 'right';
+export type BannerSidesType = 'left' | 'right';
+type AuthenticationPagesType = 'SignIn' | 'SignUp' | 'ForgottenPassword';
 
 export function Authentication() {
   const [
     currentBannerSide,
     setCurrentBannerSide
-  ] = useState<BannerSideType>('left');
+  ] = useState<BannerSidesType>('left');
+  const [isBannerExpanded, setIsBannerExpanded] = useState(false);
+
   const [
     currentPage,
     setCurrentPage
-  ] = useState<'SignIn' | 'SignUp' | 'ForgottenPassword'>('SignIn');
+  ] = useState<AuthenticationPagesType>('SignIn');
+
+  function changeCurrentPageSmoothly(
+    nextPage: AuthenticationPagesType, nextBannerSide: BannerSidesType
+  ) {
+    setIsBannerExpanded(true);
+    
+    setTimeout(() => {
+      setIsBannerExpanded(false);
+
+      setCurrentPage(nextPage);
+      setCurrentBannerSide(nextBannerSide);
+    }, 600);
+  }
 
   function handleOpenSignIn() {
-    setCurrentBannerSide('left');
-    setCurrentPage('SignIn');
+    changeCurrentPageSmoothly('SignIn', 'left');
   }
 
   function handleOpenSignUp() {
-    setCurrentBannerSide('right');
-    setCurrentPage('SignUp');
+    changeCurrentPageSmoothly('SignUp', 'right');
   }
 
   function handleOpenForgottenPassword() {
-    setCurrentBannerSide('right');
-    setCurrentPage('ForgottenPassword');
+    changeCurrentPageSmoothly('ForgottenPassword', 'right');
   }
 
   return (
     <div id="authentication-page">
-      <ProffyBanner bannerSide={currentBannerSide} />
+      <ProffyBanner
+        bannerSide={currentBannerSide}
+        isBannerExpanded={isBannerExpanded}
+      />
       <article
         id="left-content-container"
         className="authentication-content-container"
       >
-        {/* <div className="content-inner-container"> */}
-          <header>
-            <a onClick={handleOpenSignIn}>
-              <img src={backIcon} alt="Voltar"/>
-            </a>
-          </header>
-          { currentPage === 'SignUp' && <SignUp /> }
-          {/* { currentPage === 'ForgottenPassword' && <ForgottenPassword /> } */}
-          <footer />
-        {/* </div> */}
+        <header>
+          <a onClick={handleOpenSignIn}>
+            <img src={backIcon} alt="Voltar" />
+          </a>
+        </header>
+        { currentPage === 'SignUp' && <SignUp /> }
+        {/* { currentPage === 'ForgottenPassword' && <ForgottenPassword /> } */}
+        <footer />
       </article>
 
       <article
@@ -60,6 +74,7 @@ export function Authentication() {
         { currentPage === 'SignIn' && (
           <SignIn
             openSignUp={handleOpenSignUp}
+            openForgottenPassword={handleOpenForgottenPassword}
           />
         )}
       </article>
