@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import { SignUp } from '../../components/Authentication/SignUp';
+import { SignIn } from '../../components/Authentication/SignIn';
 import { ProffyBanner } from '../../components/ProffyBanner';
 import backIcon from '../../assets/images/icons/back.svg';
 
@@ -12,14 +13,25 @@ export function Authentication() {
   const [
     currentBannerSide,
     setCurrentBannerSide
-  ] = useState<BannerSideType>('right');
+  ] = useState<BannerSideType>('left');
+  const [
+    currentPage,
+    setCurrentPage
+  ] = useState<'SignIn' | 'SignUp' | 'ForgottenPassword'>('SignIn');
 
-  function handleAlternateBannerSize() {
-    if (currentBannerSide === 'right') {
-      setCurrentBannerSide('left');
-    } else{
-      setCurrentBannerSide('right');
-    }
+  function handleOpenSignIn() {
+    setCurrentBannerSide('left');
+    setCurrentPage('SignIn');
+  }
+
+  function handleOpenSignUp() {
+    setCurrentBannerSide('right');
+    setCurrentPage('SignUp');
+  }
+
+  function handleOpenForgottenPassword() {
+    setCurrentBannerSide('right');
+    setCurrentPage('ForgottenPassword');
   }
 
   return (
@@ -31,12 +43,13 @@ export function Authentication() {
       >
         {/* <div className="content-inner-container"> */}
           <header>
-            <a onClick={handleAlternateBannerSize}>
+            <a onClick={handleOpenSignIn}>
               <img src={backIcon} alt="Voltar"/>
             </a>
           </header>
-          <SignUp /> {/* isSigningUp ? <SignUp> : <ForgottenPassword /> */}
-          <footer className="authentication-footer-content" />
+          { currentPage === 'SignUp' && <SignUp /> }
+          {/* { currentPage === 'ForgottenPassword' && <ForgottenPassword /> } */}
+          <footer />
         {/* </div> */}
       </article>
 
@@ -44,9 +57,11 @@ export function Authentication() {
         id="right-content-container"
         className="authentication-content-container"
       >
-        <button onClick={handleAlternateBannerSize}>Clique</button>
-        {/* <SignIn />  */}
-        {/* <footer className="authentication-footer-content"> goes inside SignIn */}
+        { currentPage === 'SignIn' && (
+          <SignIn
+            openSignUp={handleOpenSignUp}
+          />
+        )}
       </article>
     </div>
   )

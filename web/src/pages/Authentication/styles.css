@@ -36,6 +36,26 @@
   justify-content: center;
 }
 
+.authentication-content-container > main h1 {
+  font: 700 3.6rem Poppins;
+  line-height: 3.4rem;
+  color: var(--color-text-title);
+}
+
+.authentication-content-container > main p {
+  font: 400 1.6rem Poppins;
+  line-height: 2.6rem;
+  color: var(--color-text-base);
+}
+
+.authentication-content-container > main form {
+  margin-top: 4rem;
+}
+
+.authentication-content-container > main .submit-button-container {
+  margin-top: 4rem;
+}
+
 .authentication-content-container > footer {
   height: 10rem;
   flex-shrink: 2;
@@ -62,6 +82,8 @@
 }
 
 #left-content-container a {
+  cursor: pointer;
+
   transition: opacity 0.2s;
 }
 

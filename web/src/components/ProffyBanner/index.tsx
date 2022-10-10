@@ -15,7 +15,8 @@ export function ProffyBanner({
 }: Props) {
   const [hasReceivedPropOnce, setHasReceivedPropOnce] = useState(false);
   const [totalSize, setTotalSize] = useState(false);
-  const [currentBannerSide, setCurrentBannerSide] = useState<BannerSideType>('right');
+  const [currentBannerSide, setCurrentBannerSide] = 
+    useState<BannerSideType>('left');
 
   useEffect(() => {
     if (hasReceivedPropOnce) {
