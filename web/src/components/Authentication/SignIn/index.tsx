@@ -3,6 +3,7 @@ import React, { FormEvent, useRef, useState } from 'react';
 import { InnerLabelInput } from '../../InnerLabelInput';
 import { ConfirmationButton } from '../ConfirmationButton';
 
+import { useAuth } from '../../../contexts/AuthContext';
 import purpleHeartIcon from '../../../assets/images/icons/purple-heart.svg';
 
 import './styles.css';
@@ -15,23 +16,28 @@ interface SignInProps {
 export function SignIn({
   openSignUp, openForgottenPassword
 }: SignInProps) {
+  const { signIn } = useAuth();
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   const rememberMeCheckboxRef = useRef<HTMLInputElement>(null);
 
   async function handleSignIn(e: FormEvent) {
-    e.preventDefault();
+    try {
+      e.preventDefault();
 
-    const rememberMe = rememberMeCheckboxRef.current?.checked ?? false;
+      const rememberMe = rememberMeCheckboxRef.current?.checked ?? false;
 
-    const data = {
-      email,
-      password,
-      rememberMe,
+      signIn({
+        email,
+        password,
+        rememberMe,
+      });
+    } catch (error) {
+      console.error(error);
+      window.alert('Não foi possível realizar login');
     }
-
-    console.log(data);
   }
 
   return (
