@@ -19,7 +19,7 @@ export type StudyTabsScreenProp<T extends keyof StudyTabsParamList>
 const { Navigator, Screen } =
   createBottomTabNavigator<StudyTabsParamList>();
 
-function StudyTabs() {
+export function StudyTabsRoutes() {
   return (
     <Navigator
       screenOptions={{
@@ -77,5 +77,3 @@ function StudyTabs() {
     </Navigator>
   )
 }
-
-export default StudyTabs;

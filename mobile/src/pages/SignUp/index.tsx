@@ -17,7 +17,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import backIcon from '../../assets/images/icons/back.png';
 import api from '../../services/api';
-import { AppStackScreenProp } from '../../routes/AppStack';
+import { NonAuthStackScreenProp } from '../../routes/nonAuth.stack.routes';
 
 import { Bullet } from '../../components/Bullet';
 import { ConfirmationButton } from '../../components/form/ConfirmationButton';
@@ -28,7 +28,7 @@ import { styles } from "./styles";
 export function SignUp() {
   const { width } = useWindowDimensions();
   const navigation =
-    useNavigation<AppStackScreenProp<'SignUp'>['navigation']>();
+    useNavigation<NonAuthStackScreenProp<'SignUp'>['navigation']>();
 
   const [stepIndex, setStepIndex] = useState(0);
   const [isSaving, setIsSaving] = useState(false);

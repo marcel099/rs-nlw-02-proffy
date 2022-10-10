@@ -16,21 +16,20 @@ import { useAuth } from "../../contexts/AuthContext";
 import { AuthenticationPageHeader } from "../../components/AuthenticationPageHeader";
 import { ConfirmationButton } from "../../components/form/ConfirmationButton";
 import { InnerLabelInput } from "../../components/form/InnerLabelInput";
-import { AppStackScreenProp } from "../../routes/AppStack";
+import { NonAuthStackScreenProp } from "../../routes/nonAuth.stack.routes";
 
 import { styles } from "./styles";
 
 export function SignIn() {
   const navigation =
-    useNavigation<AppStackScreenProp<'SignIn'>['navigation']>();
+    useNavigation<NonAuthStackScreenProp<'SignIn'>['navigation']>();
+  const { signIn } = useAuth();
 
   const [isSigningIn, setIsSigningIn] = useState(false);
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [rememberMe, setRememberMe] = useState(false);
-
-  const { signIn } = useAuth();
 
   function handleChangeRememberMe() {
     setRememberMe(previousState => !previousState);
