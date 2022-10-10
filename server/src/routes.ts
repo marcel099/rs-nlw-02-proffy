@@ -4,6 +4,7 @@ import ClassesControler from './controllers/ClassesController';
 import ConnectionsControler from './controllers/ConnectionsController';
 import { UsersController } from './controllers/UsersController';
 import { AuthenticationController } from './controllers/AuthenticationController';
+import { ensureAuthenticated } from './middlewares/ensureAuthenticated';
 
 const routes = express.Router();
 
@@ -18,6 +19,7 @@ routes.post('/classes', classesControler.create)
 routes.get('/connections', connectionsControler.index)
 routes.post('/connections', connectionsControler.create)
 
+routes.get('/users/me', ensureAuthenticated, usersControler.me)
 routes.post('/users', usersControler.create)
 
 routes.post('/sessions', authenticationController.session)

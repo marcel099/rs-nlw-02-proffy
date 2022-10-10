@@ -4,6 +4,14 @@ import { hash } from "bcrypt";
 import db from '../database/connection';
 
 export class UsersController {
+  async me(request: Request, response: Response) {
+    const result = await db('users')
+      .select('first_name', 'last_name', 'email', 'avatar')
+      .where('id', '=', request.user.id);
+
+    return response.json(result[0]);
+  }
+
   async create(request: Request, response: Response) {
     const {
       first_name,
