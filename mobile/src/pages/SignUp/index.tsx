@@ -200,7 +200,7 @@ export function SignUp() {
                   title="Concluir cadastro"
                   type="secondary"
                   onPress={handleCreateUser}
-                  enabled={!!email && !!password || isSaving}
+                  enabled={isSaving ? false : !!email && !!password}  
                   isLoading={isSaving}
                 />
               </View>
