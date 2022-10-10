@@ -11,6 +11,7 @@ import {
 import { Poppins_400Regular, Poppins_600SemiBold } from '@expo-google-fonts/poppins';
 
 import AppStack from './src/routes/AppStack';
+import { AuthContextProvider } from './src/contexts/AuthContext';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -41,7 +42,9 @@ export function App() {
     <>
       <StatusBar style="light" />
       <GestureHandlerRootView style={{ flex: 1 }}>
-        <AppStack />
+        <AuthContextProvider>
+          <AppStack />
+        </AuthContextProvider>
       </GestureHandlerRootView>
     </>
   );

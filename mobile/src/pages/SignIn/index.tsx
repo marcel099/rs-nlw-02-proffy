@@ -12,6 +12,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { Feather } from '@expo/vector-icons';
 
+import { useAuth } from "../../contexts/AuthContext";
 import { AuthenticationPageHeader } from "../../components/AuthenticationPageHeader";
 import { ConfirmationButton } from "../../components/form/ConfirmationButton";
 import { InnerLabelInput } from "../../components/form/InnerLabelInput";
@@ -29,6 +30,8 @@ export function SignIn() {
   const [password, setPassword] = useState('')
   const [rememberMe, setRememberMe] = useState(false);
 
+  const { signIn } = useAuth();
+
   function handleChangeRememberMe() {
     setRememberMe(previousState => !previousState);
   }
@@ -41,17 +44,15 @@ export function SignIn() {
     // navigation.navigate('ForgottenPassword');
   }
 
-  function handleSignIn() {
+  async function handleSignIn() {
     try {
       setIsSigningIn(true);
-      
-      const data = {
+
+      signIn({
         email,
         password,
         rememberMe,
-      }
-
-      console.log(data);
+      });
     } catch (error) {
       Alert.alert('Falha no login', 'Não foi possível fazer login');
       setIsSigningIn(false); 
@@ -119,7 +120,7 @@ export function SignIn() {
                 </TouchableOpacity>
               </View>
               <ConfirmationButton
-                title="Concluir cadastro"
+                title="Entrar"
                 type="secondary"
                 onPress={handleSignIn}
                 enabled={isSigningIn ? false : !!email && !!password}
