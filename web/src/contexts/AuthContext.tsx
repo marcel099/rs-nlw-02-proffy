@@ -26,6 +26,7 @@ interface AuthContextData {
   user: User | null;
   isFetchingAuthData: boolean;
   signIn: (data: SignInDTO) => Promise<void>;
+  signOut: () => Promise<void>;
 }
 
 const AuthContext = createContext({} as AuthContextData);
@@ -53,13 +54,11 @@ export function AuthContextProvider({
           lastName: last_name,
           avatar,
         });
-
-        // redirects user to dashboard
       }
 
       if (response.status === 401) {
         window.localStorage.removeItem(SIGNED_IN_USER_TOKEN);
-        // redirects user to sign in page
+        setUser(null);
       }
     } catch (error) {
       console.error(error);
@@ -94,6 +93,11 @@ export function AuthContextProvider({
     }
   }
 
+  async function signOut() {
+    window.localStorage.removeItem(SIGNED_IN_USER_TOKEN);
+    setUser(null);
+  }
+
   useEffect(() => {
     async function loadTokenAndFetchUser() {
       const token = window.localStorage.getItem(SIGNED_IN_USER_TOKEN);
@@ -114,6 +118,7 @@ export function AuthContextProvider({
       user,
       isFetchingAuthData,
       signIn,
+      signOut,
     }}>
       { children }
     </AuthContext.Provider>

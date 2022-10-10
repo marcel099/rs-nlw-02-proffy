@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { FiPower } from "react-icons/fi";
 
+import { useAuth } from '../../contexts/AuthContext';
 import api from '../../services/api';
 
 import logoImg from '../../assets/images/logo.svg';
@@ -13,8 +15,17 @@ import purpleHeartIcon from '../../assets/images/icons/purple-heart.svg';
 import './styles.css';
 
 function Landing() {
+  const { signOut, user } = useAuth();
 
   const [totalConnections, setTotalConnections ] = useState(0);
+
+  async function handleSignOut() {
+    try {
+      await signOut();
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   useEffect(() => {
     api.get('/connections').then( response => {
@@ -25,32 +36,65 @@ function Landing() {
 
   return (
     <div id="page-landing">
-      <div id="page-landing-content" className="container">
-        <div className="logo-container">
-          <img src={logoImg} alt="Logo Proffy"/>
-          <h2>Sua plataforma de estudos online</h2>
+      <div id="page-landing-content">
+        <div className="upper-container">
+          <div className="upper-content">
+            <div className="user">
+              {
+                user?.avatar !== null ? (
+                  <img
+                    src={user?.avatar}
+                    className="user-avatar"
+                  />
+                ) : (
+                  <div className="no-user-avatar" />
+                )
+              }
+              <Link to="/my-profile" className="user-name">
+                {`${user?.firstName} ${user?.lastName}`}
+              </Link>
+            </div>
+            <button className="sign-out-button" onClick={handleSignOut}>
+              <FiPower color="#D4C2FF" />
+            </button>
+            <div className="logo-container">
+              <img src={logoImg} alt="Logo Proffy"/>
+              <h2>Sua plataforma de estudos online.</h2>
+            </div>
+
+            <img
+              src={landingImg}
+              alt="Plataforma de estudos"
+              className="hero-image"
+            />
+          </div>
         </div>
 
-        <img
-          src={landingImg}
-          alt="Plataforma de estudos"
-          className="hero-image"
-        />
+        <div className="down-container">
+          <div className="down-content">
+            <div className="welcome-container">
+              <span className="welcome">Seja bem-vindo.</span>
+              <br/>
+              <span className="do-next">O que deseja fazer?</span>
+            </div>
+            <span className="total-connections">
+              Total de {totalConnections} conexões
+              <br />
+              já realizadas <img src={purpleHeartIcon} alt="Coração Roxo"/>
+            </span>
 
-        <div className="buttons-container">
-          <Link to="/study" className="study">
-            <img src={studyIcon} alt="Estudar"/>
-            Estudar
-          </Link>
-          <Link to="/give-classes" className="give-classes">
-            <img src={giveClassesIcon} alt="Dar aulas"/>
-            Dar aulas
-          </Link>
+            <div className="buttons-container">
+              <Link to="/study" className="study">
+                <img src={studyIcon} alt="Estudar"/>
+                Estudar
+              </Link>
+              <Link to="/give-classes" className="give-classes">
+                <img src={giveClassesIcon} alt="Dar aulas"/>
+                Dar aulas
+              </Link>
+            </div>
+          </div>
         </div>
-
-        <span className="total-connections">
-          Total de {totalConnections} conexões já realizadas <img src={purpleHeartIcon} alt="Coração Roxo"/>
-        </span>
       </div>
     </div>
   )
