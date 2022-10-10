@@ -8,6 +8,7 @@ import {
 import Landing from '../pages/Landing';
 import GiveClasses from '../pages/GiveClasses';
 import StudyTabs from './StudyTabs';
+import { SignIn } from '../pages/SignIn';
 import { SignUp } from '../pages/SignUp';
 import { Confirmation } from '../pages/Confirmation';
 
@@ -35,7 +36,10 @@ function AppStack() {
 
   return (
     <NavigationContainer>
-      <Navigator screenOptions={{ headerShown: false}}>
+      <Navigator
+        screenOptions={{ headerShown: false}}
+      >
+        <Screen name="SignIn" component={SignIn} />
         <Screen name="SignUp" component={SignUp} />
         <Screen name="Landing" component={Landing} />
         <Screen name="GiveClasses" component={GiveClasses} />
