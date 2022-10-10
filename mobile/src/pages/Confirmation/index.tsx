@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
-import { AppStackScreenProp } from "../../routes/AppStack";
+import { AppStackScreenProp } from "../../routes/app.stack.routes";
 import successCheckIcon from '../../assets/images/icons/success-check-icon.png';
 import confirmationBGImage from '../../assets/images/confirmation-background.png';
 

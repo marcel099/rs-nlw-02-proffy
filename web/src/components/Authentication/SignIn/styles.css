@@ -1,0 +1,82 @@
+.sign-in-form-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: 2.4rem;
+}
+
+.sign-in-form-options fieldset {
+  display: flex;
+  align-items: center;
+
+  border: 0;
+}
+
+.sign-in-form-options input {
+  width: 2.4rem;
+  height: 2.4rem;
+
+  accent-color: var(--color-secundary);
+  cursor: pointer;
+}
+
+.sign-in-form-options label {
+  font: 400 1.4rem Poppins;
+  line-height: 2.4rem;
+  color: var(--color-text-complement);
+
+  margin-left: 1.6rem;
+
+  cursor: pointer;
+}
+
+.sign-in-form-options a {
+  font: 400 1.4rem Poppins;
+  line-height: 2.4rem;
+  color: var(--color-text-complement);
+
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.sign-in-form-options a:hover {
+  color: var(--color-text-complement-blur);
+}
+
+.sign-in-footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.sign-in-footer-content div {
+  font-family: Poppins;
+  font-size: 1.6rem;
+  line-height: 2.6rem;
+}
+
+.sign-in-footer-content div p {
+  font-weight: 400;
+  color: var(--color-text-base);
+}
+
+.sign-in-footer-content div a {
+  font-weight: 600;
+  color: var(--color-primary);
+
+  text-decoration: underline;
+
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.sign-in-footer-content div a:hover {
+  color: var(--color-primary-dark);
+}
+
+.sign-in-footer-content span {
+  font: 400 1.2rem Poppins;
+  line-height: 2rem;
+  color: var(--color-text-complement);
+}
