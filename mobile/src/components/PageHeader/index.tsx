@@ -5,7 +5,7 @@ import { BorderlessButton } from 'react-native-gesture-handler';
 
 import backIcon from '../../assets/images/icons/back.png';
 import logoImg from '../../assets/images/logo.png';
-import { AppStackScreenProp } from '../../routes/AppStack';
+import { AppStackScreenProp } from '../../routes/app.stack.routes';
 
 import styles from './styles';
 
