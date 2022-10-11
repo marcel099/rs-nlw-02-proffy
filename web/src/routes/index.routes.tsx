@@ -8,7 +8,7 @@ import { Authentication } from '../pages/Authentication';
 import { Confirmation } from '../pages/Confirmation';
 import { PageLoader } from '../pages/PageLoader';
 import { ProtectedRoutes } from './ProtectedRoutes';
-
+  
 import { useAuth } from '../contexts/AuthContext';
 
 export function Routes() {
