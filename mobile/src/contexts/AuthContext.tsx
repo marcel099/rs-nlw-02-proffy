@@ -31,6 +31,7 @@ interface AuthContextData {
   user: User | null;
   // isFetchingAuthData: boolean;
   signIn: (data: SignInDTO) => Promise<void>;
+  signOut: () => Promise<void>;
 }
 
 const AuthContext = createContext({} as AuthContextData);
@@ -118,6 +119,12 @@ export function AuthContextProvider({
     }
   }
 
+  async function signOut() {
+    await AsyncStorage.removeItem(SIGNED_IN_USER_TOKEN);
+    setUser(null);
+  }
+
+
   useEffect(() => {
     async function loadTokenAndUser() {
       const loadedUser = await AsyncStorage.getItem(SIGNED_IN_USER);
@@ -139,6 +146,7 @@ export function AuthContextProvider({
       user,
       // isFetchingAuthData,
       signIn,
+      signOut,
     }}>
       { children }
     </AuthContext.Provider>

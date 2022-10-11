@@ -8,7 +8,11 @@ import {
   Archivo_700Bold,
   useFonts
 } from '@expo-google-fonts/archivo';
-import { Poppins_400Regular, Poppins_600SemiBold } from '@expo-google-fonts/poppins';
+import {
+  Poppins_400Regular,
+  Poppins_500Medium,
+  Poppins_600SemiBold
+} from '@expo-google-fonts/poppins';
 
 import { AuthContextProvider } from './src/contexts/AuthContext';
 import { Routes } from './src/routes';
@@ -21,6 +25,7 @@ export function App() {
     Archivo_600SemiBold,
     Archivo_700Bold,
     Poppins_400Regular,
+    Poppins_500Medium,
     Poppins_600SemiBold,
   })
 

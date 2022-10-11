@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-const baseURL = process.env.API_URL;
+const { API_URL } = process.env;
 
 const api = axios.create({
-  baseURL,
+  baseURL: API_URL,
 })
 
 export default api;
