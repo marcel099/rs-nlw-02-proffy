@@ -1,11 +1,10 @@
 import { hash } from 'bcrypt';
 import { Request, Response } from 'express';
 
+import { db } from '@database/connection';
 import { Class } from '@dtos/Class';
 import { ClassSchedule } from '@dtos/ClassSchedule';
-
-import db from '../database/connection';
-import { convertHourToMinutes } from '../utils/convertHoursToMinutes';
+import { convertHourToMinutes } from '@utils/convertHoursToMinutes';
 
 type ClassScheduleRequestBodyDTO = Pick<ClassSchedule, 'week_day'> & {
   id: number | null;

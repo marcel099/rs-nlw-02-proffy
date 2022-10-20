@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
-import db from '../database/connection';
-import { convertHourToMinutes } from '../utils/convertHoursToMinutes';
+import { db } from '@database/connection';
+import { convertHourToMinutes } from '@utils/convertHoursToMinutes';
 
 export default class ClassesControler {
   async index(request: Request, response: Response) {
