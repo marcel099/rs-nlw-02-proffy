@@ -1,4 +1,7 @@
 import express from 'express';
+import multer from 'multer';
+
+import { uploadConfig } from '@config/upload';
 
 import { AuthenticationController } from '@controllers/AuthenticationController';
 import ClassesControler from '@controllers/ClassesController';
@@ -7,6 +10,8 @@ import { UsersController } from '@controllers/UsersController';
 import { ensureAuthenticated } from '@middlewares/ensureAuthenticated';
 
 const routes = express.Router();
+
+const uploadAvatar = multer(uploadConfig);
 
 const classesControler = new ClassesControler();
 const connectionsControler = new ConnectionsControler();
@@ -20,7 +25,18 @@ routes.post('/connections', connectionsControler.create);
 
 routes.get('/users/me', ensureAuthenticated, usersControler.me);
 routes.post('/users', usersControler.create);
-routes.put('/users/profile', ensureAuthenticated, usersControler.updateProfile);
+// eslint-disable-next-line prettier/prettier
+routes.put(
+  '/users/profile',
+  ensureAuthenticated,
+  usersControler.updateProfile
+);
+routes.patch(
+  '/users/avatar',
+  ensureAuthenticated,
+  uploadAvatar.single('avatar'),
+  usersControler.updateAvatar
+);
 
 routes.post('/sessions', authenticationController.session);
 

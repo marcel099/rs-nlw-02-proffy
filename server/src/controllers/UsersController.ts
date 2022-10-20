@@ -1,9 +1,11 @@
+import { storageProvider } from '@providers/StorageProvider';
 import { hash } from 'bcrypt';
 import { Request, Response } from 'express';
 
 import { db } from '@database/connection';
 import { Class } from '@dtos/Class';
 import { ClassSchedule } from '@dtos/ClassSchedule';
+import { User } from '@dtos/User';
 import { convertHourToMinutes } from '@utils/convertHoursToMinutes';
 
 type ClassScheduleRequestBodyDTO = Pick<ClassSchedule, 'week_day'> & {
@@ -235,6 +237,39 @@ export class UsersController {
           error: 'Erro inesperado ao atualizar perfil',
         });
       }
+    }
+  }
+
+  async updateAvatar(request: Request, response: Response) {
+    try {
+      const avatarFileName = request.file?.filename;
+
+      if (avatarFileName === undefined) {
+        response.status(400).json({
+          message: 'Imagem de avatar não enviado.',
+        });
+        return;
+      }
+
+      const [user]: User[] = await db('users')
+        .select('first_name', 'last_name', 'email', 'avatar')
+        .where({ id: request.user.id });
+
+      if (user.avatar) {
+        await storageProvider.delete(user.avatar, 'avatar');
+      }
+
+      await storageProvider.save(avatarFileName, 'avatar');
+
+      await db('users')
+        .where({ id: request.user.id })
+        .update({ avatar: avatarFileName });
+
+      response.status(200).json();
+    } catch (error) {
+      console.error(error);
+
+      response.status(500).json();
     }
   }
 }
