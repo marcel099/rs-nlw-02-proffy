@@ -20,6 +20,17 @@ type ClassScheduleFormattedDTO = Pick<
   id: number | null;
 };
 
+type ClassScheduleToInsertDTO = Pick<
+  ClassSchedule,
+  'week_day' | 'from' | 'to' | 'class_id'
+>;
+
+// eslint-disable-next-line prettier/prettier
+type ClassScheduleToUpdateDTO = Pick<
+  ClassSchedule,
+  'week_day' | 'from' | 'to'
+>;
+
 interface UpdateProfileRequestBody {
   first_name: string;
   last_name: string;
@@ -129,9 +140,6 @@ export class UsersController {
         }
       }
 
-      console.log('NULL');
-      // console.log(class_id);
-
       const formattedClassSchedules: ClassScheduleFormattedDTO[] =
         schedules.map((schedule) => ({
           id: schedule.id,
@@ -141,20 +149,23 @@ export class UsersController {
           to: convertHourToMinutes(schedule.to),
         }));
 
+      const classSchedulesToInsert: ClassScheduleToInsertDTO[] = [];
+
       if (isThereAClass) {
         const myClassSchedules: ClassSchedule[] = await trx('class_schedule')
           .select('*')
           .where({ class_id: class_id ?? -1 });
 
-        // console.log({ formattedClassSchedules });
-        // console.log({ myClassSchedules });
-
-        const classSchedulesToInsert: ClassScheduleFormattedDTO[] = [];
         const classSchedulesToUpdate: ClassScheduleFormattedDTO[] = [];
 
         formattedClassSchedules.forEach((formattedSchedule) => {
           if (formattedSchedule.id === null) {
-            classSchedulesToInsert.push(formattedSchedule);
+            classSchedulesToInsert.push({
+              week_day: formattedSchedule.week_day,
+              from: formattedSchedule.from,
+              to: formattedSchedule.to,
+              class_id: formattedSchedule.class_id,
+            });
           } else {
             const dbSchedule = myClassSchedules.find(
               (myClassSchedule) => formattedSchedule.id === myClassSchedule.id
@@ -183,24 +194,33 @@ export class UsersController {
           })
           .map((myScheduleToDelete) => myScheduleToDelete.id);
 
-        console.log(classSchedulesToInsert);
-        console.log(classSchedulesToUpdate);
-        console.log(classSchedulesToDeleteIds);
-
-        await trx('class_schedule').insert(classSchedulesToInsert);
         await trx('class_schedule')
           .whereIn('id', classSchedulesToDeleteIds)
           .delete();
         // eslint-disable-next-line no-restricted-syntax
         for (const schedule of classSchedulesToUpdate) {
+          const formattedScheduleToInsert: ClassScheduleToUpdateDTO = {
+            week_day: schedule.week_day,
+            from: schedule.from,
+            to: schedule.to,
+          };
+
           // eslint-disable-next-line no-await-in-loop
           await trx('class_schedule')
             .where({ id: schedule.id })
-            .update(schedule);
+            .update(formattedScheduleToInsert);
         }
       } else {
-        await trx('class_schedule').insert(formattedClassSchedules);
+        formattedClassSchedules.forEach((formattedSchedule) => {
+          classSchedulesToInsert.push({
+            week_day: formattedSchedule.week_day,
+            from: formattedSchedule.from,
+            to: formattedSchedule.to,
+            class_id: formattedSchedule.class_id,
+          });
+        });
       }
+      await trx('class_schedule').insert(classSchedulesToInsert);
 
       await trx.commit();
 
@@ -209,7 +229,7 @@ export class UsersController {
       if (error?.code === 'SQLITE_MISUSE') {
         response.status(200).json();
       } else {
-        console.log(error);
+        console.error(error);
         await trx.rollback();
 
         response.status(400).json({
