@@ -24,5 +24,6 @@ routes.post('/users', usersControler.create)
 
 routes.post('/sessions', authenticationController.session)
 
-export default routes;
+routes.put('/users/profile', ensureAuthenticated, usersControler.updateProfile);
 
+export default routes;
