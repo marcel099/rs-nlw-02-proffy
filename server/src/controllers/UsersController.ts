@@ -206,9 +206,12 @@ export class UsersController {
           })
           .map((myScheduleToDelete) => myScheduleToDelete.id);
 
-        await trx('class_schedule')
-          .whereIn('id', classSchedulesToDeleteIds)
-          .delete();
+        if (classSchedulesToDeleteIds.length > 0) {
+          await trx('class_schedule')
+            .whereIn('id', classSchedulesToDeleteIds)
+            .delete();
+        }
+
         // eslint-disable-next-line no-restricted-syntax
         for (const schedule of classSchedulesToUpdate) {
           const formattedScheduleToInsert: ClassScheduleToUpdateDTO = {
@@ -232,22 +235,25 @@ export class UsersController {
           });
         });
       }
-      await trx('class_schedule').insert(classSchedulesToInsert);
+
+      if (classSchedulesToInsert.length > 0) {
+        await trx('class_schedule').insert(classSchedulesToInsert);
+      }
 
       await trx.commit();
 
       response.status(200).json();
     } catch (error: any) {
-      if (error?.code === 'SQLITE_MISUSE') {
-        response.status(200).json();
-      } else {
-        console.error(error);
-        await trx.rollback();
+      console.error({
+        error,
+        code: error?.code,
+        message: error?.message,
+      });
+      await trx.rollback();
 
-        response.status(400).json({
-          error: 'Erro inesperado ao atualizar perfil',
-        });
-      }
+      response.status(400).json({
+        error: 'Erro inesperado ao atualizar perfil',
+      });
     }
   }
 
