@@ -49,6 +49,7 @@
       "@config/*": ["src/shared/config/*"],
       "@database/*": ["src/shared/database/*"],
       "@dtos/*": ["src/shared/dtos/*"],
+      "@errors/*": ["src/shared/errors/*"],
       "@providers/*": ["src/shared/providers/*"],
       "@utils/*": ["src/shared/utils/*"],
     },                           /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */

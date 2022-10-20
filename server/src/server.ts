@@ -4,6 +4,7 @@ import express from 'express';
 import { join } from 'path';
 
 import { uploadConfig } from '@config/upload';
+import { handleAppError } from '@errors/handleAppError';
 
 import routes from './routes';
 
@@ -15,5 +16,6 @@ app.use('/avatar', express.static(join(uploadConfig.tmpFolder, 'avatar')));
 app.use(cors());
 
 app.use(routes);
+app.use(handleAppError);
 
 app.listen(3333, () => console.log('Server is running'));

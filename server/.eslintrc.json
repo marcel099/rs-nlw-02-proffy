@@ -44,10 +44,12 @@
         "groups": [
           "module",
           [
-            "/^@database/",
             "/^@config/",
-            "/^@utils/",
-            "/^@dtos/"
+            "/^@database/",
+            "/^@dtos/",
+            "/^@errors/",
+            "/^@providers/",
+            "/^@utils/"
           ],
           [
             "/^@controllers/",
