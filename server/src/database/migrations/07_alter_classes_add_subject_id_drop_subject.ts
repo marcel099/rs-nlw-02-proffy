@@ -16,7 +16,8 @@ export async function up(knex: Knex): Promise<void> {
 
 export async function down(knex: Knex): Promise<void> {
   return knex.schema.alterTable('classes', (table) => {
+    table.dropForeign(['subject_id']);
     table.dropColumn('subject_id');
-    table.string('subject').notNullable();
+    table.string('subject').nullable();
   });
 }
