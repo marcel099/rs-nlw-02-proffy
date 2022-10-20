@@ -1,4 +1,3 @@
-import { storageProvider } from '@providers/StorageProvider';
 import { hash } from 'bcrypt';
 import { Request, Response } from 'express';
 
@@ -6,6 +5,7 @@ import { db } from '@database/connection';
 import { Class } from '@dtos/Class';
 import { ClassSchedule } from '@dtos/ClassSchedule';
 import { User } from '@dtos/User';
+import { storageProvider } from '@providers/StorageProvider';
 import { convertHourToMinutes } from '@utils/convertHoursToMinutes';
 
 type ClassScheduleRequestBodyDTO = Pick<ClassSchedule, 'week_day'> & {
@@ -47,10 +47,21 @@ interface UpdateProfileRequestBody {
 export class UsersController {
   async me(request: Request, response: Response) {
     const result = await db('users')
-      .select('first_name', 'last_name', 'email', 'avatar')
+      .select('first_name', 'last_name', 'email', 'avatar', 'whatsapp', 'bio')
       .where('id', '=', request.user.id);
 
-    return response.json(result[0]);
+    let { avatar } = result[0];
+
+    if (avatar !== null) {
+      avatar = `${process.env.API_URL}/avatar/${avatar}`;
+    }
+
+    const user = {
+      ...result[0],
+      avatar,
+    };
+
+    return response.json(user);
   }
 
   async create(request: Request, response: Response) {
