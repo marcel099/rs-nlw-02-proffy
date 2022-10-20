@@ -6,10 +6,11 @@
   "scripts": {
     "start": "knex --knexfile dist/knexfile.js migrate:latest && node dist/src/server.js",
     "build": "tsc",
-    "dev": "ts-node-dev --transpile-only --ignore-watch node_modules --respawn src/server.ts",
+    "dev": "ts-node-dev -r tsconfig-paths/register --transpile-only --ignore-watch node_modules --respawn src/server.ts",
     "knex:migrate:latest": "knex --knexfile knexfile.ts migrate:latest",
     "knex:migrate:rollback": "knex --knexfile knexfile.ts migrate:rollback",
-    "knex:migrate:make": "knex migrate:make"
+    "knex:migrate:make": "knex migrate:make",
+    "knex:seed": "knex seed:run"
   },
   "keywords": [],
   "author": "",
