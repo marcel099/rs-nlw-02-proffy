@@ -1,3 +1,9 @@
+# SQLite
 database.sqlite
+database.sqlite-journal
+
+# build
 dist
+
+# Environment Variables
 .env
