@@ -19,7 +19,7 @@
     "paths": {
       "@components/*": ["src/components/*"],
       "@pages/*": ["src/pages/*"],
-      "@assets/*": ["src/shared/assets/*"],
+      "@assets/*": ["src/assets/*"],
       "@configs/*": ["src/shared/configs/*"],
       "@contexts/*": ["src/shared/contexts/*"],
       "@routes/*": ["src/shared/routes/*"],
