@@ -30,10 +30,12 @@ module.exports = {
     ],
     "import/prefer-default-export": "off",
     "dot-notation": "warn",
+    "import/no-extraneous-dependencies": "off",
     "object-curly-newline": ["warn", {
       "ObjectPattern": { "multiline": true, "minProperties": 4 },
       "ImportDeclaration": { "multiline": true, "minProperties": 4 }
     }],
+    "function-paren-newline": ["warn", { "minItems": 3 }],
     "comma-dangle": ["error", {
       "arrays": "always-multiline",
       "objects": "always-multiline",
@@ -45,7 +47,7 @@ module.exports = {
     "react/jsx-filename-extension": ["error", { "extensions": [".tsx"] }],
     "react/jsx-props-no-spreading": "off",
     "react/jsx-no-bind": "off",
-    "react/jsx-one-expression-per-line": ["warn", { "allow": "single-child" }],
+    "react/jsx-one-expression-per-line": ["off"],
     "react/no-unused-prop-types": "warn",
     "react/react-in-jsx-scope": "off",
     "import-helpers/order-imports": [

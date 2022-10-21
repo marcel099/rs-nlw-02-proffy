@@ -1,64 +1,53 @@
-import React, { useState, FormEvent } from 'react';
+import { useState, FormEvent } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import api from '../../services/api';
+import warningIcon from '@assets/images/icons/warning.svg';
 
-import { ConfirmationButton } from '../../components/ConfirmationButton';
-import PageHeader from '../../components/PageHeader';
-import { OuterLabelInput } from '../../components/OuterLabelInput';
-import Textarea from '../../components/Textarea';
-import Select from '../../components/Select';
+import api from '@services/api';
 
-import warningIcon from '../../assets/images/icons/warning.svg';
+import { ConfirmationButton } from '@components/ConfirmationButton';
+import { OuterLabelInput } from '@components/OuterLabelInput';
+import { PageHeader } from '@components/PageHeader';
+import { PageSubtitle } from '@components/PageSubtitle';
+import Select from '@components/Select';
+import Textarea from '@components/Textarea';
 
 import './styles.css';
 
-function TeacherForm() {
+export function TeacherForm() {
   const history = useHistory();
 
-  const [ name, setName ] = useState('');
-  const [ avatar, setAvatar ] = useState('');
-  const [ whatsapp, setWhatsapp ] = useState('');
-  const [ bio, setBio ] = useState('');
+  const [name, setName] = useState('');
+  const [avatar, setAvatar] = useState('');
+  const [whatsapp, setWhatsapp] = useState('');
+  const [bio, setBio] = useState('');
 
-  const [ subject, setSubject ] = useState('');
-  const [ cost, setCost ] = useState('');
+  const [subject, setSubject] = useState('');
+  const [cost, setCost] = useState('');
 
-  const initialSchedule = { week_day: '', from: '', to: '' }
-  const [ scheduleItems, setScheduleItems ] = useState([initialSchedule])
+  const initialSchedule = { week_day: '', from: '', to: '' };
+  const [scheduleItems, setScheduleItems] = useState([initialSchedule]);
 
   function addNewScheduleItem() {
-    setScheduleItems( [...scheduleItems, initialSchedule] )
+    setScheduleItems([...scheduleItems, initialSchedule]);
   }
 
-  function setScheduleItemValue(position: number, field: string, value: string ) {
+  function setScheduleItemValue(
+    position: number, field: string, value: string
+  ) {
     const updatedScheduleItems = scheduleItems.map((scheduleItem, index) => {
-      if ( index === position) {
-        return { ...scheduleItem, [field]: value }
+      if (index === position) {
+        return { ...scheduleItem, [field]: value };
       }
 
-      return scheduleItem
-    })
-
-    // console.log('position', position)
-    // console.log('field', field)
-    // console.log('value', value)
-    // console.log('arr', updatedScheduleItems)
+      return scheduleItem;
+    });
 
     setScheduleItems(updatedScheduleItems);
   }
 
   function handleCreateClass(e: FormEvent) {
-    e.preventDefault()
-    console.log({
-      name,
-      avatar,
-      whatsapp,
-      bio,
-      subject,
-      cost,
-      scheduleItems,
-    })
+    e.preventDefault();
 
     api.post('/classes', {
       name,
@@ -68,23 +57,24 @@ function TeacherForm() {
       subject,
       cost: Number(cost),
       schedule: scheduleItems,
-    }).then( response => {
-      alert('Cadastro realizado com sucesso')
-      console.log(response)
+    }).then(() => {
+      alert('Cadastro realizado com sucesso');
 
-      history.push('/')
-    }).catch( response => {
-      alert('Erro no cadastro')
-      console.log(response)
-    })
+      history.push('/');
+    }).catch((response) => {
+      alert('Erro no cadastro');
+      console.log(response);
+    });
   }
 
   return (
     <div id="page-teacher-form" className="container">
       <PageHeader
-        title="Que incrível que você quer dar aulas."
-        description="O primeiro passo é preencher este formulário de inscrição"
-      />
+        title="Dar aulas"
+      >
+        <PageSubtitle subtitle="Que incrível que você quer dar aulas." />
+        <p className="page-description">O primeiro passo é preencher este formulário de inscrição</p>
+      </PageHeader>
 
       <main>
         <form onSubmit={handleCreateClass}>
@@ -95,25 +85,25 @@ function TeacherForm() {
               name="name"
               label="Nome completo"
               value={name}
-              onChange={ (e) => setName(e.target.value) }
+              onChange={(e) => setName(e.target.value)}
             />
             <OuterLabelInput
               name="avatar"
               label="Avatar"
               value={avatar}
-              onChange={ (e) => setAvatar(e.target.value) }
+              onChange={(e) => setAvatar(e.target.value)}
             />
             <OuterLabelInput
               name="whatsapp"
               label="WhatsApp"
               value={whatsapp}
-              onChange={ (e) => setWhatsapp(e.target.value) }
+              onChange={(e) => setWhatsapp(e.target.value)}
             />
             <Textarea
               name="bio"
               label="Biografia"
               value={bio}
-              onChange={ (e) => setBio(e.target.value) }
+              onChange={(e) => setBio(e.target.value)}
             />
           </fieldset>
 
@@ -124,7 +114,7 @@ function TeacherForm() {
               name="subject"
               label="Matéria"
               value={subject}
-              onChange={ (e) => setSubject(e.target.value) }
+              onChange={(e) => setSubject(e.target.value)}
               options={[
                 { value: 'Matemática', label: 'Matemática' },
                 { value: 'Português', label: 'Língua Portuguesa' },
@@ -141,7 +131,7 @@ function TeacherForm() {
               name="cost"
               label="Custo da hora por aula"
               value={cost}
-              onChange={ (e) => setCost(e.target.value) }
+              onChange={(e) => setCost(e.target.value)}
             />
           </fieldset>
 
@@ -153,47 +143,50 @@ function TeacherForm() {
               </button>
             </legend>
 
-            { scheduleItems.map( ( scheduleItem, index ) => {
-              return (
-                <div key={scheduleItem.week_day} className="schedule-item">
-                  <Select
-                    name="week_day"
-                    label="Dia da semana"
-                    value={scheduleItem.week_day}
-                    onChange={ (e) => setScheduleItemValue(index, 'week_day', e.target.value) }
-                    options={[
-                      { value: '0', label: 'Domingo' },
-                      { value: '1', label: 'Segunda-feira' },
-                      { value: '2', label: 'Terça-feira' },
-                      { value: '3', label: 'Quarta-feira' },
-                      { value: '4', label: 'Quinta-feira' },
-                      { value: '5', label: 'Sexta-feira' },
-                      { value: '6', label: 'Sábado' },
-                    ]}
-                  />
-                  <OuterLabelInput
-                    name="from"
-                    label="Das"
-                    type="time"
-                    value={scheduleItem.from}
-                    onChange={ (e) => setScheduleItemValue(index, 'from', e.target.value) }
-                  />
-                  <OuterLabelInput
-                    name="to"
-                    label="Até"
-                    type="time"
-                    value={scheduleItem.to}
-                    onChange={ (e) => setScheduleItemValue(index, 'to', e.target.value) }
-                  />
-                </div>
-              )
-            })}
-
+            { scheduleItems.map((scheduleItem, index) => (
+              <div key={scheduleItem.week_day} className="schedule-item">
+                <Select
+                  name="week_day"
+                  label="Dia da semana"
+                  value={scheduleItem.week_day}
+                  onChange={(e) => setScheduleItemValue(
+                    index, 'week_day', e.target.value
+                  )}
+                  options={[
+                    { value: '0', label: 'Domingo' },
+                    { value: '1', label: 'Segunda-feira' },
+                    { value: '2', label: 'Terça-feira' },
+                    { value: '3', label: 'Quarta-feira' },
+                    { value: '4', label: 'Quinta-feira' },
+                    { value: '5', label: 'Sexta-feira' },
+                    { value: '6', label: 'Sábado' },
+                  ]}
+                />
+                <OuterLabelInput
+                  name="from"
+                  label="Das"
+                  type="time"
+                  value={scheduleItem.from}
+                  onChange={(e) => setScheduleItemValue(
+                    index, 'from', e.target.value
+                  )}
+                />
+                <OuterLabelInput
+                  name="to"
+                  label="Até"
+                  type="time"
+                  value={scheduleItem.to}
+                  onChange={(e) => setScheduleItemValue(
+                    index, 'to', e.target.value
+                  )}
+                />
+              </div>
+            ))}
           </fieldset>
 
           <footer>
             <p>
-              <img src={warningIcon} alt="Aviso importante"/>
+              <img src={warningIcon} alt="Aviso importante" />
               Importante: <br />
               Preencha todos os dados
             </p>
@@ -205,7 +198,5 @@ function TeacherForm() {
         </form>
       </main>
     </div>
-  )
+  );
 }
-
-export default TeacherForm;

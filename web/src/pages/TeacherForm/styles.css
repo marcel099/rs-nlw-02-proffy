@@ -7,6 +7,14 @@
   margin-bottom: 6.4rem;
 }
 
+#page-teacher-form .page-header .header-content .page-description {
+  max-width: 30rem;
+  font-size: 1.6rem;
+  line-height: 2.6rem;
+  color: var(--color-text-in-primary);
+  margin-top: 2.4rem;
+}
+
 #page-teacher-form main {
   background: var(--color-box-base);
   width: 100%;

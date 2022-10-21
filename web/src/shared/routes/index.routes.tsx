@@ -7,8 +7,8 @@ import { Confirmation } from '@pages/Confirmation';
 import { Landing } from '@pages/Landing';
 import { MyProfile } from '@pages/MyProfile';
 import { PageLoader } from '@pages/PageLoader';
-import TeacherForm from '@pages/TeacherForm';
-import TeacherList from '@pages/TeacherList';
+import { TeacherForm } from '@pages/TeacherForm';
+import { TeacherList } from '@pages/TeacherList';
 
 import { ProtectedRoutes } from './ProtectedRoutes';
 
