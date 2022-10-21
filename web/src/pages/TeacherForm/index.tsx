@@ -68,7 +68,7 @@ export function TeacherForm() {
   }
 
   return (
-    <div id="page-teacher-form" className="container">
+    <div id="page-teacher-form" className="page-container">
       <PageHeader
         title="Dar aulas"
       >

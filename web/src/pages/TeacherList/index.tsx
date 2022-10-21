@@ -32,7 +32,7 @@ export function TeacherList() {
   }
 
   return (
-    <div id="page-teacher-list" className="container">
+    <div id="page-teacher-list" className="page-container">
       <PageHeader
         title="Estudar"
       >

@@ -1,8 +1,3 @@
-#page-teacher-form {
-  width: 100vw;
-  height: 100vh;
-}
-
 #page-teacher-form .page-header .header-content {
   margin-bottom: 6.4rem;
 }
@@ -110,10 +105,6 @@
 }
 
 @media (min-width: 700px) {
-  #page-teacher-form {
-    max-width: 100vw;
-  }
-
   #page-teacher-form .page-header .header-content {
     margin-bottom: 0;
   }
