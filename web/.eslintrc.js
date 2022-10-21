@@ -46,6 +46,7 @@ module.exports = {
     "react/jsx-no-bind": "off",
     "react/jsx-one-expression-per-line": ["warn", { "allow": "single-child" }],
     "react/no-unused-prop-types": "warn",
+    "react/react-in-jsx-scope": "off",
     "import-helpers/order-imports": [
       "warn",
       {
