@@ -26,7 +26,7 @@ module.exports = {
     "import/no-unresolved": "error",
     "linebreak-style": [
       "error",
-      process.env.NODE_ENV === 'prod' ? "unix" : "windows"
+      process.env.NODE_ENV === 'production' ? "unix" : "windows"
     ],
     "import/prefer-default-export": "off",
     "object-curly-newline": ["warn", {
