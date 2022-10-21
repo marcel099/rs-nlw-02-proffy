@@ -31,16 +31,19 @@
   cursor: pointer;
 }
 
-.sign-in-form-options a {
+.sign-in-form-options button {
   font: 400 1.4rem Poppins;
   line-height: 2.4rem;
   color: var(--color-text-complement);
+
+  background-color: transparent;
+  border: 0;
 
   cursor: pointer;
   transition: color 0.2s;
 }
 
-.sign-in-form-options a:hover {
+.sign-in-form-options button:hover {
   color: var(--color-text-complement-blur);
 }
 
@@ -61,9 +64,12 @@
   color: var(--color-text-base);
 }
 
-.sign-in-footer-content div a {
+.sign-in-footer-content div button {
   font-weight: 600;
   color: var(--color-primary);
+
+  background-color: transparent;
+  border: 0;
 
   text-decoration: underline;
 
@@ -71,7 +77,7 @@
   transition: color 0.2s;
 }
 
-.sign-in-footer-content div a:hover {
+.sign-in-footer-content div button:hover {
   color: var(--color-primary-dark);
 }
 

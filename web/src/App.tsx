@@ -1,5 +1,5 @@
-import { AuthContextProvider } from './contexts/AuthContext';
-import { Routes } from './routes/index.routes';
+import { AuthContextProvider } from '@contexts/AuthContext';
+import { Routes } from '@routes/index.routes';
 
 import './shared/styles/global.css';
 
@@ -8,6 +8,5 @@ export function App() {
     <AuthContextProvider>
       <Routes />
     </AuthContextProvider>
-
   );
 }

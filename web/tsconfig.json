@@ -23,7 +23,7 @@
       "@configs/*": ["src/shared/configs/*"],
       "@contexts/*": ["src/shared/contexts/*"],
       "@routes/*": ["src/shared/routes/*"],
-      "@services/*": ["src/shared/services/*"],
+      "@services/*": ["src/shared/services/*"]
     },
   },
   "include": ["src"],

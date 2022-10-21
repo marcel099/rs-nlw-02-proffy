@@ -1,13 +1,15 @@
-import React, {
+import {
   createContext,
   ReactNode,
   useContext,
   useEffect,
-  useState
-} from "react";
+  useMemo,
+  useState,
+} from 'react';
 
-import { SIGNED_IN_USER_TOKEN } from "../configs/storage";
-import api from "../services/api";
+import { SIGNED_IN_USER_TOKEN } from '@configs/storage';
+
+import api from '../../services/api';
 
 interface User {
   firstName: string;
@@ -36,7 +38,7 @@ interface AuthContextProviderProps {
 }
 
 export function AuthContextProvider({
-  children
+  children,
 }: AuthContextProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   const [isFetchingAuthData, setIsFetchingAuthData] = useState(true);
@@ -101,7 +103,7 @@ export function AuthContextProvider({
   useEffect(() => {
     async function loadTokenAndFetchUser() {
       const token = window.localStorage.getItem(SIGNED_IN_USER_TOKEN);
-  
+
       if (token !== null) {
         api.defaults.headers['Authorization'] = `Bearer ${token}`;
         await fetchUser();
@@ -111,18 +113,20 @@ export function AuthContextProvider({
     }
 
     loadTokenAndFetchUser();
-  }, [])
+  }, []);
+
+  const value = useMemo(() => ({
+    user,
+    isFetchingAuthData,
+    signIn,
+    signOut,
+  }), [user, isFetchingAuthData]);
 
   return (
-    <AuthContext.Provider value={{
-      user,
-      isFetchingAuthData,
-      signIn,
-      signOut,
-    }}>
+    <AuthContext.Provider value={value}>
       { children }
     </AuthContext.Provider>
-  )
+  );
 }
 
 export const useAuth = () => useContext(AuthContext);

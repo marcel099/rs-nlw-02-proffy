@@ -1,9 +1,10 @@
-import React, { FormEvent, useRef, useState } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 
-import { InnerLabelInput } from '../../InnerLabelInput';
-import { ConfirmationButton } from '../ConfirmationButton';
+import { useAuth } from '@contexts/AuthContext';
 
-import { useAuth } from '../../../contexts/AuthContext';
+import { ConfirmationButton } from '@components/ConfirmationButton';
+import { InnerLabelInput } from '@components/InnerLabelInput';
+
 import purpleHeartIcon from '../../../assets/images/icons/purple-heart.svg';
 
 import './styles.css';
@@ -13,13 +14,11 @@ interface SignInProps {
   openForgottenPassword: () => void;
 }
 
-export function SignIn({
-  openSignUp, openForgottenPassword
-}: SignInProps) {
+export function SignIn({ openSignUp, openForgottenPassword }: SignInProps) {
   const { signIn } = useAuth();
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const rememberMeCheckboxRef = useRef<HTMLInputElement>(null);
 
@@ -42,7 +41,7 @@ export function SignIn({
 
   return (
     <>
-      <header></header>
+      <header />
       <main>
         <h1>Fazer login</h1>
         <form onSubmit={handleSignIn}>
@@ -52,7 +51,7 @@ export function SignIn({
             autoComplete="email"
             autoCapitalize="off"
             value={email}
-            onChange={ (e) => setEmail(e.target.value) }
+            onChange={(e) => setEmail(e.target.value)}
           />
           <InnerLabelInput
             name="password"
@@ -62,7 +61,7 @@ export function SignIn({
             autoCapitalize="off"
             isPasswordField
             value={password}
-            onChange={ (e) => setPassword(e.target.value) }
+            onChange={(e) => setPassword(e.target.value)}
           />
 
           <div className="sign-in-form-options">
@@ -73,9 +72,12 @@ export function SignIn({
                 name="remember-me"
                 ref={rememberMeCheckboxRef}
               />
+              {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label htmlFor="remember-me">Lembrar-me</label>
             </fieldset>
-            <a onClick={openForgottenPassword}>Esqueci minha senha</a>
+            <button type="button" onClick={openForgottenPassword}>
+              Esqueci minha senha
+            </button>
           </div>
 
           <footer className="submit-button-container">
@@ -90,13 +92,15 @@ export function SignIn({
       <footer className="sign-in-footer-content">
         <div>
           <p>Não tem conta?</p>
-          <a onClick={openSignUp}>Cadastre-se</a>
+          <button type="button" onClick={openSignUp}>
+            Cadastre-se
+          </button>
         </div>
-        <p></p>
         <p>
-          <span>É de graça</span> <img src={purpleHeartIcon} alt="Coração Roxo"/>
+          <span>É de graça</span>
+          <img src={purpleHeartIcon} alt="Coração Roxo" />
         </p>
       </footer>
     </>
-  )
+  );
 }

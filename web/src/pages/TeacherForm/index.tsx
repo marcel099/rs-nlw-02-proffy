@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 
 import api from '../../services/api';
 
-import { ConfirmationButton } from '../../components/Authentication/ConfirmationButton';
+import { ConfirmationButton } from '../../components/ConfirmationButton';
 import PageHeader from '../../components/PageHeader';
 import { OuterLabelInput } from '../../components/OuterLabelInput';
 import Textarea from '../../components/Textarea';

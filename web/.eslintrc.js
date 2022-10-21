@@ -29,6 +29,7 @@ module.exports = {
       process.env.NODE_ENV === 'production' ? "unix" : "windows"
     ],
     "import/prefer-default-export": "off",
+    "dot-notation": "warn",
     "object-curly-newline": ["warn", {
       "ObjectPattern": { "multiline": true, "minProperties": 4 },
       "ImportDeclaration": { "multiline": true, "minProperties": 4 }
