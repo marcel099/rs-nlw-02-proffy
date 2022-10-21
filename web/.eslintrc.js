@@ -1,4 +1,4 @@
-{
+module.exports = {
   "env": {
     "browser": true,
     "es2021": true
@@ -24,7 +24,10 @@
   "rules": {
     "camelcase": "off",
     "import/no-unresolved": "error",
-    "linebreak-style": ["error", "unix"],
+    "linebreak-style": [
+      "error",
+      process.env.NODE_ENV === 'production' ? "unix" : "windows"
+    ],
     "import/prefer-default-export": "off",
     "object-curly-newline": ["warn", {
       "ObjectPattern": { "multiline": true, "minProperties": 4 },
@@ -43,6 +46,7 @@
     "react/jsx-no-bind": "off",
     "react/jsx-one-expression-per-line": ["warn", { "allow": "single-child" }],
     "react/no-unused-prop-types": "warn",
+    "react/react-in-jsx-scope": "off",
     "import-helpers/order-imports": [
       "warn",
       {

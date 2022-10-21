@@ -1,12 +1,11 @@
-import React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 
-import Landing from '../pages/Landing';
-import TeacherList from '../pages/TeacherList';
-import TeacherForm from '../pages/TeacherForm';
-import { Authentication } from '../pages/Authentication';
-import { Confirmation } from '../pages/Confirmation';
-import { PageLoader } from '../pages/PageLoader';
+import Landing from '@pages/Landing';
+import TeacherList from '@pages/TeacherList';
+import TeacherForm from '@pages/TeacherForm';
+import { Authentication } from '@pages/Authentication';
+import { Confirmation } from '@pages/Confirmation';
+import { PageLoader } from '@pages/PageLoader';
 import { ProtectedRoutes } from './ProtectedRoutes';
   
 import { useAuth } from '../contexts/AuthContext';
@@ -25,7 +24,7 @@ export function Routes() {
               isAllowed={user === null}
               redirectPath="/landing"
             >
-              <Route path="/" exact index component={Authentication} />
+              <Route path="/" exact component={Authentication} />
             </ProtectedRoutes>
             <Route path="/confirmation" component={Confirmation} />
             <ProtectedRoutes isAllowed={user !== null} >

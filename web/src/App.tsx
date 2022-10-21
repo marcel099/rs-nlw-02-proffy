@@ -1,16 +1,13 @@
-import React from 'react';
-
-import { Routes } from './routes/index.routes';
 import { AuthContextProvider } from './contexts/AuthContext';
+import { Routes } from './routes/index.routes';
 
-import './assets/styles/global.css';
+import './shared/styles/global.css';
 
-function App() {
+export function App() {
   return (
     <AuthContextProvider>
       <Routes />
     </AuthContextProvider>
+
   );
 }
-
-export default App;
