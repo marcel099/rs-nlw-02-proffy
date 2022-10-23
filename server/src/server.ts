@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import cors from 'cors';
 import express from 'express';
+import 'express-async-errors';
 import { join } from 'path';
 
 import { uploadConfig } from '@config/upload';
