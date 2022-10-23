@@ -1,5 +1,5 @@
-import React, { ReactNode } from "react";
-import { Redirect } from "react-router-dom";
+import { ReactNode } from 'react';
+import { Redirect } from 'react-router-dom';
 
 interface ProtectedRoutesProps {
   isAllowed: boolean;
@@ -10,13 +10,14 @@ interface ProtectedRoutesProps {
 export function ProtectedRoutes({
   isAllowed,
   redirectPath = '/',
-  children
+  children,
 }: ProtectedRoutesProps) {
   if (!isAllowed) {
-    return <Redirect to={redirectPath} />
+    return <Redirect to={redirectPath} />;
   }
 
   return (
+    // eslint-disable-next-line react/jsx-no-useless-fragment
     <>
       { children }
     </>
