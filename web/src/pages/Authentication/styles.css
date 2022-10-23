@@ -37,13 +37,13 @@
 }
 
 .authentication-content-container > main h1 {
-  font: 700 3.6rem Poppins;
+  font: 700 3.6rem Poppins, sans-serif;
   line-height: 3.4rem;
   color: var(--color-text-title);
 }
 
 .authentication-content-container > main p {
-  font: 400 1.6rem Poppins;
+  font: 400 1.6rem Poppins, sans-serif;
   line-height: 2.6rem;
   color: var(--color-text-base);
 }

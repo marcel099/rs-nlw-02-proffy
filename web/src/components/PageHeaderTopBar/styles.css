@@ -30,7 +30,7 @@
 }
 
 .top-bar-content .page-title {
-  font: 500 1.6rem Archivo;
+  font: 500 1.6rem Archivo, sans-serif;
 }
 
 .top-bar-content > img {
