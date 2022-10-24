@@ -8,14 +8,15 @@ import {
 } from 'react';
 
 import { SIGNED_IN_USER_TOKEN } from '@configs/storage';
-
-import api from '../../services/api';
+import api from '@services/api';
 
 interface User {
   firstName: string;
   lastName: string;
   email: string;
   avatar: string | null;
+  whatsapp: string | null;
+  bio: string | null;
 }
 
 interface SignInDTO {
@@ -37,9 +38,7 @@ interface AuthContextProviderProps {
   children: ReactNode;
 }
 
-export function AuthContextProvider({
-  children,
-}: AuthContextProviderProps) {
+export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   const [isFetchingAuthData, setIsFetchingAuthData] = useState(true);
 
@@ -48,13 +47,17 @@ export function AuthContextProvider({
       const response = await api.get('/users/me');
 
       if (response.status === 200) {
-        const { email, first_name, last_name, avatar } = response.data;
+        const {
+          email, first_name, last_name, avatar, bio, whatsapp,
+        } = response.data;
 
         setUser({
           email,
           firstName: first_name,
           lastName: last_name,
           avatar,
+          bio,
+          whatsapp,
         });
       }
 
@@ -73,7 +76,8 @@ export function AuthContextProvider({
     rememberMe,
   }: SignInDTO) {
     try {
-      const sessionResponse = await api.post('/sessions', { email, password });
+      const sessionResponse =
+        await api.post('/sessions', { email, password });
 
       if (sessionResponse.status !== 200) {
         throw new Error('');
@@ -83,10 +87,7 @@ export function AuthContextProvider({
       api.defaults.headers['Authorization'] = `Bearer ${token}`;
 
       if (rememberMe) {
-        window.localStorage.setItem(
-          SIGNED_IN_USER_TOKEN,
-          token
-        );
+        window.localStorage.setItem(SIGNED_IN_USER_TOKEN, token);
       }
 
       await fetchUser();
