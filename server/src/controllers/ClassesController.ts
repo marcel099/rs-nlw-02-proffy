@@ -4,14 +4,13 @@ import { db } from '@database/connection';
 import { convertHourToMinutes } from '@utils/convertHoursToMinutes';
 
 export default class ClassesControler {
-  async index(request: Request, response: Response) {
+  async list(request: Request, response: Response) {
     const filters = request.query;
 
-    const subject = filters.subject as string;
+    const subject_id = filters.subject_id as string;
     const week_day = filters.week_day as string;
-    const time = filters.time as string;
 
-    if (!filters.week_day || !filters.subject || !filters.time) {
+    if (!filters.week_day || !filters.subject_id || !filters.time) {
       return response.status(400).json({
         err: 'Filtros não informados para listar aulas',
       });

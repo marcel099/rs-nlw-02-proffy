@@ -18,7 +18,11 @@ const connectionsControler = new ConnectionsControler();
 const usersControler = new UsersController();
 const authenticationController = new AuthenticationController();
 
-routes.get('/classes', classesControler.index);
+// eslint-disable-next-line prettier/prettier
+routes.get(
+  '/classes',
+  classesControler.list
+);
 
 routes.get('/connections', connectionsControler.index);
 routes.post('/connections', connectionsControler.create);
