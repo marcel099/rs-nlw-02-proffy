@@ -23,6 +23,11 @@ routes.get(
   '/classes',
   classesControler.list
 );
+routes.get(
+  '/classes/me',
+  ensureAuthenticated,
+  classesControler.userClassSchedules
+);
 
 routes.get('/connections', connectionsControler.index);
 routes.post('/connections', connectionsControler.create);

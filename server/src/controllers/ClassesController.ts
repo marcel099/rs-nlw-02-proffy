@@ -27,10 +27,35 @@ export default class ClassesControler {
           .whereRaw('`class_schedule`.`from` <= ??', [timeInMinutes])
           .whereRaw('`class_schedule`.`to` > ??', [timeInMinutes]);
       })
-      .where('classes.subject', '=', subject)
+      .where('classes.subject_id', '=', subject_id)
       .join('users', 'classes.user_id', '=', 'users.id')
       .select('classes.*', 'users.*');
 
     return response.json(classes);
+  }
+
+  async userClassSchedules(request: Request, response: Response) {
+    const [teacherClass] = await db('classes as c')
+      .select('c.id as class_id', 'c.cost as class_cost', 's.id as subject_id')
+      .join('subjects as s', 's.id', 'c.subject_id')
+      .where('user_id', '=', request.user.id);
+
+    let teacherClassSchedules: any = [];
+
+    if (teacherClass !== undefined) {
+      teacherClassSchedules = await db('class_schedule as cs')
+        .select('cs.week_day', 'cs.from', 'cs.to')
+        .where('cs.class_id', '=', teacherClass.class_id);
+    }
+
+    return response.json({
+      class: {
+        cost: teacherClass?.class_cost ?? null,
+        subject: {
+          id: teacherClass?.subject_id ?? null,
+        },
+      },
+      class_schedules: teacherClassSchedules,
+    });
   }
 }
