@@ -1,0 +1,15 @@
+#page-my-profile .user-name {
+  color: var(--color-title-in-primary);
+  font: 700 3.6rem Archivo;
+  line-height: 2.5rem;
+
+  margin-top: 3.2rem;
+}
+
+#page-my-profile .user-subject-name {
+  color: var(--color-text-in-primary);
+  font: 400 2.4rem Poppins, sans-serif;
+  line-height: 2.6rem;
+
+  margin-top: 1.6rem;
+}
