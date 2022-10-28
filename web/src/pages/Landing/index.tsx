@@ -2,14 +2,16 @@ import { useState, useEffect } from 'react';
 import { FiPower } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
 
-import { useAuth } from '@contexts/AuthContext';
+import giveClassesIcon from '@assets/images/icons/give-classes.svg';
+import purpleHeartIcon from '@assets/images/icons/purple-heart.svg';
+import studyIcon from '@assets/images/icons/study.svg';
+import landingImg from '@assets/images/landing.svg';
+import logoImg from '@assets/images/logo.svg';
 
-import giveClassesIcon from '../../assets/images/icons/give-classes.svg';
-import purpleHeartIcon from '../../assets/images/icons/purple-heart.svg';
-import studyIcon from '../../assets/images/icons/study.svg';
-import landingImg from '../../assets/images/landing.svg';
-import logoImg from '../../assets/images/logo.svg';
-import api from '../../services/api';
+import { useAuth } from '@contexts/AuthContext';
+import api from '@services/api';
+
+import { UserAvatar } from '@components/UserAvatar';
 
 import './styles.css';
 
@@ -39,17 +41,7 @@ export function Landing() {
         <div className="upper-container">
           <div className="upper-content">
             <div className="user">
-              {
-                user?.avatar !== null ? (
-                  <img
-                    src={user?.avatar}
-                    className="user-avatar"
-                    alt="Sua foto de perfil"
-                  />
-                ) : (
-                  <div className="no-user-avatar" />
-                )
-              }
+              <UserAvatar avatar={user?.avatar ?? null} size="sm" />
               <Link to="/my-profile" className="user-name">
                 {`${user?.firstName} ${user?.lastName}`}
               </Link>
