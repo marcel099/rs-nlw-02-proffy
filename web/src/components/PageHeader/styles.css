@@ -16,10 +16,6 @@
 }
 
 @media (min-width: 700px) {
-  .page-header {
-    height: 340px;
-  }
-
   .page-header .top-bar-content {
     max-width: 1100px;
   }
@@ -28,11 +24,23 @@
     flex-grow: 1;
     max-width: 740px;
     margin: 0 auto;
-    padding-bottom: 48px;
+    padding-bottom: 6.4rem;
 
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
+  }
+
+  .page-header .header-content.small {
+    height: 25.6rem;
+  }
+
+  .page-header .header-content.medium {
+    height: 35.2rem;
+  }
+
+  .page-header .header-content.large {
+    height: 47.1rem;
   }
 }

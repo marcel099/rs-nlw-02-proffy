@@ -71,6 +71,7 @@ export function TeacherForm() {
     <div id="page-teacher-form" className="page-container">
       <PageHeader
         title="Dar aulas"
+        contentSize="md"
       >
         <PageSubtitle subtitle="Que incrível que você quer dar aulas." />
         <p className="page-description">O primeiro passo é preencher este formulário de inscrição</p>
