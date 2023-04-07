@@ -31,12 +31,19 @@ module.exports = {
     "import/prefer-default-export": "off",
     "dot-notation": "off",
     "import/no-extraneous-dependencies": "off",
-    "object-curly-newline": ["warn", {
-      "ObjectPattern": { "multiline": true, "minProperties": 4 },
-      "ImportDeclaration": { "multiline": true, "minProperties": 4 }
-    }],
-    "function-paren-newline": ["warn", { "minItems": 3 }],
-    "operator-linebreak": ["error", "after"],
+    "operator-linebreak": [
+      "error",
+      "after",
+      {
+        "overrides": {
+          "?": "before",
+          ":": "before",
+          "<": "before",
+          ">": "before",
+        },
+      },
+    ],
+    "no-nested-ternary": "off",
     "comma-dangle": ["error", {
       "arrays": "always-multiline",
       "objects": "always-multiline",
@@ -91,7 +98,14 @@ module.exports = {
       "error",
       "single",
       { "allowTemplateLiterals": true }
-    ]
+    ],
+    "max-len": [
+      "error", {
+        "code": 80,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true,
+      },
+    ],
   },
   "settings": {
     "import/resolver": {
