@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
   },
   signUpButtonText: {
     fontFamily: 'Poppins_400Regular',
-    fontisze: 12,
+    fontSize: 12,
     color: '#8257E5',
     lineHeight: 24,
   },
@@ -53,12 +53,12 @@ export const styles = StyleSheet.create({
   rememberMeInputUnchecked: {
     borderWidth: 1,
     borderColor: '#E6E6F0',
-    
+
     backgroundColor: '#ffffff',
   },
   rememberMeLabel: {
     fontFamily: 'Poppins_400Regular',
-    fontisze: 12,
+    fontSize: 12,
     color: '#9C98A6',
     lineHeight: 24,
 
@@ -66,7 +66,7 @@ export const styles = StyleSheet.create({
   },
   forgottenPasswordButtonText: {
     fontFamily: 'Poppins_400Regular',
-    fontisze: 12,
+    fontSize: 12,
     color: '#9C98A6',
     lineHeight: 24,
   },
