@@ -5,7 +5,7 @@ import api from '@services/api';
 import { OuterLabelInput } from '@components/OuterLabelInput';
 import { PageHeader } from '@components/PageHeader';
 import { PageSubtitle } from '@components/PageSubtitle';
-import Select from '@components/Select';
+import { Select } from '@components/Select';
 import TeacherItem, { TeacherItemProps } from '@components/TeacherItem';
 
 import './styles.css';

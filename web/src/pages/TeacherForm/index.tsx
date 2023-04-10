@@ -1,16 +1,15 @@
 import { useState, FormEvent } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import warningIcon from '@assets/images/icons/warning.svg';
-
 import api from '@services/api';
 
-import { ConfirmationButton } from '@components/ConfirmationButton';
+import { FormContainer } from '@components/FormContainer';
+import { FormFooter } from '@components/FormFooter';
 import { OuterLabelInput } from '@components/OuterLabelInput';
 import { PageHeader } from '@components/PageHeader';
 import { PageSubtitle } from '@components/PageSubtitle';
-import Select from '@components/Select';
-import Textarea from '@components/Textarea';
+import { Select } from '@components/Select';
+import { Textarea } from '@components/Textarea';
 
 import './styles.css';
 
@@ -33,7 +32,9 @@ export function TeacherForm() {
   }
 
   function setScheduleItemValue(
-    position: number, field: string, value: string
+    position: number,
+    field: string,
+    value: string
   ) {
     const updatedScheduleItems = scheduleItems.map((scheduleItem, index) => {
       if (index === position) {
@@ -77,127 +78,112 @@ export function TeacherForm() {
         <p className="page-description">O primeiro passo é preencher este formulário de inscrição</p>
       </PageHeader>
 
-      <main>
-        <form onSubmit={handleCreateClass}>
-          <fieldset>
-            <legend>Seus dados</legend>
+      <FormContainer handleSubmit={handleCreateClass}>
+        <fieldset>
+          <legend>Seus dados</legend>
 
-            <OuterLabelInput
-              name="name"
-              label="Nome completo"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <OuterLabelInput
-              name="avatar"
-              label="Avatar"
-              value={avatar}
-              onChange={(e) => setAvatar(e.target.value)}
-            />
-            <OuterLabelInput
-              name="whatsapp"
-              label="WhatsApp"
-              value={whatsapp}
-              onChange={(e) => setWhatsapp(e.target.value)}
-            />
-            <Textarea
-              name="bio"
-              label="Biografia"
-              value={bio}
-              onChange={(e) => setBio(e.target.value)}
-            />
-          </fieldset>
+          <OuterLabelInput
+            name="name"
+            label="Nome completo"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <OuterLabelInput
+            name="avatar"
+            label="Avatar"
+            value={avatar}
+            onChange={(e) => setAvatar(e.target.value)}
+          />
+          <OuterLabelInput
+            name="whatsapp"
+            label="WhatsApp"
+            value={whatsapp}
+            onChange={(e) => setWhatsapp(e.target.value)}
+          />
+          <Textarea
+            name="bio"
+            label="Biografia"
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
+          />
+        </fieldset>
 
-          <fieldset>
-            <legend>Sobre a aula</legend>
+        <fieldset>
+          <legend>Sobre a aula</legend>
 
-            <Select
-              name="subject"
-              label="Matéria"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
-              options={[
-                { value: 'Matemática', label: 'Matemática' },
-                { value: 'Português', label: 'Língua Portuguesa' },
-                { value: 'Biologia', label: 'Biologia' },
-                { value: 'Química', label: 'Química' },
-                { value: 'Física', label: 'Física' },
-                { value: 'Geografia', label: 'Geografia' },
-                { value: 'História', label: 'História' },
-                { value: 'Artes', label: 'Artes' },
-                { value: 'Educação Física', label: 'Educação Física' },
-              ]}
-            />
-            <OuterLabelInput
-              name="cost"
-              label="Custo da hora por aula"
-              value={cost}
-              onChange={(e) => setCost(e.target.value)}
-            />
-          </fieldset>
+          <Select
+            name="subject"
+            label="Matéria"
+            value={subject}
+            onChange={(e) => setSubject(e.target.value)}
+            options={[
+              { value: 'Matemática', label: 'Matemática' },
+              { value: 'Português', label: 'Língua Portuguesa' },
+              { value: 'Biologia', label: 'Biologia' },
+              { value: 'Química', label: 'Química' },
+              { value: 'Física', label: 'Física' },
+              { value: 'Geografia', label: 'Geografia' },
+              { value: 'História', label: 'História' },
+              { value: 'Artes', label: 'Artes' },
+              { value: 'Educação Física', label: 'Educação Física' },
+            ]}
+          />
+          <OuterLabelInput
+            name="cost"
+            label="Custo da hora por aula"
+            value={cost}
+            onChange={(e) => setCost(e.target.value)}
+          />
+        </fieldset>
 
-          <fieldset>
-            <legend>
-              Horários disponíveis
-              <button type="button" onClick={addNewScheduleItem}>
-                + Novo horário
-              </button>
-            </legend>
+        <fieldset>
+          <legend>
+            Horários disponíveis
+            <button type="button" onClick={addNewScheduleItem}>
+              + Novo horário
+            </button>
+          </legend>
 
-            { scheduleItems.map((scheduleItem, index) => (
-              <div key={scheduleItem.week_day} className="schedule-item">
-                <Select
-                  name="week_day"
-                  label="Dia da semana"
-                  value={scheduleItem.week_day}
-                  onChange={(e) => setScheduleItemValue(
-                    index, 'week_day', e.target.value
-                  )}
-                  options={[
-                    { value: '0', label: 'Domingo' },
-                    { value: '1', label: 'Segunda-feira' },
-                    { value: '2', label: 'Terça-feira' },
-                    { value: '3', label: 'Quarta-feira' },
-                    { value: '4', label: 'Quinta-feira' },
-                    { value: '5', label: 'Sexta-feira' },
-                    { value: '6', label: 'Sábado' },
-                  ]}
-                />
-                <OuterLabelInput
-                  name="from"
-                  label="Das"
-                  type="time"
-                  value={scheduleItem.from}
-                  onChange={(e) => setScheduleItemValue(
-                    index, 'from', e.target.value
-                  )}
-                />
-                <OuterLabelInput
-                  name="to"
-                  label="Até"
-                  type="time"
-                  value={scheduleItem.to}
-                  onChange={(e) => setScheduleItemValue(
-                    index, 'to', e.target.value
-                  )}
-                />
-              </div>
-            ))}
-          </fieldset>
+          { scheduleItems.map((scheduleItem, index) => (
+            <div
+              key={scheduleItem.week_day}
+              className="fields-section schedule-item"
+            >
+              <Select
+                name="week_day"
+                label="Dia da semana"
+                value={scheduleItem.week_day}
+                onChange={(e) => setScheduleItemValue(index, 'week_day', e.target.value)}
+                options={[
+                  { value: '0', label: 'Domingo' },
+                  { value: '1', label: 'Segunda-feira' },
+                  { value: '2', label: 'Terça-feira' },
+                  { value: '3', label: 'Quarta-feira' },
+                  { value: '4', label: 'Quinta-feira' },
+                  { value: '5', label: 'Sexta-feira' },
+                  { value: '6', label: 'Sábado' },
+                ]}
+              />
+              <OuterLabelInput
+                name="from"
+                label="Das"
+                type="time"
+                value={scheduleItem.from}
+                onChange={(e) => setScheduleItemValue(index, 'from', e.target.value)}
+              />
+              <OuterLabelInput
+                name="to"
+                label="Até"
+                type="time"
+                value={scheduleItem.to}
+                onChange={(e) => setScheduleItemValue(index, 'to', e.target.value)}
+              />
+            </div>
+          ))}
+        </fieldset>
 
-          <footer>
-            <p>
-              <img src={warningIcon} alt="Aviso importante" />
-              Importante: <br />
-              Preencha todos os dados
-            </p>
-            <ConfirmationButton
-              type="submit"
-              title="Salvar cadastro"
-            />
-          </footer>
-        </form>
-      </main>
+        <FormFooter />
+      </FormContainer>
     </div>
   );
 }
