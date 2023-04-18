@@ -44,7 +44,7 @@ export default class ClassesControler {
 
     if (teacherClass !== undefined) {
       teacherClassSchedules = await db('class_schedule as cs')
-        .select('cs.week_day', 'cs.from', 'cs.to')
+        .select('cs.id', 'cs.week_day', 'cs.from', 'cs.to')
         .where('cs.class_id', '=', teacherClass.class_id);
     }
 
