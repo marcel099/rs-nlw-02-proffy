@@ -39,9 +39,11 @@ interface UpdateProfileRequestBody {
   whatsapp: string;
   bio: string;
 
-  cost: number;
-  subject_id: number;
-  schedules: ClassScheduleRequestBodyDTO[];
+  class: {
+    cost: number;
+    subject_id: number;
+  };
+  class_schedules: ClassScheduleRequestBodyDTO[];
 }
 
 export class UsersController {
@@ -100,9 +102,8 @@ export class UsersController {
       whatsapp,
       bio,
 
-      cost,
-      subject_id,
-      schedules,
+      class: { cost, subject_id },
+      class_schedules,
     } = request.body as UpdateProfileRequestBody;
 
     const trx = await db.transaction();
@@ -153,7 +154,7 @@ export class UsersController {
       }
 
       const formattedClassSchedules: ClassScheduleFormattedDTO[] =
-        schedules.map((schedule) => ({
+        class_schedules.map((schedule) => ({
           id: schedule.id,
           class_id,
           week_day: schedule.week_day,
