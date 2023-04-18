@@ -51,14 +51,16 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
           email, first_name, last_name, avatar, bio, whatsapp,
         } = response.data;
 
-        setUser({
+        const userData = {
           email,
           firstName: first_name,
           lastName: last_name,
           avatar,
           bio,
           whatsapp,
-        });
+        };
+
+        setUser(userData);
       }
 
       if (response.status === 401) {

@@ -1,9 +1,12 @@
-import { useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 
 import myProfileDesktopBackgroundImg from '@assets/images/my-profile-desktop-background.svg';
 import myProfileMobileBackgroundImg from '@assets/images/my-profile-mobile-background.svg';
 
 import { useAuth } from '@contexts/AuthContext';
+import { ApiClassSchedule, ClassSchedule } from '@dtos/ClassSchedule';
+import api from '@services/api';
+import { parseFetchedToParsedClassSchedule } from '@utils/mappers';
 
 import { FormContainer } from '@components/FormContainer';
 import { FormFooter } from '@components/FormFooter';
@@ -18,17 +21,27 @@ import './styles.css';
 export function MyProfile() {
   const { user } = useAuth();
 
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [whatsapp, setWhatsapp] = useState('');
-  const [bio, setBio] = useState('');
+  const [firstName, setFirstName] = useState(user?.firstName ?? '');
+  const [lastName, setLastName] = useState(user?.lastName ?? '');
+  const [email, setEmail] = useState(user?.email ?? '');
+  const [whatsapp, setWhatsapp] = useState(user?.whatsapp ?? '');
+  const [bio, setBio] = useState(user?.bio ?? '');
 
-  const [subject, setSubject] = useState('');
+  const [subjectId, setSubjectId] = useState('');
   const [cost, setCost] = useState('');
 
-  const initialSchedule = { week_day: '', from: '', to: '' };
-  const [scheduleItems, setScheduleItems] = useState([initialSchedule]);
+  const [classSchedules, setClassSchedules] = useState<ClassSchedule[]>([]);
+
+  const initialNewClassScheduleIndex = -1;
+  const [newClassScheduleIndex, setNewClassScheduleIndex] = useState(
+    initialNewClassScheduleIndex
+  );
+  const initialClassSchedule = {
+    id: initialNewClassScheduleIndex,
+    week_day: -1,
+    from: '',
+    to: '',
+  };
 
   let myProfileDesktopImg: string;
 
@@ -38,33 +51,98 @@ export function MyProfile() {
     myProfileDesktopImg = myProfileMobileBackgroundImg;
   }
 
-  function addNewScheduleItem() {
-    setScheduleItems([...scheduleItems, initialSchedule]);
+  function addNewClassSchedule() {
+    initialClassSchedule.id = newClassScheduleIndex;
+    setClassSchedules([...classSchedules, initialClassSchedule]);
+    setNewClassScheduleIndex(newClassScheduleIndex - 1);
   }
 
-  function setScheduleItemValue(
+  function removeClassSchedule(id: number | null) {
+    if (id === null) {
+      return;
+    }
+
+    const newClassSchedules = [...classSchedules];
+    const classScheduleIndex = newClassSchedules.findIndex(
+      (classSchedule) => classSchedule.id === id
+    );
+
+    newClassSchedules.splice(classScheduleIndex, 1);
+
+    if (newClassSchedules.length === 0) {
+      newClassSchedules.push(initialClassSchedule);
+    }
+
+    setClassSchedules(newClassSchedules);
+  }
+
+  function setClassScheduleValue(
     position: number,
     field: string,
     value: string
   ) {
-    const updatedScheduleItems = scheduleItems.map((scheduleItem, index) => {
+    const updatedClassSchedules = classSchedules.map((classSchedule, index) => {
       if (index === position) {
-        return { ...scheduleItem, [field]: value };
+        return { ...classSchedule, [field]: value };
       }
 
-      return scheduleItem;
+      return classSchedule;
     });
 
-    setScheduleItems(updatedScheduleItems);
+    setClassSchedules(updatedClassSchedules);
   }
 
   function handleUserAvatarChange() {
     console.log('');
   }
 
-  function handleEditUser() {
-    console.log('');
+  function handleEditUser(e: FormEvent) {
+    e.preventDefault();
+
+    const parsedClassSchedules = classSchedules.map((classSchedule) => {
+      const parsedClassSchedule = { ...classSchedule };
+      if (parsedClassSchedule.id !== null && parsedClassSchedule.id < 0) {
+        parsedClassSchedule.id = null;
+      }
+
+      return parsedClassSchedule;
+    });
+
+    const data = {
+      first_name: firstName,
+      last_name: lastName,
+      email,
+      whatsapp,
+      bio,
+
+      class: {
+        cost,
+        subject_id: subjectId,
+      },
+
+      class_schedules: parsedClassSchedules,
+    };
+
+    api.put('/users/profile', data);
   }
+
+  useEffect(() => {
+    api.get('/classes/me').then((response) => {
+      const fetchedClassSchedules: ApiClassSchedule[] =
+        response.data.class_schedules;
+
+      const parsedClassSchedules = fetchedClassSchedules
+        .map(parseFetchedToParsedClassSchedule);
+
+      const newClassSchedules = parsedClassSchedules.length > 0
+        ? parsedClassSchedules
+        : [initialClassSchedule];
+
+      setClassSchedules(newClassSchedules);
+      setSubjectId(response.data.class.subject.id);
+      setCost(response.data.class.cost);
+    });
+  }, []);
 
   return (
     <div id="page-my-profile" className="page-container">
@@ -142,9 +220,9 @@ export function MyProfile() {
             <Select
               name="subject"
               label="Matéria"
-              value={subject}
+              value={subjectId}
               placeholder="Selecione qual você quer ensinar"
-              onChange={(e) => setSubject(e.target.value)}
+              onChange={(e) => setSubjectId(e.target.value)}
               options={[
                 { value: 'Matemática', label: 'Matemática' },
                 { value: 'Português', label: 'Língua Portuguesa' },
@@ -169,14 +247,17 @@ export function MyProfile() {
         <fieldset>
           <legend>
             Horários disponíveis
-            <button type="button" onClick={addNewScheduleItem}>
+            <button
+              type="button"
+              onClick={addNewClassSchedule}
+            >
               + Novo horário
             </button>
           </legend>
 
-          { scheduleItems.map((scheduleItem, index) => (
+          { classSchedules.map((classSchedule, index) => (
             <div
-              key={scheduleItem.week_day}
+              key={classSchedule.id}
               className="schedule-item"
             >
               <div
@@ -185,9 +266,13 @@ export function MyProfile() {
                 <Select
                   name="week_day"
                   label="Dia da semana"
-                  value={scheduleItem.week_day}
+                  value={
+                    classSchedule.week_day !== -1
+                      ? classSchedule.week_day
+                      : ''
+                  }
                   placeholder="Selecione o dia"
-                  onChange={(e) => setScheduleItemValue(index, 'week_day', e.target.value)}
+                  onChange={(e) => setClassScheduleValue(index, 'week_day', e.target.value)}
                   options={[
                     { value: '0', label: 'Domingo' },
                     { value: '1', label: 'Segunda-feira' },
@@ -202,20 +287,21 @@ export function MyProfile() {
                   name="from"
                   label="Das"
                   type="time"
-                  value={scheduleItem.from}
-                  onChange={(e) => setScheduleItemValue(index, 'from', e.target.value)}
+                  value={classSchedule.from}
+                  onChange={(e) => setClassScheduleValue(index, 'from', e.target.value)}
                 />
                 <OuterLabelInput
                   name="to"
                   label="Até"
                   type="time"
-                  value={scheduleItem.to}
-                  onChange={(e) => setScheduleItemValue(index, 'to', e.target.value)}
+                  value={classSchedule.to}
+                  onChange={(e) => setClassScheduleValue(index, 'to', e.target.value)}
                 />
               </div>
               <button
                 type="button"
                 className="delete-class-schedule-button"
+                onClick={() => removeClassSchedule(classSchedule.id)}
               >
                 Excluir horário
               </button>

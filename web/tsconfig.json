@@ -22,7 +22,9 @@
       "@assets/*": ["src/assets/*"],
       "@configs/*": ["src/shared/configs/*"],
       "@contexts/*": ["src/shared/contexts/*"],
+      "@dtos/*": ["src/shared/dtos/*"],
       "@routes/*": ["src/shared/routes/*"],
+      "@utils/*": ["src/shared/utils/*"],
       "@services/*": ["src/services/*"]
     },
   },

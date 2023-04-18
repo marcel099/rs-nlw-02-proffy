@@ -70,8 +70,10 @@ module.exports = {
           [
             "/^@configs/",
             "/^@contexts/",
+            "/^@dtos/",
             "/^@routes/",
-            "/^@services/"
+            "/^@services/",
+            "/^@utils/"
           ],
           [
             "/^@pages/",
