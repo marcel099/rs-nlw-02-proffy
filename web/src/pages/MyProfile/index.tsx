@@ -5,6 +5,7 @@ import myProfileMobileBackgroundImg from '@assets/images/my-profile-mobile-backg
 
 import { useAuth } from '@contexts/AuthContext';
 import { ApiClassSchedule, ClassSchedule } from '@dtos/ClassSchedule';
+import { Subject } from '@dtos/Subject';
 import api from '@services/api';
 import { parseFetchedToParsedClassSchedule } from '@utils/mappers';
 
@@ -27,6 +28,7 @@ export function MyProfile() {
   const [whatsapp, setWhatsapp] = useState(user?.whatsapp ?? '');
   const [bio, setBio] = useState(user?.bio ?? '');
 
+  const [subjects, setSubjects] = useState<Subject[]>([]);
   const [subjectId, setSubjectId] = useState('');
   const [cost, setCost] = useState('');
 
@@ -127,6 +129,12 @@ export function MyProfile() {
   }
 
   useEffect(() => {
+    api.get('/subjects').then((response) => {
+      setSubjects(response.data);
+    });
+  });
+
+  useEffect(() => {
     api.get('/classes/me').then((response) => {
       const fetchedClassSchedules: ApiClassSchedule[] =
         response.data.class_schedules;
@@ -223,17 +231,10 @@ export function MyProfile() {
               value={subjectId}
               placeholder="Selecione qual você quer ensinar"
               onChange={(e) => setSubjectId(e.target.value)}
-              options={[
-                { value: 'Matemática', label: 'Matemática' },
-                { value: 'Português', label: 'Língua Portuguesa' },
-                { value: 'Biologia', label: 'Biologia' },
-                { value: 'Química', label: 'Química' },
-                { value: 'Física', label: 'Física' },
-                { value: 'Geografia', label: 'Geografia' },
-                { value: 'História', label: 'História' },
-                { value: 'Artes', label: 'Artes' },
-                { value: 'Educação Física', label: 'Educação Física' },
-              ]}
+              options={subjects.map((subject) => ({
+                value: String(subject.id),
+                label: subject.name,
+              }))}
             />
             <OuterLabelInput
               name="cost"
