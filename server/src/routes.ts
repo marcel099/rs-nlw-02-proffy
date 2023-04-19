@@ -6,6 +6,7 @@ import { uploadConfig } from '@config/upload';
 import { AuthenticationController } from '@controllers/AuthenticationController';
 import ClassesControler from '@controllers/ClassesController';
 import ConnectionsControler from '@controllers/ConnectionsController';
+import { SubjectsController } from '@controllers/SubjectsController';
 import { UsersController } from '@controllers/UsersController';
 import { ensureAuthenticated } from '@middlewares/ensureAuthenticated';
 
@@ -14,6 +15,7 @@ const routes = express.Router();
 const uploadAvatar = multer(uploadConfig);
 
 const classesControler = new ClassesControler();
+const subjectsController = new SubjectsController();
 const connectionsControler = new ConnectionsControler();
 const usersControler = new UsersController();
 const authenticationController = new AuthenticationController();
@@ -28,6 +30,8 @@ routes.get(
   ensureAuthenticated,
   classesControler.userClassSchedules
 );
+
+routes.get('/subjects', subjectsController.list);
 
 routes.get('/connections', connectionsControler.index);
 routes.post('/connections', connectionsControler.create);
