@@ -17,8 +17,8 @@
 }
 
 .user-avatar.size-lg, .no-user-avatar.size-lg {
-  height: 18rem;
-  width: 18rem;
+  height: 14rem;
+  width: 14rem;
 }
 
 .no-user-avatar {
@@ -50,4 +50,11 @@
 
 .user-avatar-label > input[type="file"] {
   display: none;
+}
+
+@media (min-width: 700px) {
+  .user-avatar.size-lg, .no-user-avatar.size-lg {
+    height: 18rem;
+    width: 18rem;
+  }
 }

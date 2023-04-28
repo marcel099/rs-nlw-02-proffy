@@ -25,11 +25,6 @@
     max-width: 740px;
     margin: 0 auto;
     padding-bottom: 6.4rem;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
   }
 
   .page-header .header-content.small {

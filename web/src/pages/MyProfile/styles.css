@@ -1,17 +1,25 @@
+#page-my-profile .page-header .header-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
 #page-my-profile .user-name {
   color: var(--color-title-in-primary);
-  font: 700 3.6rem Archivo, sans-serif;
+  font: 700 2.4rem Archivo, sans-serif;
   line-height: 2.5rem;
 
-  margin-top: 3.2rem;
+  margin-top: 2.4rem;
 }
 
 #page-my-profile .user-subject-name {
   color: var(--color-text-in-primary);
-  font: 400 2.4rem Poppins, sans-serif;
+  font: 400 1.6rem Poppins, sans-serif;
   line-height: 2.6rem;
 
-  margin-top: 1.6rem;
+  margin-top: 0.4rem;
+  margin-bottom: 4rem;
 }
 
 #page-my-profile .schedule-item {
@@ -41,6 +49,19 @@
 }
 
 @media (min-width: 700px) {
+  #page-my-profile .user-name {
+    font-size: 3.6rem;
+
+    margin-top: 3.2rem;
+  }
+
+  #page-my-profile .user-subject-name {
+    font-size: 2.4rem;
+
+    margin-top: 1.6rem;
+    margin-bottom: initial;
+  }
+
   #page-my-profile fieldset .name-section {
     display: grid;
     grid-template-columns: 1fr 1fr;
