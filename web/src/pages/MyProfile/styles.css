@@ -1,6 +1,6 @@
 #page-my-profile .user-name {
   color: var(--color-title-in-primary);
-  font: 700 3.6rem Archivo;
+  font: 700 3.6rem Archivo, sans-serif;
   line-height: 2.5rem;
 
   margin-top: 3.2rem;
