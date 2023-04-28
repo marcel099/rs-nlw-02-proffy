@@ -22,6 +22,8 @@ import './styles.css';
 export function MyProfile() {
   const { user } = useAuth();
 
+  const [userAvatarFile, setUserAvatarFile] = useState<File | null>(null);
+
   const [firstName, setFirstName] = useState(user?.firstName ?? '');
   const [lastName, setLastName] = useState(user?.lastName ?? '');
   const [email, setEmail] = useState(user?.email ?? '');
@@ -94,8 +96,8 @@ export function MyProfile() {
     setClassSchedules(updatedClassSchedules);
   }
 
-  function handleUserAvatarChange() {
-    console.log('');
+  function handleUserAvatarChange(file: File | null) {
+    setUserAvatarFile(file);
   }
 
   function handleEditUser(e: FormEvent) {
@@ -126,6 +128,17 @@ export function MyProfile() {
     };
 
     api.put('/users/profile', data);
+
+    if (userAvatarFile !== null) {
+      const formData = new FormData();
+      formData.append('avatar', userAvatarFile);
+
+      api.patch('/users/avatar', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+    }
   }
 
   useEffect(() => {
