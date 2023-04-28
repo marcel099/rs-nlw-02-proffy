@@ -29,7 +29,7 @@ export function MyProfile() {
   const [bio, setBio] = useState(user?.bio ?? '');
 
   const [subjects, setSubjects] = useState<Subject[]>([]);
-  const [subjectId, setSubjectId] = useState('');
+  const [subjectId, setSubjectId] = useState(-1);
   const [cost, setCost] = useState('');
 
   const [classSchedules, setClassSchedules] = useState<ClassSchedule[]>([]);
@@ -176,8 +176,7 @@ export function MyProfile() {
           {`${user?.firstName} ${user?.lastName}`}
         </strong>
         <span className="user-subject-name">
-          Geografia
-          {/* {user?.subject_name} */}
+          {subjects.find((subject) => subjectId === subject.id)?.name ?? 'Matéria não definida'}
         </span>
       </PageHeader>
       <FormContainer handleSubmit={handleEditUser}>
@@ -230,7 +229,7 @@ export function MyProfile() {
               label="Matéria"
               value={subjectId}
               placeholder="Selecione qual você quer ensinar"
-              onChange={(e) => setSubjectId(e.target.value)}
+              onChange={(e) => setSubjectId(Number(e.target.value))}
               options={subjects.map((subject) => ({
                 value: String(subject.id),
                 label: subject.name,
