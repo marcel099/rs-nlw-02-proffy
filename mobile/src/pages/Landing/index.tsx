@@ -1,17 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { Alert, View, Image, Text, StatusBar } from 'react-native';
 import { Feather } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
+import {
+  Alert, View, Image, Text, StatusBar,
+} from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 
-import api from '../../services/api';
+import { UserAvatar } from '../../components/UserAvatar';
 import { useAuth } from '../../contexts/AuthContext';
+import { AppStackScreenProp } from '../../routes/app.stack.routes';
+import api from '../../services/api';
 
-import landingImage from '../../assets/images/landing.png';
-import studyIcon from '../../assets/images/icons/study.png';
 import giveClassesIcon from '../../assets/images/icons/give-classes.png';
 import heartIcon from '../../assets/images/icons/heart.png';
-import { AppStackScreenProp } from '../../routes/app.stack.routes';
+import studyIcon from '../../assets/images/icons/study.png';
+import landingImage from '../../assets/images/landing.png';
 
 import styles from './styles';
 
@@ -20,14 +23,13 @@ function Landing() {
     useNavigation<AppStackScreenProp<'Landing'>['navigation']>();
   const { signOut, user } = useAuth();
 
-  const [totalConnections, setTotalConnections ] = useState(0);
+  const [totalConnections, setTotalConnections] = useState(0);
 
   async function handleSignOut() {
     try {
       signOut();
     } catch (error) {
       Alert.alert('Erro ao deslogar');
-      console.log(error)
     }
   }
 
@@ -44,14 +46,14 @@ function Landing() {
       try {
         const response = await api.get('/connections');
 
-        const { total } = response.data
-        
+        const { total } = response.data;
+
         setTotalConnections(total);
       } catch (error) {
-        console.log(error);
+        // console.log(error);
       }
     }
-    
+
     fetchNumberOfConnections();
   }, []);
 
@@ -68,14 +70,10 @@ function Landing() {
         <View style={styles.header}>
           <View style={styles.userActions}>
             <View style={styles.userInfo}>
-              { user?.avatar ? (
-                <Image
-                  source={{ uri:user.avatar }}
-                  style={styles.userAvatarImage}
-                />
-              ) : (
-                <View style={styles.noUserAvatar} />
-              )}
+              <UserAvatar
+                avatar={user?.avatar ?? null}
+                size="sm"
+              />
               <Text style={styles.userName}>
                 {`${user?.firstName} ${user?.lastName}`}
               </Text>

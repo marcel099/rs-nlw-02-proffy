@@ -22,18 +22,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  userAvatarImage: {
-    height: 40,
-    width: 40,
-    borderRadius: 20,
-  },
-  noUserAvatar: {
-    height: 40,
-    width: 40,
-    borderRadius: 20,
-
-    backgroundColor: '#C1BCCC'
-  },
   userName: {
     color: '#D4C2FF',
     fontFamily: 'Poppins_500Medium',
@@ -50,7 +38,7 @@ const styles = StyleSheet.create({
     height: 40,
     width: 40,
     borderRadius: 8,
-  
+
     backgroundColor: '#774DD6',
   },
 
@@ -114,6 +102,6 @@ const styles = StyleSheet.create({
     marginTop: 33,
     paddingHorizontal: 40,
   },
-})
+});
 
 export default styles;
