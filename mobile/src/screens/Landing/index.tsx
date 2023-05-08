@@ -2,23 +2,24 @@ import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
 import {
-  Alert, View, Image, Text, StatusBar,
+  Alert, View, Image, Text, TouchableOpacity, StatusBar,
 } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 
-import { UserAvatar } from '../../components/UserAvatar';
-import { useAuth } from '../../contexts/AuthContext';
-import { AppStackScreenProp } from '../../routes/app.stack.routes';
-import api from '../../services/api';
+import giveClassesIcon from '@assets/images/icons/give-classes.png';
+import heartIcon from '@assets/images/icons/heart.png';
+import studyIcon from '@assets/images/icons/study.png';
+import landingImage from '@assets/images/landing.png';
 
-import giveClassesIcon from '../../assets/images/icons/give-classes.png';
-import heartIcon from '../../assets/images/icons/heart.png';
-import studyIcon from '../../assets/images/icons/study.png';
-import landingImage from '../../assets/images/landing.png';
+import { useAuth } from '@contexts/AuthContext';
+import { AppStackScreenProp } from '@routes/app.stack.routes';
+import api from '@services/api';
+
+import { UserAvatar } from '@components/UserAvatar';
 
 import styles from './styles';
 
-function Landing() {
+export function Landing() {
   const { navigate } =
     useNavigation<AppStackScreenProp<'Landing'>['navigation']>();
   const { signOut, user } = useAuth();
@@ -31,6 +32,10 @@ function Landing() {
     } catch (error) {
       Alert.alert('Erro ao deslogar');
     }
+  }
+
+  function handleNavigateToMyProfile() {
+    navigate('MyProfile');
   }
 
   function handleNavigateToGiveClasses() {
@@ -74,9 +79,13 @@ function Landing() {
                 avatar={user?.avatar ?? null}
                 size="sm"
               />
-              <Text style={styles.userName}>
-                {`${user?.firstName} ${user?.lastName}`}
-              </Text>
+              <TouchableOpacity
+                onPress={handleNavigateToMyProfile}
+              >
+                <Text style={styles.userName}>
+                  {`${user?.firstName} ${user?.lastName}`}
+                </Text>
+              </TouchableOpacity>
             </View>
             <RectButton
               onPress={handleSignOut}
@@ -119,5 +128,3 @@ function Landing() {
     </>
   );
 }
-
-export default Landing;

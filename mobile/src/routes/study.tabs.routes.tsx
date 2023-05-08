@@ -1,12 +1,12 @@
-import React from 'react';
+import { Ionicons } from '@expo/vector-icons';
 import {
   BottomTabScreenProps,
-  createBottomTabNavigator
+  createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
-import { Ionicons } from '@expo/vector-icons';
+import React from 'react';
 
-import TeacherList from '../pages/TeacherList';
-import Favorites from '../pages/Favorites';
+import Favorites from '@screens/Favorites';
+import TeacherList from '@screens/TeacherList';
 
 export type StudyTabsParamList = {
   TeacherList: undefined;
@@ -55,11 +55,11 @@ export function StudyTabsRoutes() {
         component={TeacherList}
         options={{
           tabBarLabel: 'Proffys',
-          tabBarIcon: ({ color, size, focused }) => {    // Envia algumas propriedades
-            return (
+          tabBarIcon: ({ color, size, focused }) => // Envia algumas propriedades
+            (
               <Ionicons name="ios-easel" size={size} color={focused ? '#8257e5' : color} />
-            )
-          }
+            ),
+
         }}
       />
       <Screen
@@ -67,13 +67,13 @@ export function StudyTabsRoutes() {
         component={Favorites}
         options={{
           tabBarLabel: 'Proffys',
-          tabBarIcon: ({ color, size, focused }) => {    // Envia algumas propriedades
-            return (
+          tabBarIcon: ({ color, size, focused }) => // Envia algumas propriedades
+            (
               <Ionicons name="ios-heart" size={size} color={focused ? '#8257e5' : color} />
-            )
-          }
+            ),
+
         }}
       />
     </Navigator>
-  )
+  );
 }

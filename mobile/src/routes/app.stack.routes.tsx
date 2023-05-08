@@ -1,16 +1,18 @@
+import {
+  createStackNavigator, StackScreenProps,
+} from '@react-navigation/stack';
 import React from 'react';
 
-import {
-  createStackNavigator, StackScreenProps
-} from "@react-navigation/stack";
+import { Confirmation } from '@screens/Confirmation';
+import { GiveClasses } from '@screens/GiveClasses';
+import { Landing } from '@screens/Landing';
+import { MyProfile } from '@screens/MyProfile';
 
-import Landing from '../pages/Landing';
-import GiveClasses from '../pages/GiveClasses';
 import { StudyTabsRoutes } from './study.tabs.routes';
-import { Confirmation } from '../pages/Confirmation';
 
 export type AppStackParamList = {
   Landing: undefined;
+  MyProfile: undefined;
   GiveClasses: undefined;
   Study: undefined;
   Confirmation: {
@@ -34,9 +36,10 @@ export function AppRoutes() {
       }}
     >
       <Screen name="Landing" component={Landing} />
+      <Screen name="MyProfile" component={MyProfile} />
       <Screen name="GiveClasses" component={GiveClasses} />
       <Screen name="Study" component={StudyTabsRoutes} />
       <Screen name="Confirmation" component={Confirmation} />
     </Navigator>
-  )
+  );
 }

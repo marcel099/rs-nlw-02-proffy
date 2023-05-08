@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     lineHeight: 22,
 
-    marginLeft: 16,
+    marginHorizontal: 16,
   },
 
   signOutButton: {

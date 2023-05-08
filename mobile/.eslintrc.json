@@ -46,6 +46,7 @@
       "exports": "always-multiline",
       "functions": "never"
     }],
+    "react/react-in-jsx-scope": "off",
     "react/require-default-props": "off",
     "react/jsx-filename-extension": ["error", { "extensions": [".tsx"] }],
     "react/jsx-props-no-spreading": "off",
