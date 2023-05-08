@@ -7,6 +7,27 @@ module.exports = function(api) {
     plugins: [
       'inline-dotenv',
       'react-native-reanimated/plugin',
+      [
+        'module-resolver',
+        {
+          root: ['./src'],
+          extensions: [
+            '.ts',
+            '.tsx',
+            '.js',
+            '.json'
+          ],
+          alias: {
+            '@components': './src/components',
+            '@screens': './src/screens',
+            '@configs': './src/configs',
+            '@contexts': './src/contexts',
+            '@routes': './src/routes',
+            '@services': './src/services',
+            '@assets': './src/assets',
+          }
+        }
+      ]
     ]
   };
 };
