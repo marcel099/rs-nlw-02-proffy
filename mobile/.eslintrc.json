@@ -65,6 +65,7 @@
           [
             "/^@configs/",
             "/^@contexts/",
+            "/^@dtos/",
             "/^@routes/",
             "/^@services/"
           ],
