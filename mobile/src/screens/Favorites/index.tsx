@@ -1,34 +1,44 @@
-import React, { useState, useEffect } from 'react';
-import { View, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
+import React, { useState } from 'react';
+import {
+  View, ScrollView, StatusBar, Text,
+} from 'react-native';
 
-import PageHeader from '../../components/PageHeader';
-import TeacherItem, { TeacherItemProps } from '../../components/TeacherItem';
+import { ScreenHeader } from '@components/ScreenHeader';
+import { ScreenSubtitle } from '@components/ScreenSubtitle';
+import TeacherItem, { TeacherItemProps } from '@components/TeacherItem';
 
-import styles from './styles';
+import { styles } from './styles';
 
-function Favorites() {
-  const [ favorites, setFavorites ] = useState([]);
+export function Favorites() {
+  const [favorites, setFavorites] = useState([]);
 
   function loadFavorites() {
-    AsyncStorage.getItem('favorites').then(response => {
+    AsyncStorage.getItem('favorites').then((response) => {
       if (response) {
         const favoritedTeachers = JSON.parse(response);
 
-        setFavorites(favoritedTeachers)
+        setFavorites(favoritedTeachers);
       }
-    })
+    });
   }
 
-  useFocusEffect(() => {      // Reexecuta a cada vez que entrar em foco
+  useFocusEffect(() => { // Reexecuta a cada vez que entrar em foco
     loadFavorites();
-  })
-
+  });
 
   return (
     <View style={styles.container}>
-      <PageHeader title="Meus proffys favoritos" />
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor="#774DD6"
+        translucent
+      />
+      <ScreenHeader title="Estudar" />
+      <View style={styles.subheader}>
+        <ScreenSubtitle subtitle={'Meus proffys\nfavoritos'} />
+      </View>
 
       <ScrollView
         style={styles.teacherList}
@@ -37,18 +47,14 @@ function Favorites() {
           paddingBottom: 24,
         }}
       >
-        {favorites.map((teacher: TeacherItemProps) => {
-          return (
-            <TeacherItem 
-              key={teacher.id}
-              {...teacher}
-              favorited
-            />
-          )
-        })}
+        {favorites.map((teacher: TeacherItemProps) => (
+          <TeacherItem
+            key={teacher.id}
+            {...teacher}
+            favorited
+          />
+        ))}
       </ScrollView>
     </View>
-  )
+  );
 }
-
-export default Favorites;

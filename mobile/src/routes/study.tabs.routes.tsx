@@ -6,8 +6,8 @@ import {
 import React from 'react';
 
 import { StudyBottomTab } from '@components/StudyBottomTab';
-import Favorites from '@screens/Favorites';
-import TeacherList from '@screens/TeacherList';
+import { Favorites } from '@screens/Favorites';
+import { TeacherList } from '@screens/TeacherList';
 
 export type StudyTabsParamList = {
   TeacherList: undefined;

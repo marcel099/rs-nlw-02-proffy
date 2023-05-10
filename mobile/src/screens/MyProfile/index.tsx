@@ -1,5 +1,7 @@
 import { StatusBar, Text, View } from 'react-native';
 
+import { ScreenHeader } from '@components/ScreenHeader';
+
 import { styles } from './styles';
 
 export function MyProfile() {
@@ -7,10 +9,13 @@ export function MyProfile() {
     <View style={styles.container}>
       <StatusBar
         barStyle="light-content"
-        backgroundColor="#8257e5"
+        backgroundColor="#774DD6"
         translucent
       />
-      <Text>Meu Perfil</Text>
+      <ScreenHeader title="Meu perfil" />
+      <View style={styles.subheader}>
+        <Text>John Doe</Text>
+      </View>
     </View>
   );
 }
