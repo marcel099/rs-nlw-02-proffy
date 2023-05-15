@@ -10,6 +10,7 @@ import { useAuth } from '@contexts/AuthContext';
 import { Subject } from '@dtos/Subject';
 import api from '@services/api';
 
+import { FormContainer } from '@components/form/FormContainer';
 import { ScreenHeader } from '@components/ScreenHeader';
 import { UserAvatar } from '@components/UserAvatar';
 
@@ -49,6 +50,10 @@ export function MyProfile() {
     });
   });
 
+  function handleEditProfile() {
+    console.log('handleEditProfile');
+  }
+
   return (
     <View style={styles.container}>
       <StatusBar
@@ -76,6 +81,12 @@ export function MyProfile() {
           </Text>
         </ImageBackground>
       </View>
+      <FormContainer
+        handleFormSubmit={handleEditProfile}
+        submitButtonTitle="Salvar alterações"
+      >
+        <Text>Lorem ipsum</Text>
+      </FormContainer>
     </View>
   );
 }
