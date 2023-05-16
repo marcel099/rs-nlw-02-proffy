@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
 
     paddingTop: 24,
     paddingHorizontal: 24,
-    paddingBottom: 40,
+    paddingBottom: 8,
 
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
