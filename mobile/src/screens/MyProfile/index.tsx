@@ -31,8 +31,8 @@ export function MyProfile() {
   const [firstName, setFirstName] = useState(user?.firstName ?? '');
   const [lastName, setLastName] = useState(user?.lastName ?? '');
   const [email, setEmail] = useState(user?.email ?? '');
-  const [whatsapp, setWhatsapp] = useState('');
-  const [bio, setBio] = useState('');
+  const [whatsapp, setWhatsapp] = useState(user?.whatsapp ?? '');
+  const [bio, setBio] = useState(user?.bio ?? '');
 
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [subjectId, setSubjectId] = useState(-1);
