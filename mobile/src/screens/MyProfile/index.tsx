@@ -19,6 +19,7 @@ import api from '@services/api';
 import { FormContainer } from '@components/form/FormContainer';
 import { OuterLabelInput } from '@components/form/OuterLabelInput';
 import { Select } from '@components/form/Select';
+import { TextArea } from '@components/form/TextArea';
 import { FormFieldset } from '@components/FormFieldset';
 import { ScreenHeader } from '@components/ScreenHeader';
 import { UserAvatar } from '@components/UserAvatar';
@@ -134,6 +135,13 @@ export function MyProfile() {
                   onChangeText={setWhatsapp}
                   placeholder="(  ) _ ____-____"
                   keyboardType="numeric"
+                />
+                <TextArea
+                  label="Bio"
+                  value={bio}
+                  onChangeText={setBio}
+                  autoCapitalize="sentences"
+                  description="(Máximo 300 caracteres)"
                 />
               </FormFieldset>
               <FormFieldset
