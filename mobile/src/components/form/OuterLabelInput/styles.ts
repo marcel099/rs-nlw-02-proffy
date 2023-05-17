@@ -44,10 +44,10 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     lineHeight: 24,
   },
-  filledInput: {
+  filledOutInput: {
     color: '#6A6180',
   },
-  notFilledInput: {
+  notFilledOutInput: {
     color: '#9C98A6',
   },
 });

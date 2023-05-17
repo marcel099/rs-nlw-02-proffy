@@ -1,4 +1,4 @@
-import { memo, useState } from 'react';
+import { memo, useMemo, useState } from 'react';
 import {
   Text, TextInput, TextInputProps, View,
 } from 'react-native';
@@ -7,15 +7,22 @@ import { styles } from './styles';
 
 interface OuterLabelInputProps extends TextInputProps {
   label: string;
-  value: string;
 }
 
 function OuterLabelInputComponent({
-  label, value, ...rest
+  label, ...rest
 }: OuterLabelInputProps) {
   const [isFocused, setIsFocused] = useState(false);
 
-  const isFilled = !!value;
+  const isFilledOut = useMemo(() => !!rest.value, [rest.value]);
+
+  function handleInputFocus() {
+    setIsFocused(true);
+  }
+
+  function handleInputBlur() {
+    setIsFocused(false);
+  }
 
   return (
     <View style={styles.container}>
@@ -25,12 +32,12 @@ function OuterLabelInputComponent({
         <TextInput
           style={[
             styles.input,
-            isFilled || isFocused
-              ? styles.filledInput
-              : styles.notFilledInput,
+            isFocused || isFilledOut
+              ? styles.filledOutInput
+              : styles.notFilledOutInput,
           ]}
-          onBlur={() => setIsFocused(false)}
-          onFocus={() => setIsFocused(true)}
+          onFocus={handleInputFocus}
+          onBlur={handleInputBlur}
           {...rest}
         />
       </View>
