@@ -1,5 +1,5 @@
 import { Feather } from '@expo/vector-icons';
-import { useMemo, useState } from 'react';
+import { memo, useMemo, useState } from 'react';
 import {
   Text, TextInputProps, TextInput, View,
 } from 'react-native';
@@ -12,7 +12,7 @@ interface InnerLabelInputProps extends TextInputProps {
   isPasswordField?: boolean,
 }
 
-export function InnerLabelInput({
+function InnerLabelInputComponent({
   label, isPasswordField = false, ...rest
 }: InnerLabelInputProps) {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -90,3 +90,8 @@ export function InnerLabelInput({
     </View>
   );
 }
+
+export const InnerLabelInput = memo(
+  InnerLabelInputComponent,
+  (previousProps, newProps) => previousProps.value === newProps.value
+);

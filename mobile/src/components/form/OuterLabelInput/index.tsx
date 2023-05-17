@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import {
   Text, TextInput, TextInputProps, View,
 } from 'react-native';
@@ -10,7 +10,7 @@ interface OuterLabelInputProps extends TextInputProps {
   value: string;
 }
 
-export function OuterLabelInput({
+function OuterLabelInputComponent({
   label, value, ...rest
 }: OuterLabelInputProps) {
   const [isFocused, setIsFocused] = useState(false);
@@ -37,3 +37,8 @@ export function OuterLabelInput({
     </View>
   );
 }
+
+export const OuterLabelInput = memo(
+  OuterLabelInputComponent,
+  (previousProps, newProps) => previousProps.value === newProps.value
+);
