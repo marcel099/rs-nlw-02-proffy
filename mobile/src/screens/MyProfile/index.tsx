@@ -13,7 +13,7 @@ import myProfileBackground from '@assets/images/my-profile-background.png';
 
 import { useAuth } from '@contexts/AuthContext';
 // import { ApiClassSchedule, ClassSchedule } from '@dtos/ClassSchedule';
-import { Subject } from '@dtos/Subject';
+import { ApiSubject, Subject } from '@dtos/Subject';
 import api from '@services/api';
 
 import { FormContainer } from '@components/form/FormContainer';
@@ -28,6 +28,7 @@ import { styles } from './styles';
 
 export function MyProfile() {
   const { user } = useAuth();
+
   const [firstName, setFirstName] = useState(user?.firstName ?? '');
   const [lastName, setLastName] = useState(user?.lastName ?? '');
   const [email, setEmail] = useState(user?.email ?? '');
@@ -35,11 +36,14 @@ export function MyProfile() {
   const [bio, setBio] = useState(user?.bio ?? '');
 
   const [subjects, setSubjects] = useState<Subject[]>([]);
-  const [subjectId, setSubjectId] = useState(-1);
-  const [cost, setCost] = useState('');
+  const [subjectId, setSubjectId] = useState<string | null>(null);
+  const [cost, setCost] = useState(0);
 
   // const [classSchedules, setClassSchedules] =
   //   useState<ClassSchedule[]>([]);
+
+  const [isFetchingSubjects, setIsFetchingSubjects] = useState(true);
+  const [isFetchingUserClasses, setIsFetchingUserClasses] = useState(true);
 
   useEffect(() => {
     api.get('/classes/me').then((response) => {
@@ -54,14 +58,22 @@ export function MyProfile() {
       //   : [initialClassSchedule];
 
       // setClassSchedules(newClassSchedules);
-      setSubjectId(response.data.class.subject.id);
+      setSubjectId(String(response.data.class.subject.id));
       setCost(response.data.class.cost);
+      setIsFetchingUserClasses(false);
     });
   }, []);
 
   useEffect(() => {
     api.get('/subjects').then((response) => {
-      setSubjects(response.data);
+      const fetchedSubjects: ApiSubject[] = response.data;
+      const parsedSubjects: Subject[] = fetchedSubjects.map((subject) => ({
+        id: String(subject.id),
+        name: subject.name,
+      }));
+
+      setSubjects(parsedSubjects);
+      setIsFetchingSubjects(false);
     });
   }, []);
 
@@ -147,18 +159,21 @@ export function MyProfile() {
               <FormFieldset
                 legend="Sobre a aula"
               >
-                <Select
-                  label="Matéria"
-                  options={subjects}
-                  optionValue="id"
-                  optionLabel="name"
-                  onValueChange={(value: number) => setSubjectId(value)}
-                  placeholder="Selecione qual ensinar"
-                />
+                {!isFetchingSubjects && !isFetchingUserClasses && (
+                  <Select
+                    label="Matéria"
+                    options={subjects}
+                    optionValue="id"
+                    optionLabel="name"
+                    selectedValue={subjectId}
+                    onValueChange={(value: string) => setSubjectId(value)}
+                    placeholder="Selecione qual ensinar"
+                  />
+                )}
                 <OuterLabelInput
                   label="Custo da sua hora por aula"
-                  value={cost}
-                  onChangeText={setCost}
+                  value={String(cost)}
+                  onChangeText={(value) => setCost(Number(value))}
                   placeholder="R$"
                   keyboardType="numeric"
                 />
