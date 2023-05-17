@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
 
     backgroundColor: '#FAFAFC',
     borderWidth: 1,
-    borderColor: '#E6E6F0', 
+    borderColor: '#E6E6F0',
 
     position: 'relative',
   },
@@ -19,6 +19,16 @@ export const styles = StyleSheet.create({
     // width: '100%',
     flexGrow: 1,
     // backgroundColor: 'blue',
+  },
+  hover: {
+    position: 'absolute',
+    left: 0,
+    top: 12,
+
+    height: 40,
+    width: 2,
+
+    backgroundColor: '#8257E5',
   },
   label: {
     fontFamily: 'Poppins_400Regular',
@@ -35,6 +45,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 24,
 
     fontFamily: 'Poppins_400Regular',
+    color: '#6A6180',
     fontSize: 14,
     lineHeight: 24,
   },

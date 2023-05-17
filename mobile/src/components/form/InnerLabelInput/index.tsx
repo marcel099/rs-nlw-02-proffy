@@ -1,9 +1,11 @@
+import { Feather } from '@expo/vector-icons';
 import { useMemo, useState } from 'react';
-import { Text, TextInputProps, TextInput, View } from "react-native";
+import {
+  Text, TextInputProps, TextInput, View,
+} from 'react-native';
 import { BorderlessButton } from 'react-native-gesture-handler';
-import { Feather } from "@expo/vector-icons";
 
-import { styles } from "./styles";
+import { styles } from './styles';
 
 interface InnerLabelInputProps extends TextInputProps {
   label: string,
@@ -25,13 +27,14 @@ export function InnerLabelInput({
   }
 
   function toggleVisibility() {
-    setIsPasswordVisible(previousState => !previousState);
+    setIsPasswordVisible((previousState) => !previousState);
   }
 
   const isFilledOut = useMemo(() => !!rest.value, [rest.value]);
 
   return (
     <View style={styles.container}>
+      { isFocused && <View style={styles.hover} /> }
       <View style={styles.fieldset}>
         <Text style={[
           styles.label,
@@ -47,8 +50,9 @@ export function InnerLabelInput({
             color: '#9C98A6',
 
             top: 20,
-          }
-        ]}>
+          },
+        ]}
+        >
           {label}
         </Text>
 
@@ -59,7 +63,7 @@ export function InnerLabelInput({
           {
             ...(
               isPasswordField ? {
-                autoCapitalize: "none",
+                autoCapitalize: 'none',
                 autoCorrect: false,
                 secureTextEntry: !isPasswordVisible,
               } : {}
@@ -76,7 +80,7 @@ export function InnerLabelInput({
             onPress={toggleVisibility}
           >
             <Feather
-              name={!isPasswordVisible ? "eye" : "eye-off"}
+              name={!isPasswordVisible ? 'eye' : 'eye-off'}
               size={24}
               color="#9C98A6"
             />
