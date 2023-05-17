@@ -37,6 +37,20 @@ export const styles = StyleSheet.create({
     // top: 20,
     left: 24,
   },
+  filledOutInputLabel: {
+    fontSize: 10,
+    lineHeight: 20,
+    color: '#C1BCCC',
+
+    top: 10,
+  },
+  notFilledOutInputLabel: {
+    fontSize: 14,
+    lineHeight: 24,
+    color: '#9C98A6',
+
+    top: 20,
+  },
   input: {
     width: '100%',
     height: '100%',

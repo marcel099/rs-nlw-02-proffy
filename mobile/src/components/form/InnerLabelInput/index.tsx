@@ -38,19 +38,9 @@ function InnerLabelInputComponent({
       <View style={styles.fieldset}>
         <Text style={[
           styles.label,
-          isFocused || isFilledOut ? {
-            fontSize: 10,
-            lineHeight: 20,
-            color: '#C1BCCC',
-
-            top: 10,
-          } : {
-            fontSize: 14,
-            lineHeight: 24,
-            color: '#9C98A6',
-
-            top: 20,
-          },
+          isFocused || isFilledOut
+            ? styles.filledOutInputLabel
+            : styles.notFilledOutInputLabel,
         ]}
         >
           {label}
