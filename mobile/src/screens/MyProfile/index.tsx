@@ -120,7 +120,11 @@ export function MyProfile() {
 
       if (avatarUrl !== user?.avatar && avatarUrl !== null) {
         const formData = new FormData();
-        formData.append('avatar', avatarUrl);
+        formData.append('avatar', {
+          uri: avatarUrl,
+          name: 'image.jpg',
+          type: 'image/jpeg',
+        } as any);
 
         await api.patch('/users/avatar', formData, {
           headers: {
