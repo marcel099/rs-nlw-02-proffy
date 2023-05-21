@@ -1,4 +1,6 @@
 import { FormEvent, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import myProfileDesktopBackgroundImg from '@assets/images/my-profile-desktop-background.svg';
 import myProfileMobileBackgroundImg from '@assets/images/my-profile-mobile-background.svg';
@@ -20,7 +22,8 @@ import { UserAvatar } from '@components/UserAvatar';
 import './styles.css';
 
 export function MyProfile() {
-  const { user } = useAuth();
+  const { fetchUser, user } = useAuth();
+  const history = useHistory();
 
   const [userAvatarFile, setUserAvatarFile] = useState<File | null>(null);
 
@@ -100,44 +103,57 @@ export function MyProfile() {
     setUserAvatarFile(file);
   }
 
-  function handleEditUser(e: FormEvent) {
+  async function handleEditUser(e: FormEvent) {
     e.preventDefault();
 
-    const parsedClassSchedules = classSchedules.map((classSchedule) => {
-      const parsedClassSchedule = { ...classSchedule };
-      if (parsedClassSchedule.id !== null && parsedClassSchedule.id < 0) {
-        parsedClassSchedule.id = null;
+    try {
+      const parsedClassSchedules = classSchedules.map((classSchedule) => {
+        const parsedClassSchedule = { ...classSchedule };
+        if (parsedClassSchedule.id !== null && parsedClassSchedule.id < 0) {
+          parsedClassSchedule.id = null;
+        }
+
+        return parsedClassSchedule;
+      });
+
+      const data = {
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        whatsapp,
+        bio,
+
+        class: {
+          cost,
+          subject_id: subjectId,
+        },
+
+        class_schedules: parsedClassSchedules,
+      };
+
+      await api.put('/users/profile', data);
+
+      if (userAvatarFile !== null) {
+        const formData = new FormData();
+        formData.append('avatar', userAvatarFile);
+
+        await api.patch('/users/avatar', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
       }
 
-      return parsedClassSchedule;
-    });
+      await fetchUser();
 
-    const data = {
-      first_name: firstName,
-      last_name: lastName,
-      email,
-      whatsapp,
-      bio,
-
-      class: {
-        cost,
-        subject_id: subjectId,
-      },
-
-      class_schedules: parsedClassSchedules,
-    };
-
-    api.put('/users/profile', data);
-
-    if (userAvatarFile !== null) {
-      const formData = new FormData();
-      formData.append('avatar', userAvatarFile);
-
-      api.patch('/users/avatar', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+      history.push('/confirmation', {
+        title: 'Cadastro salvo!',
+        message: 'Tudo certo, seu cadastro está na nossa lista de professores.<br />Agora é só ficar de olho no seu WhatsApp.',
+        buttonTitle: 'Acessar lista',
+        nextUri: '/study',
       });
+    } catch (error) {
+      toast.error('Erro ao salvar perfil');
     }
   }
 
