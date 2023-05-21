@@ -5,12 +5,17 @@ import { Routes } from '@routes/index.routes';
 
 import './shared/styles/global.css';
 
+import { HotToastContainer } from '@components/HotToastContainer';
+
 export function App() {
   return (
-    <AuthContextProvider>
-      <BrowserRouter>
-        <Routes />
-      </BrowserRouter>
-    </AuthContextProvider>
+    <>
+      <HotToastContainer />
+      <AuthContextProvider>
+        <BrowserRouter>
+          <Routes />
+        </BrowserRouter>
+      </AuthContextProvider>
+    </>
   );
 }
