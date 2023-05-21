@@ -1,5 +1,7 @@
 import { ReactNode } from 'react';
-import { View } from 'react-native';
+import { Image, Text, View } from 'react-native';
+
+import warningIcon from '@assets/images/icons/warning.png';
 
 import { ConfirmationButton } from '../ConfirmationButton';
 import { styles } from './styles';
@@ -24,6 +26,27 @@ export function FormContainer({
           type="secondary"
           onPress={handleFormSubmit}
         />
+        <View style={styles.warningContainer}>
+          <Image source={warningIcon} resizeMode="contain" />
+          <View style={styles.warningMessageContainer}>
+            <Text
+              style={[
+                styles.warningMessage,
+                styles.warningMessageHeader,
+              ]}
+            >
+              Importante!
+            </Text>
+            <Text
+              style={[
+                styles.warningMessage,
+                styles.warningMessageDescription,
+              ]}
+            >
+              Preencha todos os dados
+            </Text>
+          </View>
+        </View>
       </View>
     </View>
   );

@@ -34,4 +34,24 @@ export const styles = StyleSheet.create({
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
   },
+  warningContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+
+    marginTop: 28,
+  },
+  warningMessageContainer: {
+    marginLeft: 16,
+  },
+  warningMessage: {
+    fontFamily: 'Poppins_400Regular',
+    fontSize: 12,
+    lineHeight: 20,
+  },
+  warningMessageHeader: {
+    color: '#8257E5',
+  },
+  warningMessageDescription: {
+    color: '#A0A0B2',
+  },
 });
