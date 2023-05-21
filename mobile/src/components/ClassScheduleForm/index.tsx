@@ -5,8 +5,8 @@ import { RectButton } from 'react-native-gesture-handler';
 import { ClassSchedule } from '@dtos/ClassSchedule';
 import { createBlankClassSchedule } from '@utils/factories';
 
-import { OuterLabelInput } from '@components/form/OuterLabelInput';
 import { Select } from '@components/form/Select';
+import { TimeInput } from '@components/form/TimeInput';
 import { FormFieldset } from '@components/FormFieldset';
 
 import { styles } from './styles';
@@ -97,18 +97,18 @@ export function ClassScheduleForm({
               placeholder="Selecione o dia"
             />
             <View style={styles.intervalSection}>
-              <OuterLabelInput
+              <TimeInput
                 label="Das"
                 value={classSchedule.from}
-                onChangeText={
+                onChangeValue={
                   (value) => setClassScheduleValue(classSchedule.id, 'from', value)
                 }
               />
               <View style={{ width: 16 }} />
-              <OuterLabelInput
+              <TimeInput
                 label="Até"
                 value={classSchedule.to}
-                onChangeText={
+                onChangeValue={
                   (value) => setClassScheduleValue(classSchedule.id, 'to', value)
                 }
               />
