@@ -1,5 +1,7 @@
+import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import {
+  Alert,
   ImageBackground,
   KeyboardAvoidingView,
   Platform,
@@ -12,8 +14,9 @@ import {
 import myProfileBackground from '@assets/images/my-profile-background.png';
 
 import { useAuth } from '@contexts/AuthContext';
-import { ApiClassSchedule, ClassSchedule } from '@dtos/ClassSchedule';
+import { ApiClassSchedule, ClassSchedule, NotSavedClassSchedule } from '@dtos/ClassSchedule';
 import { ApiSubject, Subject } from '@dtos/Subject';
+import { AppStackScreenProp } from '@routes/app.stack.routes';
 import api from '@services/api';
 import { createBlankClassSchedule } from '@utils/factories';
 import { parseFetchedToParsedClassSchedule } from '@utils/mappers';
@@ -31,6 +34,11 @@ import { styles } from './styles';
 
 export function MyProfile() {
   const { user } = useAuth();
+  const navigation =
+    useNavigation<AppStackScreenProp<'MyProfile'>['navigation']>();
+
+  const [avatarUrl, setAvatarUrl] =
+    useState<string | null>(user?.avatar ?? null);
 
   const [firstName, setFirstName] = useState(user?.firstName ?? '');
   const [lastName, setLastName] = useState(user?.lastName ?? '');
@@ -41,8 +49,6 @@ export function MyProfile() {
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [subjectId, setSubjectId] = useState<string | null>(null);
   const [cost, setCost] = useState(0);
-
-  const [avatarUrl, setAvatarUrl] = useState(user?.avatar);
 
   const [classSchedules, setClassSchedules] =
     useState<ClassSchedule[]>([]);
@@ -82,8 +88,56 @@ export function MyProfile() {
     });
   }, []);
 
-  function handleEditProfile() {
-    console.log('handleEditProfile');
+  async function handleEditUser() {
+    try {
+      const parsedClassSchedules = classSchedules.map((classSchedule) => {
+        const parsedClassSchedule: NotSavedClassSchedule =
+          { ...classSchedule };
+
+        if (parsedClassSchedule.id !== null && parsedClassSchedule.id < 0) {
+          parsedClassSchedule.id = null;
+        }
+
+        return parsedClassSchedule;
+      });
+
+      const data = {
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        whatsapp,
+        bio,
+
+        class: {
+          cost,
+          subject_id: subjectId,
+        },
+
+        class_schedules: parsedClassSchedules,
+      };
+
+      await api.put('/users/profile', data);
+
+      if (avatarUrl !== user?.avatar && avatarUrl !== null) {
+        const formData = new FormData();
+        formData.append('avatar', avatarUrl);
+
+        await api.patch('/users/avatar', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+      }
+
+      navigation.navigate('Confirmation', {
+        title: 'Cadastro\nsalvo!',
+        description: 'Tudo certo, seu cadastro está\nna nossa lista de professores. Agora é\nsó ficar de olho no seu WhatsApp.',
+        buttonTitle: 'Acessar lista',
+        nextScreenName: 'Study',
+      });
+    } catch (error) {
+      Alert.alert('Erro ao salvar perfil');
+    }
   }
 
   return (
@@ -122,7 +176,7 @@ export function MyProfile() {
               </ImageBackground>
             </View>
             <FormContainer
-              handleFormSubmit={handleEditProfile}
+              handleFormSubmit={handleEditUser}
               submitButtonTitle="Salvar alterações"
             >
               <FormFieldset
