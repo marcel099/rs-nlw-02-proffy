@@ -1,0 +1,133 @@
+import { Dispatch, SetStateAction } from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
+import { RectButton } from 'react-native-gesture-handler';
+
+import { ClassSchedule } from '@dtos/ClassSchedule';
+import { createBlankClassSchedule } from '@utils/factories';
+
+import { OuterLabelInput } from '@components/form/OuterLabelInput';
+import { Select } from '@components/form/Select';
+import { FormFieldset } from '@components/FormFieldset';
+
+import { styles } from './styles';
+
+interface ClassScheduleFormProps {
+  classSchedules: ClassSchedule[];
+  setClassSchedules: Dispatch<SetStateAction<ClassSchedule[]>>;
+}
+
+export function ClassScheduleForm({
+  classSchedules,
+  setClassSchedules,
+}: ClassScheduleFormProps) {
+  function addNewClassSchedule() {
+    setClassSchedules([...classSchedules, createBlankClassSchedule()]);
+  }
+
+  function removeClassSchedule(id: number) {
+    const updatedClassSchedules = [...classSchedules];
+    const classScheduleIndex = updatedClassSchedules.findIndex(
+      (classSchedule) => classSchedule.id === id
+    );
+
+    updatedClassSchedules.splice(classScheduleIndex, 1);
+
+    if (updatedClassSchedules.length === 0) {
+      updatedClassSchedules.push(createBlankClassSchedule());
+    }
+
+    setClassSchedules(updatedClassSchedules);
+  }
+
+  function setClassScheduleValue(
+    id: number,
+    field: 'week_day' | 'from' | 'to',
+    value: string
+  ) {
+    setClassSchedules((previousClassSchedules) => {
+      const updatedClassSchedules = previousClassSchedules
+        .map((classSchedule) => {
+          if (classSchedule.id === id) {
+            return { ...classSchedule, [field]: value };
+          }
+
+          return classSchedule;
+        });
+
+      return updatedClassSchedules;
+    });
+  }
+
+  return (
+    <FormFieldset
+      legend="Horários disponíveis"
+      headerAsideContent={(
+        <RectButton onPress={addNewClassSchedule}>
+          <Text style={styles.addNewClassScheduleText}>+ Novo</Text>
+        </RectButton>
+      )}
+    >
+      { classSchedules.map((classSchedule) => (
+        <View
+          key={classSchedule.id}
+          style={styles.container}
+        >
+          <View>
+            <Select
+              label="Dia da semana"
+              selectedValue={
+                classSchedule.week_day !== -1
+                  ? String(classSchedule.week_day)
+                  : ''
+              }
+              options={[
+                { value: '0', label: 'Domingo' },
+                { value: '1', label: 'Segunda-feira' },
+                { value: '2', label: 'Terça-feira' },
+                { value: '3', label: 'Quarta-feira' },
+                { value: '4', label: 'Quinta-feira' },
+                { value: '5', label: 'Sexta-feira' },
+                { value: '6', label: 'Sábado' },
+              ]}
+              optionValue="value"
+              optionLabel="label"
+              onValueChange={
+                (value: string) => setClassScheduleValue(classSchedule.id, 'week_day', value)
+              }
+              placeholder="Selecione o dia"
+            />
+            <View style={styles.intervalSection}>
+              <OuterLabelInput
+                label="Das"
+                value={classSchedule.from}
+                onChangeText={
+                  (value) => setClassScheduleValue(classSchedule.id, 'from', value)
+                }
+              />
+              <View style={{ width: 16 }} />
+              <OuterLabelInput
+                label="Até"
+                value={classSchedule.to}
+                onChangeText={
+                  (value) => setClassScheduleValue(classSchedule.id, 'to', value)
+                }
+              />
+            </View>
+          </View>
+          <View style={styles.deleteClassScheduleButtonContainer}>
+            <View style={styles.deleteClassScheduleButtonLine} />
+            <TouchableOpacity
+              style={styles.deleteClassScheduleButton}
+              onPress={() => removeClassSchedule(classSchedule.id)}
+            >
+              <Text style={styles.deleteClassScheduleButtonText}>
+                Excluir horário
+              </Text>
+            </TouchableOpacity>
+            <View style={styles.deleteClassScheduleButtonLine} />
+          </View>
+        </View>
+      ))}
+    </FormFieldset>
+  );
+}

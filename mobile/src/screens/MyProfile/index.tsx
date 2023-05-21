@@ -12,10 +12,13 @@ import {
 import myProfileBackground from '@assets/images/my-profile-background.png';
 
 import { useAuth } from '@contexts/AuthContext';
-// import { ApiClassSchedule, ClassSchedule } from '@dtos/ClassSchedule';
+import { ApiClassSchedule, ClassSchedule } from '@dtos/ClassSchedule';
 import { ApiSubject, Subject } from '@dtos/Subject';
 import api from '@services/api';
+import { createBlankClassSchedule } from '@utils/factories';
+import { parseFetchedToParsedClassSchedule } from '@utils/mappers';
 
+import { ClassScheduleForm } from '@components/ClassScheduleForm';
 import { FormContainer } from '@components/form/FormContainer';
 import { OuterLabelInput } from '@components/form/OuterLabelInput';
 import { Select } from '@components/form/Select';
@@ -39,25 +42,25 @@ export function MyProfile() {
   const [subjectId, setSubjectId] = useState<string | null>(null);
   const [cost, setCost] = useState(0);
 
-  // const [classSchedules, setClassSchedules] =
-  //   useState<ClassSchedule[]>([]);
+  const [classSchedules, setClassSchedules] =
+    useState<ClassSchedule[]>([]);
 
   const [isFetchingSubjects, setIsFetchingSubjects] = useState(true);
   const [isFetchingUserClasses, setIsFetchingUserClasses] = useState(true);
 
   useEffect(() => {
     api.get('/classes/me').then((response) => {
-      // const fetchedClassSchedules: ApiClassSchedule[] =
-      //   response.data.class_schedules;
+      const fetchedClassSchedules: ApiClassSchedule[] =
+        response.data.class_schedules;
 
-      // const parsedClassSchedules = fetchedClassSchedules
-      //   .map(parseFetchedToParsedClassSchedule);
+      const parsedClassSchedules = fetchedClassSchedules
+        .map(parseFetchedToParsedClassSchedule);
 
-      // const newClassSchedules = parsedClassSchedules.length > 0
-      //   ? parsedClassSchedules
-      //   : [initialClassSchedule];
+      const newClassSchedules = parsedClassSchedules.length > 0
+        ? parsedClassSchedules
+        : [createBlankClassSchedule()];
 
-      // setClassSchedules(newClassSchedules);
+      setClassSchedules(newClassSchedules);
       setSubjectId(String(response.data.class.subject.id));
       setCost(response.data.class.cost);
       setIsFetchingUserClasses(false);
@@ -178,6 +181,10 @@ export function MyProfile() {
                   keyboardType="numeric"
                 />
               </FormFieldset>
+              <ClassScheduleForm
+                classSchedules={classSchedules}
+                setClassSchedules={setClassSchedules}
+              />
             </FormContainer>
           </View>
         </ScrollView>

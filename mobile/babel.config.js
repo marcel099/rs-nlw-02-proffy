@@ -22,9 +22,10 @@ module.exports = function(api) {
             '@screens': './src/screens',
             '@configs': './src/configs',
             '@contexts': './src/contexts',
-            '@dtos': './src/contexts',
+            '@dtos': './src/shared/contexts',
             '@routes': './src/routes',
             '@services': './src/services',
+            '@utils': './src/shared/utils',
             '@assets': './src/assets',
           }
         }

@@ -5,6 +5,10 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   legendContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+
     paddingBottom: 8,
     borderBottomColor: '#E6E6F0',
     borderBottomWidth: 1,

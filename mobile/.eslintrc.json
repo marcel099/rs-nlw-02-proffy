@@ -68,7 +68,8 @@
             "/^@contexts/",
             "/^@dtos/",
             "/^@routes/",
-            "/^@services/"
+            "/^@services/",
+            "/^@utils/"
           ],
           [
             "/^@screens/",
