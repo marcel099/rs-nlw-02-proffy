@@ -1,38 +1,37 @@
-// import * as ImagePicker from 'expo-image-picker';
-import React, { useState } from 'react';
+import * as ImagePicker from 'expo-image-picker';
+import React from 'react';
 import { Image, View } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 
-import cameraIcon from '../../assets/images/icons/camera.png';
+import cameraIcon from '@assets/images/icons/camera.png';
+
 import { styles } from './styles';
 
 interface UserAvatarProps {
   avatar: string | null;
   size: 'sm' | 'md' | 'lg';
   containButton?: boolean;
-  onUserAvatarButtonPress?: (file: File | null) => void;
+  onUserAvatarButtonPress?: (fileUri: string) => void;
 }
 
 export function UserAvatar({
   avatar, size, containButton = false, onUserAvatarButtonPress,
 }: UserAvatarProps) {
-  const [selectedImageFile, setSelectedImageFile] =
-    useState<string | null>(null);
-
   async function handlePickImage() {
-    console.log('handlePickImage');
-    // const { status } = await ImagePicker.requestCameraPermissionsAsync();
+    const { status } = await ImagePicker.requestCameraPermissionsAsync();
 
-    // if (status === 'granted') {
-    //   const result = await ImagePicker.launchImageLibraryAsync({
-    //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    //     aspect: [4, 4],
-    //   });
+    if (status === 'granted' && onUserAvatarButtonPress !== undefined) {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        aspect: [4, 4],
+        quality: 1,
+        selectionLimit: 1,
+      });
 
-    //   if (!result.cancelled) {
-    //     setSelectedImageFile(result.uri);
-    //   }
-    // }
+      if (!result.cancelled) {
+        onUserAvatarButtonPress(result.uri);
+      }
+    }
   }
 
   return (
@@ -41,7 +40,7 @@ export function UserAvatar({
         avatar !== null ? (
           <Image
             source={{
-              uri: selectedImageFile === null ? avatar : selectedImageFile,
+              uri: avatar,
             }}
             style={[
               styles.noUserAvatar,

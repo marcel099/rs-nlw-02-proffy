@@ -42,6 +42,8 @@ export function MyProfile() {
   const [subjectId, setSubjectId] = useState<string | null>(null);
   const [cost, setCost] = useState(0);
 
+  const [avatarUrl, setAvatarUrl] = useState(user?.avatar);
+
   const [classSchedules, setClassSchedules] =
     useState<ClassSchedule[]>([]);
 
@@ -104,9 +106,12 @@ export function MyProfile() {
                 style={styles.background}
               >
                 <UserAvatar
-                  avatar={user?.avatar ?? null}
+                  avatar={avatarUrl ?? null}
                   size="lg"
                   containButton
+                  onUserAvatarButtonPress={
+                    (fileUri) => setAvatarUrl(fileUri)
+                  }
                 />
                 <Text style={styles.userName}>
                   {`${user?.firstName} ${user?.lastName}`}
