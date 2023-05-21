@@ -34,6 +34,7 @@ interface AuthContextData {
   // isFetchingAuthData: boolean;
   signIn: (data: SignInDTO) => Promise<void>;
   signOut: () => Promise<void>;
+  fetchUser: () => Promise<void>;
 }
 
 const AuthContext = createContext({} as AuthContextData);
@@ -151,6 +152,7 @@ export function AuthContextProvider({
     // isFetchingAuthData,
     signIn,
     signOut,
+    fetchUser,
   }), [user]);
 
   return (

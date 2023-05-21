@@ -33,7 +33,7 @@ import { UserAvatar } from '@components/UserAvatar';
 import { styles } from './styles';
 
 export function MyProfile() {
-  const { user } = useAuth();
+  const { fetchUser, user } = useAuth();
   const navigation =
     useNavigation<AppStackScreenProp<'MyProfile'>['navigation']>();
 
@@ -128,6 +128,8 @@ export function MyProfile() {
           },
         });
       }
+
+      await fetchUser();
 
       navigation.navigate('Confirmation', {
         title: 'Cadastro\nsalvo!',
