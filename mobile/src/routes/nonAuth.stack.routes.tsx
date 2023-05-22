@@ -1,10 +1,10 @@
 import {
-  createStackNavigator, StackScreenProps
-} from "@react-navigation/stack";
+  createStackNavigator, StackScreenProps,
+} from '@react-navigation/stack';
 
-import { SignIn } from '../pages/SignIn';
-import { SignUp } from '../pages/SignUp';
-import { Confirmation } from '../pages/Confirmation';
+import { Confirmation } from '@screens/Confirmation';
+import { SignIn } from '@screens/SignIn';
+import { SignUp } from '@screens/SignUp';
 
 type NonAuthStackParamList = {
   SignIn: undefined;
@@ -41,5 +41,5 @@ export function NonAuthRoutes() {
         component={Confirmation}
       />
     </Navigator>
-  )
+  );
 }

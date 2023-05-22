@@ -1,20 +1,21 @@
-import React, { useState, FormEvent } from 'react';
+import { useState, FormEvent } from 'react';
 
-import PageHeader from '../../components/PageHeader';
-import TeacherItem, { TeacherItemProps } from '../../components/TeacherItem';
-import { OuterLabelInput } from '../../components/OuterLabelInput';
-import Select from '../../components/Select';
+import api from '@services/api';
+
+import { OuterLabelInput } from '@components/OuterLabelInput';
+import { PageHeader } from '@components/PageHeader';
+import { PageSubtitle } from '@components/PageSubtitle';
+import { Select } from '@components/Select';
+import TeacherItem, { TeacherItemProps } from '@components/TeacherItem';
 
 import './styles.css';
-import api from '../../services/api';
 
-function TeacherList() {
+export function TeacherList() {
+  const [teachers, setTeachers] = useState([]);
 
-  const [ teachers, setTeachers ] = useState([]);
-
-  const [ subject, setSubject ] = useState('');
-  const [ week_day, setWeekDay ] = useState('');
-  const [ time, setTime ] = useState('');
+  const [subject, setSubject] = useState('');
+  const [week_day, setWeekDay] = useState('');
+  const [time, setTime] = useState('');
 
   async function handleSearchTeachers(e: FormEvent) {
     e.preventDefault();
@@ -24,21 +25,25 @@ function TeacherList() {
         subject,
         week_day,
         time,
-      }
-    })
+      },
+    });
 
-    setTeachers(response.data)
+    setTeachers(response.data);
   }
 
   return (
-    <div id="page-teacher-list" className="container">
-      <PageHeader title="Estes são os proffys disponíveis.">
+    <div id="page-teacher-list" className="page-container">
+      <PageHeader
+        title="Estudar"
+        contentSize="sm"
+      >
+        <PageSubtitle subtitle="Estes são os proffys disponíveis." />
         <form id="search-teachers" onSubmit={handleSearchTeachers}>
           <Select
             name="subject"
             label="Matéria"
             value={subject}
-            onChange={ (e) => setSubject(e.target.value) }
+            onChange={(e) => setSubject(e.target.value)}
             options={[
               { value: 'Matemática', label: 'Matemática' },
               { value: 'Português', label: 'Língua Portuguesa' },
@@ -55,7 +60,7 @@ function TeacherList() {
             name="week_day"
             label="Dia da semana"
             value={week_day}
-            onChange={ (e) => setWeekDay(e.target.value) }
+            onChange={(e) => setWeekDay(e.target.value)}
             options={[
               { value: '0', label: 'Domingo' },
               { value: '1', label: 'Segunda-feira' },
@@ -71,7 +76,7 @@ function TeacherList() {
             label="Hora"
             type="time"
             value={time}
-            onChange={ (e) => setTime(e.target.value) }
+            onChange={(e) => setTime(e.target.value)}
           />
           <button type="submit">
             Buscar
@@ -80,12 +85,10 @@ function TeacherList() {
       </PageHeader>
 
       <main>
-        {teachers.map( ( teacher: TeacherItemProps) => {
-          return <TeacherItem key={teacher.id} {...teacher}/>
-        })}
+        {teachers.map((teacher: TeacherItemProps) => (
+          <TeacherItem key={teacher.id} {...teacher} />
+        ))}
       </main>
     </div>
-  )
+  );
 }
-
-export default TeacherList;

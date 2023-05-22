@@ -3,7 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 
 import successBackgroundSvg from '../../assets/images/success-background.svg'
 import successCheckIconSvg from '../../assets/images/icons/success-check-icon.svg'
-import { ConfirmationButton } from '../../components/Authentication/ConfirmationButton';
+import { ConfirmationButton } from '../../components/ConfirmationButton';
 
 import "./styles.css";
 

@@ -1,12 +1,13 @@
-import React from 'react';
+/* eslint-disable react/no-unstable-nested-components */
 import {
   BottomTabScreenProps,
-  createBottomTabNavigator
+  createBottomTabNavigator,
 } from '@react-navigation/bottom-tabs';
-import { Ionicons } from '@expo/vector-icons';
+import React from 'react';
 
-import TeacherList from '../pages/TeacherList';
-import Favorites from '../pages/Favorites';
+import { StudyBottomTab } from '@components/StudyBottomTab';
+import { Favorites } from '@screens/Favorites';
+import { TeacherList } from '@screens/TeacherList';
 
 export type StudyTabsParamList = {
   TeacherList: undefined;
@@ -26,54 +27,45 @@ export function StudyTabsRoutes() {
         headerShown: false,
         tabBarActiveTintColor: '#32264d',
         tabBarInactiveTintColor: '#c1bccc',
+        tabBarShowLabel: false,
         tabBarStyle: {
           // elevation: 0,       // Android
           // shadowOpacity: 0,   // iOS
-          height: 64,
+          height: 62,
+          paddingVertical: 0,
+          paddingHorizontal: 0,
         },
       }}
-      // tabBarOptions={{
-      //   tabStyle: {
-      //     flexDirection: 'row',
-      //     alignItems: 'center',
-      //     justifyContent: 'center',
-      //   },
-      //   iconStyle: {
-      //     flex: 0,
-      //     width: 20,
-      //     height: 20,
-      //   },
-      //   labelStyle: {
-      //     fontFamily: 'Archivo_700Bold',
-      //     fontSize: 13,
-      //     marginLeft: 16,
-      //   },
-      // }}
     >
       <Screen
         name="TeacherList"
         component={TeacherList}
         options={{
-          tabBarLabel: 'Proffys',
-          tabBarIcon: ({ color, size, focused }) => {    // Envia algumas propriedades
-            return (
-              <Ionicons name="ios-easel" size={size} color={focused ? '#8257e5' : color} />
-            )
-          }
+          tabBarIcon: ({ color, focused }) => (
+            <StudyBottomTab
+              label="Proffys"
+              iconName="ios-easel"
+              color={color}
+              focused={focused}
+            />
+          ),
+
         }}
       />
       <Screen
         name="Favorites"
         component={Favorites}
         options={{
-          tabBarLabel: 'Proffys',
-          tabBarIcon: ({ color, size, focused }) => {    // Envia algumas propriedades
-            return (
-              <Ionicons name="ios-heart" size={size} color={focused ? '#8257e5' : color} />
-            )
-          }
+          tabBarIcon: ({ color, focused }) => (
+            <StudyBottomTab
+              label="Favoritos"
+              iconName="ios-heart"
+              color={color}
+              focused={focused}
+            />
+          ),
         }}
       />
     </Navigator>
-  )
+  );
 }

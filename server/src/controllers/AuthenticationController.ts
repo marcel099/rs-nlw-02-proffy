@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
 import bcrypt from 'bcrypt';
+import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 
-import db from '../database/connection';
-import { auth } from "../shared/config/auth";
+import { auth } from '@config/auth';
+import { db } from '@database/connection';
 
 export class AuthenticationController {
   async session(request: Request, response: Response) {

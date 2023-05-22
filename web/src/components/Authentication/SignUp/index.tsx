@@ -1,19 +1,20 @@
 import React, { FormEvent, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import { ConfirmationButton } from '@components/ConfirmationButton';
+import { InnerLabelInput } from '@components/InnerLabelInput';
+
 import api from '../../../services/api';
-import { InnerLabelInput } from '../../InnerLabelInput';
-import { ConfirmationButton } from '../ConfirmationButton';
 
 import './styles.css';
 
 export function SignUp() {
   const history = useHistory();
 
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   async function handleCreateUser(e: FormEvent) {
     e.preventDefault();
@@ -26,13 +27,13 @@ export function SignUp() {
         password,
       });
 
-      history.push("/confirmation", {
+      history.push('/confirmation', {
         title: 'Cadastro concluído',
         message: 'Agora você faz parte da plataforma Proffy.<br />Tenha uma ótima experiência.',
         buttonTitle: 'Fazer login',
         nextUri: '/',
       });
-    } catch ( error ) {
+    } catch (error) {
       console.error(error);
     }
   }
@@ -40,7 +41,7 @@ export function SignUp() {
   return (
     <main id="sign-up-container">
       <h1>Cadastro</h1>
-      <p>Preencha os dados abaixo<br/>para começar</p>
+      <p>Preencha os dados abaixo<br />para começar</p>
 
       <form onSubmit={handleCreateUser}>
         <InnerLabelInput
@@ -49,7 +50,7 @@ export function SignUp() {
           autoComplete="given-name"
           autoCapitalize="words"
           value={firstName}
-          onChange={ (e) => setFirstName(e.target.value) }
+          onChange={(e) => setFirstName(e.target.value)}
         />
         <InnerLabelInput
           name="last-name"
@@ -57,7 +58,7 @@ export function SignUp() {
           autoComplete="family-name"
           autoCapitalize="words"
           value={lastName}
-          onChange={ (e) => setLastName(e.target.value) }
+          onChange={(e) => setLastName(e.target.value)}
         />
         <InnerLabelInput
           name="email"
@@ -65,7 +66,7 @@ export function SignUp() {
           autoComplete="email"
           autoCapitalize="off"
           value={email}
-          onChange={ (e) => setEmail(e.target.value) }
+          onChange={(e) => setEmail(e.target.value)}
         />
         <InnerLabelInput
           name="password"
@@ -75,7 +76,7 @@ export function SignUp() {
           autoCapitalize="off"
           isPasswordField
           value={password}
-          onChange={ (e) => setPassword(e.target.value) }
+          onChange={(e) => setPassword(e.target.value)}
         />
 
         <footer className="submit-button-container">
@@ -87,5 +88,5 @@ export function SignUp() {
         </footer>
       </form>
     </main>
-  )
+  );
 }

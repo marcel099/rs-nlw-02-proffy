@@ -1,24 +1,26 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {
   createContext,
   ReactNode,
   useContext,
   useEffect,
-  useState
-} from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+  useMemo,
+  useState,
+} from 'react';
 
 import {
   SIGNED_IN_USER,
   SIGNED_IN_USER_TOKEN,
-} from "../configs/storage";
-
-import api from "../services/api";
+} from '@configs/storage';
+import api from '@services/api';
 
 interface User {
   firstName: string;
   lastName: string;
   email: string;
   avatar: string | null;
+  whatsapp: string | null;
+  bio: string | null;
 }
 
 interface SignInDTO {
@@ -32,6 +34,7 @@ interface AuthContextData {
   // isFetchingAuthData: boolean;
   signIn: (data: SignInDTO) => Promise<void>;
   signOut: () => Promise<void>;
+  fetchUser: () => Promise<void>;
 }
 
 const AuthContext = createContext({} as AuthContextData);
@@ -41,7 +44,7 @@ interface AuthContextProviderProps {
 }
 
 export function AuthContextProvider({
-  children
+  children,
 }: AuthContextProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   // const [isFetchingAuthData, setIsFetchingAuthData] = useState(true);
@@ -77,13 +80,17 @@ export function AuthContextProvider({
       const response = await api.get('/users/me');
 
       if (response.status === 200) {
-        const { email, first_name, last_name, avatar } = response.data;
+        const {
+          email, first_name, last_name, avatar, bio, whatsapp,
+        } = response.data;
 
         const userData = {
           email,
           firstName: first_name,
           lastName: last_name,
           avatar,
+          bio,
+          whatsapp,
         };
 
         setUser(userData);
@@ -124,12 +131,11 @@ export function AuthContextProvider({
     setUser(null);
   }
 
-
   useEffect(() => {
     async function loadTokenAndUser() {
       const loadedUser = await AsyncStorage.getItem(SIGNED_IN_USER);
       const token = await AsyncStorage.getItem(SIGNED_IN_USER_TOKEN);
-  
+
       if (token !== null && loadedUser !== null) {
         api.defaults.headers['Authorization'] = `Bearer ${token}`;
         setUser(JSON.parse(loadedUser));
@@ -139,18 +145,21 @@ export function AuthContextProvider({
     }
 
     loadTokenAndUser();
-  }, [])
+  }, []);
+
+  const value = useMemo(() => ({
+    user,
+    // isFetchingAuthData,
+    signIn,
+    signOut,
+    fetchUser,
+  }), [user]);
 
   return (
-    <AuthContext.Provider value={{
-      user,
-      // isFetchingAuthData,
-      signIn,
-      signOut,
-    }}>
+    <AuthContext.Provider value={value}>
       { children }
     </AuthContext.Provider>
-  )
+  );
 }
 
 export const useAuth = () => useContext(AuthContext);

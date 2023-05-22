@@ -1,34 +1,33 @@
-import React from 'react';
+import { ReactNode, HTMLAttributes } from 'react';
 
-import { Link } from 'react-router-dom';
-
-import logoImg from '../../assets/images/logo.svg';
-import backIcon from '../../assets/images/icons/back.svg';
+import { PageHeaderTopBar } from '@components/PageHeaderTopBar';
 
 import './styles.css';
 
-interface PageHeaderProps {
+interface PageHeaderProps extends HTMLAttributes<HTMLDivElement> {
   title: string;
-  description?: string,
+  // motivationalIconSource?: string;
+  // motivationalMessage?: string;
+  // shortMotivationalMessage?: string;
+  contentSize: 'sm' | 'md' | 'lg';
+  children: ReactNode;
 }
 
-const PageHeader: React.FC<PageHeaderProps> = ({ title, description, children }) => {
+export function PageHeader({
+  title, children, contentSize, ...rest
+}: PageHeaderProps) {
   return (
     <header className="page-header">
-      <div className="top-bar-container">
-        <Link to="/landing">
-          <img src={backIcon} alt="Voltar"/>
-        </Link>
-        <img src={logoImg} alt="Logo Proffy"/>
-      </div>
-      <div className="header-content">
-        <strong>{title}</strong>
-        {description && <p>{description}</p>}
-
+      <PageHeaderTopBar title={title} />
+      <div
+        className={
+          // eslint-disable-next-line no-nested-ternary
+          `header-content ${contentSize === 'sm' ? 'small' : contentSize === 'md' ? 'medium' : 'large'}`
+        }
+        {...rest}
+      >
         {children}
       </div>
     </header>
-  )
+  );
 }
-
-export default PageHeader;

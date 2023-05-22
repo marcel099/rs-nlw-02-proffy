@@ -1,0 +1,38 @@
+.top-bar-container {
+  display: flex;
+  justify-content: center;
+
+  width: 100%;
+
+  background-color: var(--color-primary-dark);
+}
+
+.top-bar-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  
+  width: 90%;
+  margin: 0 auto;
+  padding: 1.6rem 0;
+
+  color: var(--color-text-in-primary);
+}
+
+.top-bar-content a {
+  height: 3.2rem;
+  transition: opacity 0.2s;
+}
+
+.top-bar-content a:hover {
+  opacity: 0.6;
+}
+
+.top-bar-content .page-title {
+  font: 500 1.6rem Archivo, sans-serif;
+}
+
+.top-bar-content > img {
+  height: 1.6rem;
+}

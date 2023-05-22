@@ -20,7 +20,7 @@
 }
 
 #confirmation-page-container h1 {
-  font: 700 3.7rem Archivo;
+  font: 700 3.7rem Archivo, sans-serif;
   color: var(--color-title-in-primary);
   line-height: 3.2rem;
   text-align: center;
@@ -29,7 +29,7 @@
 }
 
 #confirmation-page-container p {
-  font: 400 1.4rem Poppins;
+  font: 400 1.4rem Poppins, sans-serif;
   color: var(--color-text-in-primary);
   line-height: 2.4rem;
   text-align: center;

@@ -19,11 +19,13 @@
     "paths": {
       "@components/*": ["src/components/*"],
       "@pages/*": ["src/pages/*"],
-      "@assets/*": ["src/shared/assets/*"],
+      "@assets/*": ["src/assets/*"],
       "@configs/*": ["src/shared/configs/*"],
       "@contexts/*": ["src/shared/contexts/*"],
+      "@dtos/*": ["src/shared/dtos/*"],
       "@routes/*": ["src/shared/routes/*"],
-      "@services/*": ["src/shared/services/*"],
+      "@utils/*": ["src/shared/utils/*"],
+      "@services/*": ["src/services/*"]
     },
   },
   "include": ["src"],
