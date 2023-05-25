@@ -6,11 +6,13 @@ import myProfileDesktopBackgroundImg from '@assets/images/my-profile-desktop-bac
 import myProfileMobileBackgroundImg from '@assets/images/my-profile-mobile-background.svg';
 
 import { useAuth } from '@contexts/AuthContext';
-import { ApiClassSchedule, ClassSchedule } from '@dtos/ClassSchedule';
+import { ApiClassSchedule, ClassSchedule, NotSavedClassSchedule } from '@dtos/ClassSchedule';
 import { Subject } from '@dtos/Subject';
 import api from '@services/api';
+import { createBlankClassSchedule } from '@utils/factories';
 import { parseFetchedToParsedClassSchedule } from '@utils/mappers';
 
+import { ClassScheduleForm } from '@components/ClassScheduleForm';
 import { FormContainer } from '@components/FormContainer';
 import { OuterLabelInput } from '@components/OuterLabelInput';
 import { PageHeader } from '@components/PageHeader';
@@ -38,64 +40,12 @@ export function MyProfile() {
 
   const [classSchedules, setClassSchedules] = useState<ClassSchedule[]>([]);
 
-  const initialNewClassScheduleIndex = -1;
-  const [newClassScheduleIndex, setNewClassScheduleIndex] = useState(
-    initialNewClassScheduleIndex
-  );
-  const initialClassSchedule = {
-    id: initialNewClassScheduleIndex,
-    week_day: -1,
-    from: '',
-    to: '',
-  };
-
   let myProfileDesktopImg: string;
 
   if (window.matchMedia('(min-width: 700px)').matches) {
     myProfileDesktopImg = myProfileDesktopBackgroundImg;
   } else {
     myProfileDesktopImg = myProfileMobileBackgroundImg;
-  }
-
-  function addNewClassSchedule() {
-    initialClassSchedule.id = newClassScheduleIndex;
-    setClassSchedules([...classSchedules, initialClassSchedule]);
-    setNewClassScheduleIndex(newClassScheduleIndex - 1);
-  }
-
-  function removeClassSchedule(id: number | null) {
-    if (id === null) {
-      return;
-    }
-
-    const newClassSchedules = [...classSchedules];
-    const classScheduleIndex = newClassSchedules.findIndex(
-      (classSchedule) => classSchedule.id === id
-    );
-
-    newClassSchedules.splice(classScheduleIndex, 1);
-
-    if (newClassSchedules.length === 0) {
-      newClassSchedules.push(initialClassSchedule);
-    }
-
-    setClassSchedules(newClassSchedules);
-  }
-
-  function setClassScheduleValue(
-    position: number,
-    field: string,
-    value: string
-  ) {
-    const updatedClassSchedules = classSchedules.map((classSchedule, index) => {
-      if (index === position) {
-        return { ...classSchedule, [field]: value };
-      }
-
-      return classSchedule;
-    });
-
-    setClassSchedules(updatedClassSchedules);
   }
 
   function handleUserAvatarChange(file: File | null) {
@@ -107,7 +57,9 @@ export function MyProfile() {
 
     try {
       const parsedClassSchedules = classSchedules.map((classSchedule) => {
-        const parsedClassSchedule = { ...classSchedule };
+        const parsedClassSchedule: NotSavedClassSchedule =
+          { ...classSchedule };
+
         if (parsedClassSchedule.id !== null && parsedClassSchedule.id < 0) {
           parsedClassSchedule.id = null;
         }
@@ -172,7 +124,7 @@ export function MyProfile() {
 
       const newClassSchedules = parsedClassSchedules.length > 0
         ? parsedClassSchedules
-        : [initialClassSchedule];
+        : [createBlankClassSchedule()];
 
       setClassSchedules(newClassSchedules);
       setSubjectId(response.data.class.subject.id);
@@ -272,70 +224,10 @@ export function MyProfile() {
           </div>
         </fieldset>
 
-        <fieldset>
-          <legend>
-            Horários disponíveis
-            <button
-              type="button"
-              onClick={addNewClassSchedule}
-            >
-              + Novo horário
-            </button>
-          </legend>
-
-          { classSchedules.map((classSchedule, index) => (
-            <div
-              key={classSchedule.id}
-              className="schedule-item"
-            >
-              <div
-                className="fields-section schedule-section"
-              >
-                <Select
-                  name="week_day"
-                  label="Dia da semana"
-                  value={
-                    classSchedule.week_day !== -1
-                      ? classSchedule.week_day
-                      : ''
-                  }
-                  placeholder="Selecione o dia"
-                  onChange={(e) => setClassScheduleValue(index, 'week_day', e.target.value)}
-                  options={[
-                    { value: '0', label: 'Domingo' },
-                    { value: '1', label: 'Segunda-feira' },
-                    { value: '2', label: 'Terça-feira' },
-                    { value: '3', label: 'Quarta-feira' },
-                    { value: '4', label: 'Quinta-feira' },
-                    { value: '5', label: 'Sexta-feira' },
-                    { value: '6', label: 'Sábado' },
-                  ]}
-                />
-                <OuterLabelInput
-                  name="from"
-                  label="Das"
-                  type="time"
-                  value={classSchedule.from}
-                  onChange={(e) => setClassScheduleValue(index, 'from', e.target.value)}
-                />
-                <OuterLabelInput
-                  name="to"
-                  label="Até"
-                  type="time"
-                  value={classSchedule.to}
-                  onChange={(e) => setClassScheduleValue(index, 'to', e.target.value)}
-                />
-              </div>
-              <button
-                type="button"
-                className="delete-class-schedule-button"
-                onClick={() => removeClassSchedule(classSchedule.id)}
-              >
-                Excluir horário
-              </button>
-            </div>
-          ))}
-        </fieldset>
+        <ClassScheduleForm
+          classSchedules={classSchedules}
+          setClassSchedules={setClassSchedules}
+        />
       </FormContainer>
     </div>
   );

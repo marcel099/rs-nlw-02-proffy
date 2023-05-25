@@ -6,6 +6,13 @@ export interface ApiClassSchedule {
 }
 
 export interface ClassSchedule {
+  id: number;
+  week_day: number;
+  from: string;
+  to: string;
+}
+
+export interface NotSavedClassSchedule {
   id: number | null;
   week_day: number;
   from: string;
