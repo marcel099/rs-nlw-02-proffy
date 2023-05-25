@@ -19,6 +19,24 @@
   display: none;
 }
 
+.personal-data-section {
+  margin-bottom: 1.6rem;
+}
+
+.main-personal-data {
+  display: flex;
+  align-items: center;
+
+  margin-bottom: 2.4rem;
+}
+
+.main-personal-data p {
+  font: 700 2rem Archivo, sans-serif;
+  line-height: 2.5rem;
+
+  margin-left: 2.4rem;
+}
+
 @media (min-width: 700px) {
   #page-teacher-form .header-content .page-description-container {
     margin-top: 2.8rem;
@@ -35,10 +53,16 @@
     display: flex;
     align-items: center;
   }
-  
-  #page-teacher-form fieldset .schedule-item {
+
+  .personal-data-section {
     display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     column-gap: 1.6rem;
+
+    margin-bottom: 2.6rem;
+  }
+
+  .main-personal-data {
+    margin-bottom: initial;
   }
 }
