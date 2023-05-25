@@ -1,10 +1,15 @@
 .form-container {
   background: var(--color-box-base);
-  width: 100%;
+
+  width: auto;
   max-width: 74rem;
-  border-radius: 0.8rem;
-  margin: -3.2rem auto 3.2rem;
+  
+  margin-top: -3.2rem;
+  margin-bottom: 3.2rem;
+  margin-inline: 1.6rem;
   padding-top: 6.4rem;
+  border-radius: 0.8rem;
+  
   overflow: hidden;
 }
 
@@ -54,6 +59,9 @@
 }
 
 @media (min-width: 700px) {
+  .form-container {
+    margin-inline: auto;
+  }
   .form-container fieldset {
     padding: 0 6.4rem;
   }
