@@ -14,7 +14,15 @@
   column-gap: 1.6rem;
 }
 
+.interval-section .input-block {
+  flex-grow: 1;
+  margin-top: 1.6rem;
+}
+
 .delete-class-schedule-button {
+  font: 600 1.2rem Archivo, sans-serif;
+  line-height: 2rem;
+
   color: var(--color-danger);
 
   padding-inline: 2.5rem;
@@ -34,5 +42,15 @@
     display: grid;
     grid-template-columns: 2fr 1fr;
     column-gap: 1.6rem;
+  }
+
+  .interval-section .input-block {
+    flex-grow: 1;
+    margin-top: 0;
+  }
+
+  .delete-class-schedule-button {
+    font-size: 1.4rem;
+    line-height: 2.4rem;
   }
 }

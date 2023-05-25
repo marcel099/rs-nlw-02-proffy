@@ -10,7 +10,7 @@
   margin-top: -4rem;
   margin-bottom: 3.2rem;
   margin-inline: 1.6rem;
-  padding-top: 6.4rem;
+  padding-top: 2.4rem;
   border-radius: 0.8rem;
   
   overflow: hidden;
@@ -22,26 +22,32 @@
 }
 
 .form-container fieldset + fieldset {
-  margin-top: 6.4rem;
+  margin-top: 4rem;
 }
 
 .form-container fieldset legend {
-  font: 700 2.4rem Archivo, sans-serif;
-  color: var(--color-text-title);
-  margin-bottom: 2.4rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  font: 700 2rem Archivo, sans-serif;
+  color: var(--color-text-title);
+  line-height: 3rem;
+
   width: 100%;
-  padding-bottom: 1.6rem;
+  margin-bottom: 2.4rem;
+  padding-bottom: 0.8rem;
   border-bottom: 1px solid var(--color-line-in-white);
 }
 
 .form-container fieldset legend button {
+  font: 700 1.4rem Archivo, sans-serif;
+  color: var(--color-primary);
+  line-height: 2.6rem;
+
   background: none;
   border: 0;
-  color: var(--color-primary);
-  font: 700 1.6rem Archivo, sans-serif;
+
   cursor: pointer;
   transition: color 0.2s;
 }
@@ -54,7 +60,7 @@
 .form-container fieldset .select-block + .input-block,
 .form-container fieldset .fields-section + .fields-section,
 .form-container fieldset .fields-section + .textarea-block {
-  margin-top: 2.4rem;
+  margin-top: 1.6rem;
 }
 
 .form-container label {
@@ -63,12 +69,34 @@
 
 @media (min-width: 700px) {
   .form-container {
+    padding-top: 6.4rem;
     margin-top: -6.4rem;
     margin-inline: auto;
   }
 
+  
   .form-container fieldset {
     padding: 0 6.4rem;
+  }
+
+  .form-container fieldset + fieldset {
+    margin-top: 6.4rem;
+  }
+
+  .form-container fieldset legend {
+    font-size: 2.4rem;
+    line-height: 3.4rem;
+    
+    padding-bottom: 1.6rem;
+  }
+
+  .form-container fieldset legend button {
+    font-size: 1.6rem;
+  }
+
+  .form-container fieldset .fields-section + .fields-section,
+  .form-container fieldset .fields-section + .textarea-block {
+    margin-top: 2.4rem;
   }
 
   .form-container fieldset .fields-section .select-block + .input-block,

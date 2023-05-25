@@ -4,11 +4,12 @@
 }
 
 .select-block + .select-block {
-  margin-top: 1.4rem; 
+  margin-top: 1.6rem; 
 }
 
 .select-block label {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
+  line-height: 2.2rem;
 }
 
 .select-block select {
@@ -32,4 +33,11 @@
   left: 1.6rem;
   right: 1.6rem;
   bottom: 0;
+}
+
+@media (min-width: 700px) {
+  .select-block label {
+    font-size: 1.4rem;
+    line-height: 2.4rem;
+  }
 }
