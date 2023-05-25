@@ -23,7 +23,7 @@ import { UserAvatar } from '@components/UserAvatar';
 
 import './styles.css';
 
-export function TeacherForm() {
+export function GiveClasses() {
   const { fetchUser, user } = useAuth();
   const history = useHistory();
 
