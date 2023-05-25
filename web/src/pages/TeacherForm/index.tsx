@@ -75,7 +75,6 @@ export function TeacherForm() {
     <div id="page-teacher-form" className="page-container">
       <PageHeader
         title="Dar aulas"
-        contentSize="md"
       >
         <PageSubtitle subtitle="Que incrível que você quer dar aulas." />
         <div className="page-description-container">

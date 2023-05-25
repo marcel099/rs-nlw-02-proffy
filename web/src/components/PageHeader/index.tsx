@@ -9,21 +9,17 @@ interface PageHeaderProps extends HTMLAttributes<HTMLDivElement> {
   // motivationalIconSource?: string;
   // motivationalMessage?: string;
   // shortMotivationalMessage?: string;
-  contentSize: 'sm' | 'md' | 'lg';
   children: ReactNode;
 }
 
 export function PageHeader({
-  title, children, contentSize, ...rest
+  title, children, ...rest
 }: PageHeaderProps) {
   return (
     <header className="page-header">
       <PageHeaderTopBar title={title} />
       <div
-        className={
-          // eslint-disable-next-line no-nested-ternary
-          `header-content ${contentSize === 'sm' ? 'small' : contentSize === 'md' ? 'medium' : 'large'}`
-        }
+        className="header-content"
         {...rest}
       >
         {children}

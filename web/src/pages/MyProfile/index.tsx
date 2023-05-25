@@ -136,7 +136,6 @@ export function MyProfile() {
     <div id="page-my-profile" className="page-container">
       <PageHeader
         title="Meu perfil"
-        contentSize="lg"
         style={{
           backgroundImage: `url(${myProfileDesktopImg})`,
           backgroundPosition: 'center',
