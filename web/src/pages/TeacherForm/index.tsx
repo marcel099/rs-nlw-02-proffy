@@ -1,8 +1,11 @@
 import { useState, FormEvent } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import rocketIcon from '@assets/images/icons/rocket.svg';
+
 import api from '@services/api';
 
+import { EncouragementMessage } from '@components/EncouragementMessage';
 import { FormContainer } from '@components/FormContainer';
 import { FormFooter } from '@components/FormFooter';
 import { OuterLabelInput } from '@components/OuterLabelInput';
@@ -75,7 +78,17 @@ export function TeacherForm() {
         contentSize="md"
       >
         <PageSubtitle subtitle="Que incrível que você quer dar aulas." />
-        <p className="page-description">O primeiro passo é preencher este formulário de inscrição</p>
+        <div className="page-description-container">
+          <p className="page-description">O primeiro passo é preencher este formulário de inscrição</p>
+          <div className="encouragement-message-container">
+            <EncouragementMessage
+              iconUrl={rocketIcon}
+              iconAlt="Foguete"
+            >
+              Preparare-se!<br />Vai ser o máximo.
+            </EncouragementMessage>
+          </div>
+        </div>
       </PageHeader>
 
       <FormContainer handleSubmit={handleCreateClass}>

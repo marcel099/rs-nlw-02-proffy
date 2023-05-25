@@ -1,10 +1,13 @@
 .form-container {
+  position: relative;
+  z-index: 2;
+
   background: var(--color-box-base);
 
   width: auto;
   max-width: 74rem;
   
-  margin-top: -3.2rem;
+  margin-top: -4rem;
   margin-bottom: 3.2rem;
   margin-inline: 1.6rem;
   padding-top: 6.4rem;
@@ -60,8 +63,10 @@
 
 @media (min-width: 700px) {
   .form-container {
+    margin-top: -6.4rem;
     margin-inline: auto;
   }
+
   .form-container fieldset {
     padding: 0 6.4rem;
   }

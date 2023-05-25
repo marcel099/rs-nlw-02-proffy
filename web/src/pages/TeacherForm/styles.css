@@ -1,20 +1,41 @@
-#page-teacher-form .page-header .header-content {
-  margin-bottom: 6.4rem;
+#page-teacher-form .header-content .page-description-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: 1.6rem;
+  margin-bottom: 8rem;
 }
 
-#page-teacher-form .page-header .header-content .page-description {
-  max-width: 30rem;
-  font-size: 1.6rem;
-  line-height: 2.6rem;
+#page-teacher-form .header-content .page-description {
+  font: 400 1.4rem Poppins, sans-serif;
+  line-height: 2.4rem;
   color: var(--color-text-in-primary);
-  margin-top: 2.4rem;
+
+  max-width: 80%;
+}
+
+#page-teacher-form .header-content .encouragement-message-container {
+  display: none;
 }
 
 @media (min-width: 700px) {
-  #page-teacher-form .page-header .header-content {
-    margin-bottom: 0;
+  #page-teacher-form .header-content .page-description-container {
+    margin-top: 2.8rem;
+    margin-bottom: 11.3rem;
   }
 
+  #page-teacher-form .header-content .page-description {
+    max-width: 34rem;
+    font-size: 1.6rem;
+    line-height: 2.6rem;
+  }
+
+  #page-teacher-form .header-content .encouragement-message-container {
+    display: flex;
+    align-items: center;
+  }
+  
   #page-teacher-form fieldset .schedule-item {
     display: grid;
     grid-template-columns: 2fr 1fr 1fr;
