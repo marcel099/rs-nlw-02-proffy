@@ -16,7 +16,7 @@ import { ClassScheduleForm } from '@components/ClassScheduleForm';
 import { FormContainer } from '@components/FormContainer';
 import { OuterLabelInput } from '@components/OuterLabelInput';
 import { PageHeader } from '@components/PageHeader';
-import { Select } from '@components/Select';
+import { SubjectForm } from '@components/SubjectForm';
 import { Textarea } from '@components/Textarea';
 import { UserAvatar } from '@components/UserAvatar';
 
@@ -109,12 +109,6 @@ export function MyProfile() {
   }
 
   useEffect(() => {
-    api.get('/subjects').then((response) => {
-      setSubjects(response.data);
-    });
-  });
-
-  useEffect(() => {
     api.get('/classes/me').then((response) => {
       const fetchedClassSchedules: ApiClassSchedule[] =
         response.data.class_schedules;
@@ -199,29 +193,14 @@ export function MyProfile() {
           />
         </fieldset>
 
-        <fieldset>
-          <legend>Sobre a aula</legend>
-
-          <div className="fields-section subject-section">
-            <Select
-              name="subject"
-              label="Matéria"
-              value={subjectId}
-              placeholder="Selecione qual você quer ensinar"
-              onChange={(e) => setSubjectId(Number(e.target.value))}
-              options={subjects.map((subject) => ({
-                value: String(subject.id),
-                label: subject.name,
-              }))}
-            />
-            <OuterLabelInput
-              name="cost"
-              label="Custo da sua hora por aula"
-              value={cost}
-              onChange={(e) => setCost(e.target.value)}
-            />
-          </div>
-        </fieldset>
+        <SubjectForm
+          subjects={subjects}
+          setSubjects={setSubjects}
+          subjectId={subjectId}
+          setSubjectId={setSubjectId}
+          cost={cost}
+          setCost={setCost}
+        />
 
         <ClassScheduleForm
           classSchedules={classSchedules}
