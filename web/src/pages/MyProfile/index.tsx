@@ -12,7 +12,6 @@ import api from '@services/api';
 import { parseFetchedToParsedClassSchedule } from '@utils/mappers';
 
 import { FormContainer } from '@components/FormContainer';
-import { FormFooter } from '@components/FormFooter';
 import { OuterLabelInput } from '@components/OuterLabelInput';
 import { PageHeader } from '@components/PageHeader';
 import { Select } from '@components/Select';
@@ -337,7 +336,6 @@ export function MyProfile() {
             </div>
           ))}
         </fieldset>
-        <FormFooter />
       </FormContainer>
     </div>
   );
