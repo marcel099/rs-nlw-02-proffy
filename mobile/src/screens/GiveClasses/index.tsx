@@ -1,39 +1,44 @@
-import { useNavigation } from '@react-navigation/native';
-import React from 'react';
-import { View, ImageBackground, Text } from 'react-native';
-import { RectButton } from 'react-native-gesture-handler';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StatusBar,
+  Text,
+  View,
+} from 'react-native';
 
-import giveClassesBGImage from '@assets/images/give-classes-background.png';
+// import giveClassesBGImage from '@assets/images/give-classes-background.png';
 
-import styles from './styles';
+import { ScreenHeader } from '@components/ScreenHeader';
+import { ScreenSubtitle } from '@components/ScreenSubtitle';
+
+import { styles } from './styles';
 
 export function GiveClasses() {
-  const { goBack } = useNavigation();
-
-  function handleNavigateBack() {
-    goBack();
-  }
-
   return (
-    <View style={styles.container}>
-      <ImageBackground
-        source={giveClassesBGImage}
-        style={styles.content}
-        resizeMode="contain"
+    <>
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor="#774DD6"
+        translucent
+      />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
-        <Text style={styles.title}>Quer ser um Proffy?</Text>
-        <Text style={styles.description}>
-          {/* eslint-disable-next-line max-len */}
-          Para começar, você precisa se cadastrar como professor na nossa plataforma web.
-        </Text>
-      </ImageBackground>
-
-      <RectButton
-        onPress={handleNavigateBack}
-        style={styles.okButton}
-      >
-        <Text style={styles.okButtonText}>Tudo bem</Text>
-      </RectButton>
-    </View>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.container}>
+            <ScreenHeader title="Dar aulas" />
+            <View style={styles.subheader}>
+              <ScreenSubtitle
+                subtitle={'Que incrível que você\nquer dar aulas.'}
+              />
+              <Text style={styles.screenDescription}>
+                O primeiro passo é preencher este{'\n'}formulário de inscrição
+              </Text>
+            </View>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </>
   );
 }

@@ -1,12 +1,30 @@
 import { StyleSheet } from 'react-native';
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#8257e5',
     flex: 1,
-    justifyContent: 'center',
-    padding: 40,
   },
+  subheader: {
+    backgroundColor: '#8257E5',
+
+    paddingHorizontal: 32,
+    paddingTop: 40,
+    paddingBottom: 80,
+  },
+  screenDescription: {
+    fontFamily: 'Poppins_400Regular',
+    fontSize: 14,
+    lineHeight: 24,
+    color: '#D4C2FF',
+
+    marginTop: 16,
+  },
+  // container: {
+  //   backgroundColor: '#8257e5',
+  //   flex: 1,
+  //   justifyContent: 'center',
+  //   padding: 40,
+  // },
 
   content: {
     flex: 1,
@@ -44,6 +62,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'Archivo_700Bold',
   },
-})
-
-export default styles;
+});
