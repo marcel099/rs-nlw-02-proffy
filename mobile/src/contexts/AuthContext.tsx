@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AxiosError } from 'axios';
 import React, {
   createContext,
   ReactNode,
@@ -7,6 +8,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
+import { Alert } from 'react-native';
 
 import {
   SIGNED_IN_USER,
@@ -49,6 +51,10 @@ export function AuthContextProvider({
   const [user, setUser] = useState<User | null>(null);
   // const [isFetchingAuthData, setIsFetchingAuthData] = useState(true);
 
+  function setAxiosDefaultAuthorization(token: string) {
+    api.defaults.headers['Authorization'] = `Bearer ${token}`;
+  }
+
   async function fetchUserSession({
     email,
     password,
@@ -62,7 +68,7 @@ export function AuthContextProvider({
       }
 
       const { token } = sessionResponse.data;
-      api.defaults.headers['Authorization'] = `Bearer ${token}`;
+      setAxiosDefaultAuthorization(token);
 
       if (rememberMe) {
         AsyncStorage.setItem(
@@ -131,13 +137,31 @@ export function AuthContextProvider({
     setUser(null);
   }
 
+  function setAxiosInterceptorInvalidToken() {
+    api.interceptors.response.use(
+      (response) => response,
+      (error: AxiosError) => {
+        if (error?.response?.status === 401 &&
+            error?.response.data.message === 'Token inválido') {
+          Alert.alert(
+            'Sessão expirada',
+            'Sua sessão está expirada. Por favor, faça login novamente.',
+            [{ text: 'Ok', onPress: () => signOut() }]
+          );
+        }
+
+        return Promise.reject(error);
+      }
+    );
+  }
+
   useEffect(() => {
     async function loadTokenAndUser() {
       const loadedUser = await AsyncStorage.getItem(SIGNED_IN_USER);
       const token = await AsyncStorage.getItem(SIGNED_IN_USER_TOKEN);
 
       if (token !== null && loadedUser !== null) {
-        api.defaults.headers['Authorization'] = `Bearer ${token}`;
+        setAxiosDefaultAuthorization(token);
         setUser(JSON.parse(loadedUser));
       }
 
@@ -145,6 +169,7 @@ export function AuthContextProvider({
     }
 
     loadTokenAndUser();
+    setAxiosInterceptorInvalidToken();
   }, []);
 
   const value = useMemo(() => ({

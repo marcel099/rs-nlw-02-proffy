@@ -63,7 +63,13 @@ export function MyProfile() {
         setCost(data.cost);
         setIsFetchingUserClasses(false);
       })
-      .catch(() => Alert.alert('Erro ao buscar dados das aulas do usuário'));
+      .catch((error) => {
+        if (error?.response?.status === 401) {
+          return;
+        }
+
+        Alert.alert('Erro ao buscar dados das aulas do usuário');
+      });
   }, []);
 
   useEffect(() => {
@@ -72,7 +78,13 @@ export function MyProfile() {
         setSubjects(data.subjects);
         setIsFetchingSubjects(false);
       })
-      .catch(() => Alert.alert('Erro ao buscar dados das matérias'));
+      .catch((error) => {
+        if (error?.response?.status === 401) {
+          return;
+        }
+
+        Alert.alert('Erro ao buscar dados das matérias');
+      });
   }, []);
 
   async function handleEditUser() {

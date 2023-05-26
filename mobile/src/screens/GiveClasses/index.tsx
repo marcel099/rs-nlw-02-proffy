@@ -58,18 +58,27 @@ export function GiveClasses() {
         setCost(data.cost);
         setIsFetchingUserClasses(false);
       })
-      .catch(() => {
+      .catch((error) => {
+        if (error?.response?.status === 401) {
+          return;
+        }
+
         Alert.alert('Erro ao buscar dados das aulas do usuário');
       });
   }, []);
 
   useEffect(() => {
+    // const pro = fetchSubjects()
     fetchSubjects()
       .then((data) => {
         setSubjects(data.subjects);
         setIsFetchingSubjects(false);
       })
-      .catch(() => {
+      .catch((error) => {
+        if (error?.response?.status === 401) {
+          return;
+        }
+
         Alert.alert('Erro ao buscar dados das matérias');
       });
   }, []);
