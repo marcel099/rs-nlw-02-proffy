@@ -5,9 +5,9 @@ import { RectButton } from 'react-native-gesture-handler';
 import { ClassSchedule } from '@dtos/ClassSchedule';
 import { createBlankClassSchedule } from '@utils/factories';
 
+import { FormFieldset } from '@components/form/FormFieldset';
 import { Select } from '@components/form/Select';
 import { TimeInput } from '@components/form/TimeInput';
-import { FormFieldset } from '@components/FormFieldset';
 
 import { styles } from './styles';
 
