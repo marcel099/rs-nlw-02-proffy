@@ -1,0 +1,7 @@
+@media (min-width: 700px) {
+  fieldset .subject-section {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    column-gap: 3.2rem;
+  }
+}

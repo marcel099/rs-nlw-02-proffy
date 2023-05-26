@@ -14,19 +14,18 @@ import {
 import myProfileBackground from '@assets/images/my-profile-background.png';
 
 import { useAuth } from '@contexts/AuthContext';
-import { ApiClassSchedule, ClassSchedule, NotSavedClassSchedule } from '@dtos/ClassSchedule';
-import { ApiSubject, Subject } from '@dtos/Subject';
+import { ClassSchedule, NotSavedClassSchedule } from '@dtos/ClassSchedule';
+import { Subject } from '@dtos/Subject';
 import { AppStackScreenProp } from '@routes/app.stack.routes';
 import api from '@services/api';
-import { createBlankClassSchedule } from '@utils/factories';
-import { parseFetchedToParsedClassSchedule } from '@utils/mappers';
+import { fetchSubjects, fetchUserClasses } from '@utils/fetchers';
 
-import { ClassScheduleForm } from '@components/ClassScheduleForm';
+import { ClassScheduleForm } from '@components/form/ClassScheduleForm';
 import { FormContainer } from '@components/form/FormContainer';
+import { FormFieldset } from '@components/form/FormFieldset';
 import { OuterLabelInput } from '@components/form/OuterLabelInput';
-import { Select } from '@components/form/Select';
+import { SubjectForm } from '@components/form/SubjectForm';
 import { TextArea } from '@components/form/TextArea';
-import { FormFieldset } from '@components/FormFieldset';
 import { ScreenHeader } from '@components/ScreenHeader';
 import { UserAvatar } from '@components/UserAvatar';
 
@@ -57,35 +56,23 @@ export function MyProfile() {
   const [isFetchingUserClasses, setIsFetchingUserClasses] = useState(true);
 
   useEffect(() => {
-    api.get('/classes/me').then((response) => {
-      const fetchedClassSchedules: ApiClassSchedule[] =
-        response.data.class_schedules;
-
-      const parsedClassSchedules = fetchedClassSchedules
-        .map(parseFetchedToParsedClassSchedule);
-
-      const newClassSchedules = parsedClassSchedules.length > 0
-        ? parsedClassSchedules
-        : [createBlankClassSchedule()];
-
-      setClassSchedules(newClassSchedules);
-      setSubjectId(String(response.data.class.subject.id));
-      setCost(response.data.class.cost);
-      setIsFetchingUserClasses(false);
-    });
+    fetchUserClasses()
+      .then((data) => {
+        setClassSchedules(data.classSchedules);
+        setSubjectId(data.subjectId);
+        setCost(data.cost);
+        setIsFetchingUserClasses(false);
+      })
+      .catch(() => Alert.alert('Erro ao buscar dados das aulas do usuário'));
   }, []);
 
   useEffect(() => {
-    api.get('/subjects').then((response) => {
-      const fetchedSubjects: ApiSubject[] = response.data;
-      const parsedSubjects: Subject[] = fetchedSubjects.map((subject) => ({
-        id: String(subject.id),
-        name: subject.name,
-      }));
-
-      setSubjects(parsedSubjects);
-      setIsFetchingSubjects(false);
-    });
+    fetchSubjects()
+      .then((data) => {
+        setSubjects(data.subjects);
+        setIsFetchingSubjects(false);
+      })
+      .catch(() => Alert.alert('Erro ao buscar dados das matérias'));
   }, []);
 
   async function handleEditUser() {
@@ -224,28 +211,15 @@ export function MyProfile() {
                   description="(Máximo 300 caracteres)"
                 />
               </FormFieldset>
-              <FormFieldset
-                legend="Sobre a aula"
-              >
-                {!isFetchingSubjects && !isFetchingUserClasses && (
-                  <Select
-                    label="Matéria"
-                    options={subjects}
-                    optionValue="id"
-                    optionLabel="name"
-                    selectedValue={subjectId}
-                    onValueChange={(value: string) => setSubjectId(value)}
-                    placeholder="Selecione qual ensinar"
-                  />
-                )}
-                <OuterLabelInput
-                  label="Custo da sua hora por aula"
-                  value={String(cost)}
-                  onChangeText={(value) => setCost(Number(value))}
-                  placeholder="R$"
-                  keyboardType="numeric"
-                />
-              </FormFieldset>
+              <SubjectForm
+                subjects={subjects}
+                subjectId={subjectId}
+                setSubjectId={setSubjectId}
+                cost={cost}
+                setCost={setCost}
+                isFetchingSubjects={isFetchingSubjects}
+                isFetchingUserClasses={isFetchingUserClasses}
+              />
               <ClassScheduleForm
                 classSchedules={classSchedules}
                 setClassSchedules={setClassSchedules}

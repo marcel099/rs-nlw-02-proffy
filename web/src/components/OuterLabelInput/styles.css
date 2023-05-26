@@ -4,11 +4,12 @@
 }
 
 .outer-label-input-block + .outer-label-input-block {
-  margin-top: 1.4rem; 
+  margin-top: 1.6rem; 
 }
 
 .outer-label-input-block label {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
+  line-height: 2.2rem;
 }
 
 .outer-label-input-block input {
@@ -32,4 +33,11 @@
   left: 1.6rem;
   right: 1.6rem;
   bottom: 0;
+}
+
+@media (min-width: 700px) {
+  .outer-label-input-block label {
+    font-size: 1.4rem;
+    line-height: 2.4rem;
+  }
 }

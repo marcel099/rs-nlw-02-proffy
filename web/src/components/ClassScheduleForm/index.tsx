@@ -1,15 +1,12 @@
 import { Dispatch, SetStateAction } from 'react';
-import { Text, TouchableOpacity, View } from 'react-native';
-import { RectButton } from 'react-native-gesture-handler';
 
 import { ClassSchedule } from '@dtos/ClassSchedule';
 import { createBlankClassSchedule } from '@utils/factories';
 
-import { Select } from '@components/form/Select';
-import { TimeInput } from '@components/form/TimeInput';
-import { FormFieldset } from '@components/FormFieldset';
+import { OuterLabelInput } from '@components/OuterLabelInput';
+import { Select } from '@components/Select';
 
-import { styles } from './styles';
+import './styles.css';
 
 interface ClassScheduleFormProps {
   classSchedules: ClassSchedule[];
@@ -59,27 +56,35 @@ export function ClassScheduleForm({
   }
 
   return (
-    <FormFieldset
-      legend="Horários disponíveis"
-      headerAsideContent={(
-        <RectButton onPress={addNewClassSchedule}>
-          <Text style={styles.addNewClassScheduleText}>+ Novo</Text>
-        </RectButton>
-      )}
-    >
-      { classSchedules.map((classSchedule) => (
-        <View
-          key={classSchedule.id}
-          style={styles.container}
+    <fieldset>
+      <legend>
+        Horários disponíveis
+        <button
+          type="button"
+          onClick={addNewClassSchedule}
         >
-          <View>
+          + Novo horário
+        </button>
+      </legend>
+
+      { classSchedules.map((classSchedule, index) => (
+        <div
+          key={classSchedule.id}
+          className="schedule-item"
+        >
+          <div
+            className="fields-section schedule-section"
+          >
             <Select
+              name="week_day"
               label="Dia da semana"
-              selectedValue={
-                classSchedule.week_day !== -1
-                  ? String(classSchedule.week_day)
-                  : ''
-              }
+              value={
+                    classSchedule.week_day !== -1
+                      ? classSchedule.week_day
+                      : ''
+                  }
+              placeholder="Selecione o dia"
+              onChange={(e) => setClassScheduleValue(index, 'week_day', e.target.value)}
               options={[
                 { value: '0', label: 'Domingo' },
                 { value: '1', label: 'Segunda-feira' },
@@ -89,45 +94,33 @@ export function ClassScheduleForm({
                 { value: '5', label: 'Sexta-feira' },
                 { value: '6', label: 'Sábado' },
               ]}
-              optionValue="value"
-              optionLabel="label"
-              onValueChange={
-                (value: string) => setClassScheduleValue(classSchedule.id, 'week_day', value)
-              }
-              placeholder="Selecione o dia"
             />
-            <View style={styles.intervalSection}>
-              <TimeInput
+            <div className="interval-section">
+              <OuterLabelInput
+                name="from"
                 label="Das"
+                type="time"
                 value={classSchedule.from}
-                onChangeValue={
-                  (value) => setClassScheduleValue(classSchedule.id, 'from', value)
-                }
+                onChange={(e) => setClassScheduleValue(index, 'from', e.target.value)}
               />
-              <View style={{ width: 16 }} />
-              <TimeInput
+              <OuterLabelInput
+                name="to"
                 label="Até"
+                type="time"
                 value={classSchedule.to}
-                onChangeValue={
-                  (value) => setClassScheduleValue(classSchedule.id, 'to', value)
-                }
+                onChange={(e) => setClassScheduleValue(index, 'to', e.target.value)}
               />
-            </View>
-          </View>
-          <View style={styles.deleteClassScheduleButtonContainer}>
-            <View style={styles.deleteClassScheduleButtonLine} />
-            <TouchableOpacity
-              style={styles.deleteClassScheduleButton}
-              onPress={() => removeClassSchedule(classSchedule.id)}
-            >
-              <Text style={styles.deleteClassScheduleButtonText}>
-                Excluir horário
-              </Text>
-            </TouchableOpacity>
-            <View style={styles.deleteClassScheduleButtonLine} />
-          </View>
-        </View>
+            </div>
+          </div>
+          <button
+            type="button"
+            className="delete-class-schedule-button"
+            onClick={() => removeClassSchedule(classSchedule.id)}
+          >
+            Excluir horário
+          </button>
+        </div>
       ))}
-    </FormFieldset>
+    </fieldset>
   );
 }

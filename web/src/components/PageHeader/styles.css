@@ -7,10 +7,10 @@
 
 .page-header .header-content {
   width: 90%;
-  margin: 0 auto;
   position: relative;
+  z-index: 1;
 
-  margin: 3.2rem auto;
+  margin-inline: auto;
 
   background-color: transparent;
 }
@@ -23,19 +23,5 @@
   .page-header .header-content {
     flex-grow: 1;
     max-width: 740px;
-    margin: 0 auto;
-    padding-bottom: 6.4rem;
-  }
-
-  .page-header .header-content.small {
-    height: 25.6rem;
-  }
-
-  .page-header .header-content.medium {
-    height: 35.2rem;
-  }
-
-  .page-header .header-content.large {
-    height: 47.1rem;
   }
 }

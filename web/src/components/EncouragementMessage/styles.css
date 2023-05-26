@@ -1,0 +1,12 @@
+#encouragement-message-icon {
+  width: 3.2rem;
+  height: 3.2rem;
+}
+
+#encouragement-message {
+  font: 400 1.2rem Poppins, sans-serif;
+  color: var(--color-text-in-primary);
+  line-height: 2rem;
+
+  margin-left: 1.6rem;
+}

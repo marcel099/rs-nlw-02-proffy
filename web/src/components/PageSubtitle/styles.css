@@ -1,11 +1,21 @@
 .page-header .header-content .page-subtitle {
-  font: 700 3.6rem Archivo, sans-serif;
-  line-height: 4.2rem;
+  display: inline-block;
+  max-width: 25rem;
+
+  font: 700 2.4rem Archivo, sans-serif;
+  line-height: 2.9rem;
+  
   color: var(--color-title-in-primary);
+
+  margin-top: 4rem;
 }
 
 @media (min-width: 700px) {
   .page-header .header-content .page-subtitle {
-    max-width: 350px;
+    max-width: 35.0rem;
+    margin-top: 6.4rem;
+
+    font-size: 3.6rem;
+    line-height: 4.2rem;
   }
 }
