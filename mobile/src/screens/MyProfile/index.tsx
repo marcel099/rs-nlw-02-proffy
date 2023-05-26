@@ -14,12 +14,11 @@ import {
 import myProfileBackground from '@assets/images/my-profile-background.png';
 
 import { useAuth } from '@contexts/AuthContext';
-import { ApiClassSchedule, ClassSchedule, NotSavedClassSchedule } from '@dtos/ClassSchedule';
-import { ApiSubject, Subject } from '@dtos/Subject';
+import { ClassSchedule, NotSavedClassSchedule } from '@dtos/ClassSchedule';
+import { Subject } from '@dtos/Subject';
 import { AppStackScreenProp } from '@routes/app.stack.routes';
 import api from '@services/api';
-import { createBlankClassSchedule } from '@utils/factories';
-import { parseFetchedToParsedClassSchedule } from '@utils/mappers';
+import { fetchSubjects, fetchUserClasses } from '@utils/fetchers';
 
 import { ClassScheduleForm } from '@components/form/ClassScheduleForm';
 import { FormContainer } from '@components/form/FormContainer';
@@ -57,35 +56,23 @@ export function MyProfile() {
   const [isFetchingUserClasses, setIsFetchingUserClasses] = useState(true);
 
   useEffect(() => {
-    api.get('/classes/me').then((response) => {
-      const fetchedClassSchedules: ApiClassSchedule[] =
-        response.data.class_schedules;
-
-      const parsedClassSchedules = fetchedClassSchedules
-        .map(parseFetchedToParsedClassSchedule);
-
-      const newClassSchedules = parsedClassSchedules.length > 0
-        ? parsedClassSchedules
-        : [createBlankClassSchedule()];
-
-      setClassSchedules(newClassSchedules);
-      setSubjectId(String(response.data.class.subject.id));
-      setCost(response.data.class.cost);
-      setIsFetchingUserClasses(false);
-    });
+    fetchUserClasses()
+      .then((data) => {
+        setClassSchedules(data.classSchedules);
+        setSubjectId(data.subjectId);
+        setCost(data.cost);
+        setIsFetchingUserClasses(false);
+      })
+      .catch(() => Alert.alert('Erro ao buscar dados das aulas do usuário'));
   }, []);
 
   useEffect(() => {
-    api.get('/subjects').then((response) => {
-      const fetchedSubjects: ApiSubject[] = response.data;
-      const parsedSubjects: Subject[] = fetchedSubjects.map((subject) => ({
-        id: String(subject.id),
-        name: subject.name,
-      }));
-
-      setSubjects(parsedSubjects);
-      setIsFetchingSubjects(false);
-    });
+    fetchSubjects()
+      .then((data) => {
+        setSubjects(data.subjects);
+        setIsFetchingSubjects(false);
+      })
+      .catch(() => Alert.alert('Erro ao buscar dados das matérias'));
   }, []);
 
   async function handleEditUser() {
