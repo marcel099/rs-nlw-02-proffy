@@ -1,59 +1,51 @@
-import React, { useState } from 'react';
-import { View, Image, Text, Linking } from 'react-native';
-import { RectButton } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useState } from 'react';
+import {
+  View, Image, Text, Linking,
+} from 'react-native';
+import { RectButton } from 'react-native-gesture-handler';
 
-import api from '../../services/api';
+import heartOutlineIcon from '@assets/images/icons/heart-outline.png';
+import unfavoriteIcon from '@assets/images/icons/unfavorite.png';
+import whatsappIcon from '@assets/images/icons/whatsapp.png';
 
-import heartOutlineIcon from '../../assets/images/icons/heart-outline.png';
-import unfavoriteIcon from '../../assets/images/icons/unfavorite.png';
-import whatsappIcon from '../../assets/images/icons/whatsapp.png';
+import { FAVORITE_TEACHERS } from '@configs/storage';
+import { Teacher } from '@dtos/Teacher';
+import api from '@services/api';
+import { loadFavoriteTeachers } from '@utils/loaders';
 
 import styles from './styles';
 
-export interface TeacherItemProps {
-  id: number,
-  user_id: number,
-  name: string,
-  subject: string,
-  bio: string,
-  avatar: string,
-  cost: number,
-  whatsapp: string,
-  favorited: boolean,
-}
-
-const TeacherItem: React.FC<TeacherItemProps> = ({ id, user_id, avatar, name, subject, bio, cost, whatsapp, favorited }) => {
-  const [ isFavorited, setIsFavorited ] = useState(favorited)
+export function TeacherItem({
+  id, user_id, avatar, name, subject, bio, cost, whatsapp, favorited,
+}: Teacher) {
+  const [isFavorite, setIsFavorite] = useState(favorited);
 
   function handleLinkToWhatsapp() {
     api.post('connections', {
-      user_id
-    })
+      user_id,
+    });
 
-    Linking.openURL(`whatsapp://send?phone=${whatsapp}`)
+    Linking.openURL(`whatsapp://send?phone=${whatsapp}`);
   }
 
   async function handleToggleFavorite() {
-    const favorites = await AsyncStorage.getItem('favorites');
+    const favoriteTeachers = await loadFavoriteTeachers();
 
-    let favoritesArray = [];
-    if (favorites) {
-      favoritesArray = JSON.parse(favorites);
-    }
+    if (isFavorite) {
+      setIsFavorite(false);
 
-    if ( isFavorited ) {
-      setIsFavorited(false)
+      const favoritedIndex = favoriteTeachers
+        .map((teacher) => teacher.id)
+        .find((teacherId: number) => teacherId === user_id);
 
-      const favoritedIndex = favoritesArray
-        .map((favorited: TeacherItemProps) => favorited.id)
-        .find( (favoritedId: number) => favoritedId === user_id)
-
-      favoritesArray.splice(favoritedIndex, 1)
+      if (favoritedIndex !== undefined) {
+        favoriteTeachers.splice(favoritedIndex, 1);
+      }
     } else {
-      setIsFavorited(true)
+      setIsFavorite(true);
 
-      favoritesArray.push({
+      favoriteTeachers.push({
         id,
         user_id,
         avatar,
@@ -63,10 +55,13 @@ const TeacherItem: React.FC<TeacherItemProps> = ({ id, user_id, avatar, name, su
         cost,
         whatsapp,
         favorited,
-      })
+      });
     }
-    
-    await AsyncStorage.setItem('favorites', JSON.stringify(favoritesArray))
+
+    await AsyncStorage.setItem(
+      FAVORITE_TEACHERS,
+      JSON.stringify(favoriteTeachers)
+    );
   }
 
   return (
@@ -85,7 +80,7 @@ const TeacherItem: React.FC<TeacherItemProps> = ({ id, user_id, avatar, name, su
       <Text style={styles.bio}>
         {bio}
       </Text>
-      
+
       <View style={styles.footer}>
         <Text style={styles.price}>
           Preço/hora {'   '}
@@ -97,22 +92,23 @@ const TeacherItem: React.FC<TeacherItemProps> = ({ id, user_id, avatar, name, su
             onPress={handleToggleFavorite}
             style={[
               styles.favoriteButton,
-              isFavorited ? styles.favorited : {},
+              isFavorite ? styles.favorited : {},
             ]}
           >
-            { isFavorited
-              ? <Image source={unfavoriteIcon}/>
+            { isFavorite
+              ? <Image source={unfavoriteIcon} />
               : <Image source={heartOutlineIcon} /> }
           </RectButton>
 
-          <RectButton onPress={handleLinkToWhatsapp} style={styles.contactButton}>
+          <RectButton
+            onPress={handleLinkToWhatsapp}
+            style={styles.contactButton}
+          >
             <Image source={whatsappIcon} />
             <Text style={styles.contactButtonText}>Entrar em contato</Text>
           </RectButton>
         </View>
       </View>
     </View>
-  )
+  );
 }
-
-export default TeacherItem;

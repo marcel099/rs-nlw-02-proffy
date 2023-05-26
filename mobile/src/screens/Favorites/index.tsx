@@ -1,27 +1,25 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useState } from 'react';
 import {
-  View, ScrollView, StatusBar, Text,
+  View, ScrollView, StatusBar,
 } from 'react-native';
+
+import { Teacher } from '@dtos/Teacher';
+import { loadFavoriteTeachers } from '@utils/loaders';
 
 import { ScreenHeader } from '@components/ScreenHeader';
 import { ScreenSubtitle } from '@components/ScreenSubtitle';
-import TeacherItem, { TeacherItemProps } from '@components/TeacherItem';
+import { TeacherItem } from '@components/TeacherItem';
 
 import { styles } from './styles';
 
 export function Favorites() {
-  const [favorites, setFavorites] = useState([]);
+  const [favoriteTeachers, setFavoriteTeachers] = useState<Teacher[]>([]);
 
-  function loadFavorites() {
-    AsyncStorage.getItem('favorites').then((response) => {
-      if (response) {
-        const favoritedTeachers = JSON.parse(response);
+  async function loadFavorites() {
+    const favoriteTeachersStorage = await loadFavoriteTeachers();
 
-        setFavorites(favoritedTeachers);
-      }
-    });
+    setFavoriteTeachers(favoriteTeachersStorage);
   }
 
   useFocusEffect(() => { // Reexecuta a cada vez que entrar em foco
@@ -47,7 +45,7 @@ export function Favorites() {
           paddingBottom: 24,
         }}
       >
-        {favorites.map((teacher: TeacherItemProps) => (
+        {favoriteTeachers.map((teacher) => (
           <TeacherItem
             key={teacher.id}
             {...teacher}
