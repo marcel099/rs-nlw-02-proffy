@@ -19,6 +19,20 @@ export const styles = StyleSheet.create({
 
     marginTop: 16,
   },
+  personalDataSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
+
+    marginBottom: 24,
+  },
+  userName: {
+    fontFamily: 'Archivo_700Bold',
+    fontSize: 20,
+    color: '#32264D',
+    lineHeight: 25,
+
+    marginLeft: 16,
+  },
   // container: {
   //   backgroundColor: '#8257e5',
   //   flex: 1,
