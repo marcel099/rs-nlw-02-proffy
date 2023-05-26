@@ -25,7 +25,7 @@ import { ClassScheduleForm } from '@components/form/ClassScheduleForm';
 import { FormContainer } from '@components/form/FormContainer';
 import { FormFieldset } from '@components/form/FormFieldset';
 import { OuterLabelInput } from '@components/form/OuterLabelInput';
-import { Select } from '@components/form/Select';
+import { SubjectForm } from '@components/form/SubjectForm';
 import { TextArea } from '@components/form/TextArea';
 import { ScreenHeader } from '@components/ScreenHeader';
 import { UserAvatar } from '@components/UserAvatar';
@@ -224,28 +224,15 @@ export function MyProfile() {
                   description="(Máximo 300 caracteres)"
                 />
               </FormFieldset>
-              <FormFieldset
-                legend="Sobre a aula"
-              >
-                {!isFetchingSubjects && !isFetchingUserClasses && (
-                  <Select
-                    label="Matéria"
-                    options={subjects}
-                    optionValue="id"
-                    optionLabel="name"
-                    selectedValue={subjectId}
-                    onValueChange={(value: string) => setSubjectId(value)}
-                    placeholder="Selecione qual ensinar"
-                  />
-                )}
-                <OuterLabelInput
-                  label="Custo da sua hora por aula"
-                  value={String(cost)}
-                  onChangeText={(value) => setCost(Number(value))}
-                  placeholder="R$"
-                  keyboardType="numeric"
-                />
-              </FormFieldset>
+              <SubjectForm
+                subjects={subjects}
+                subjectId={subjectId}
+                setSubjectId={setSubjectId}
+                cost={cost}
+                setCost={setCost}
+                isFetchingSubjects={isFetchingSubjects}
+                isFetchingUserClasses={isFetchingUserClasses}
+              />
               <ClassScheduleForm
                 classSchedules={classSchedules}
                 setClassSchedules={setClassSchedules}
