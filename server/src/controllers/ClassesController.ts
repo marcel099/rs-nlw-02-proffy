@@ -36,9 +36,58 @@ interface ResponseUnitDTO {
   class_schedules: QueryClassSchedule[];
 }
 
+interface GetUserClassBaseQueryParams {
+  week_day: string | undefined;
+  subject_id: string | undefined;
+  timeInMinutes: number | undefined;
+}
+
+function getUserClassBaseQuery({
+  week_day,
+  subject_id,
+  timeInMinutes,
+}: GetUserClassBaseQueryParams) {
+  return db('classes as c')
+    .join('users as u', 'c.user_id', '=', 'u.id')
+    .join('subjects as s', 'c.subject_id', '=', 's.id')
+    .select(
+      'u.first_name',
+      'u.last_name',
+      'u.bio',
+      'u.avatar',
+      'u.whatsapp',
+      'c.id as class_id',
+      'c.cost as class_cost',
+      's.name as subject_name'
+    )
+    .whereExists(function sample() {
+      this.select('cs.*')
+        .from('class_schedule as cs')
+        .whereRaw('`cs`.`class_id` = `c`.`id`')
+        .modify((queryBuilder) => {
+          if (week_day !== undefined) {
+            queryBuilder.where('cs.week_day', '=', Number(week_day));
+          }
+
+          if (timeInMinutes !== undefined) {
+            queryBuilder
+              .where('cs.from', '<=', timeInMinutes)
+              .where('cs.to', '>', timeInMinutes);
+          }
+        });
+    })
+    .modify((queryBuilder) => {
+      if (subject_id !== undefined) {
+        queryBuilder.where('c.subject_id', '=', subject_id);
+      }
+    });
+}
+
 export class ClassesControler {
   async list(request: Request, response: Response) {
     const filters = request.query;
+
+    const { page } = filters;
 
     const subject_id = filters.subject_id as string;
     const week_day = filters.week_day as string;
@@ -50,40 +99,31 @@ export class ClassesControler {
       timeInMinutes = convertHourToMinutes(filters.time as string);
     }
 
-    const classes: QueryUserClass[] = await db('classes as c')
-      .join('users as u', 'c.user_id', '=', 'u.id')
-      .join('subjects as s', 'c.subject_id', '=', 's.id')
-      .select(
-        'u.first_name',
-        'u.last_name',
-        'u.bio',
-        'u.avatar',
-        'u.whatsapp',
-        'c.id as class_id',
-        'c.cost as class_cost',
-        's.name as subject_name'
-      )
-      .whereExists(function sample() {
-        this.select('cs.*')
-          .from('class_schedule as cs')
-          .whereRaw('`cs`.`class_id` = `c`.`id`')
-          .modify((queryBuilder) => {
-            if (week_day) {
-              queryBuilder.where('cs.week_day', '=', Number(week_day));
-            }
+    // eslint-disable-next-line prettier/prettier
+    const offset = page !== undefined
+      ? (Number(page) - 1) * 5
+      : 0;
 
-            if (timeInMinutes) {
-              queryBuilder
-                .where('cs.from', '<=', timeInMinutes)
-                .where('cs.to', '>', timeInMinutes);
-            }
-          });
-      })
-      .modify((queryBuilder) => {
-        if (subject_id) {
-          queryBuilder.where('c.subject_id', '=', subject_id);
-        }
-      });
+    const countUserClassQuery = getUserClassBaseQuery({
+      subject_id,
+      week_day,
+      timeInMinutes,
+    });
+
+    const [{ total }] = await countUserClassQuery.count('c.id as total');
+
+    const fullUserClassQuery = getUserClassBaseQuery({
+      subject_id,
+      week_day,
+      timeInMinutes,
+    });
+
+    const classes: QueryUserClass[] = await fullUserClassQuery
+      .limit(5)
+      .offset(offset);
+
+    console.log(total);
+    console.log(classes);
 
     const parsedClasses: ResponseUnitDTO[] = [];
 
@@ -114,7 +154,11 @@ export class ClassesControler {
       parsedClasses.push(newClas);
     }
 
-    return response.json(parsedClasses);
+    return response.json({
+      data: parsedClasses,
+      offset,
+      total,
+    });
   }
 
   async userClassSchedules(request: Request, response: Response) {
