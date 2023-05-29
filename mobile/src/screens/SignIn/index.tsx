@@ -47,7 +47,7 @@ export function SignIn() {
     try {
       setIsSigningIn(true);
 
-      signIn({
+      await signIn({
         email,
         password,
         rememberMe,

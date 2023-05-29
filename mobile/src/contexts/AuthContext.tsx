@@ -55,67 +55,63 @@ export function AuthContextProvider({
     api.defaults.headers['Authorization'] = `Bearer ${token}`;
   }
 
+  async function signOut() {
+    await AsyncStorage.removeItem(SIGNED_IN_USER);
+    await AsyncStorage.removeItem(SIGNED_IN_USER_TOKEN);
+
+    if (user !== null) {
+      setUser(null);
+    }
+  }
+
   async function fetchUserSession({
     email,
     password,
     rememberMe,
   }: SignInDTO) {
-    try {
-      const sessionResponse = await api.post('/sessions', { email, password });
+    const sessionResponse = await api.post('/sessions', { email, password });
 
-      if (sessionResponse.status !== 200) {
-        throw new Error('');
-      }
+    if (sessionResponse.status !== 200) {
+      throw new Error('');
+    }
 
-      const { token } = sessionResponse.data;
-      setAxiosDefaultAuthorization(token);
+    const { token } = sessionResponse.data;
+    setAxiosDefaultAuthorization(token);
 
-      if (rememberMe) {
-        AsyncStorage.setItem(
-          SIGNED_IN_USER_TOKEN,
-          token
-        );
-      }
-    } catch (error) {
-      throw new Error(error as any);
+    if (rememberMe) {
+      await AsyncStorage.setItem(
+        SIGNED_IN_USER_TOKEN,
+        token
+      );
     }
   }
 
   async function fetchUser() {
-    try {
-      const response = await api.get('/users/me');
+    const response = await api.get('/users/me');
 
-      if (response.status === 200) {
-        const {
-          email, first_name, last_name, avatar, bio, whatsapp,
-        } = response.data;
+    if (response.status === 200) {
+      const {
+        email, first_name, last_name, avatar, bio, whatsapp,
+      } = response.data;
 
-        const userData = {
-          email,
-          firstName: first_name,
-          lastName: last_name,
-          avatar,
-          bio,
-          whatsapp,
-        };
+      const userData = {
+        email,
+        firstName: first_name,
+        lastName: last_name,
+        avatar,
+        bio,
+        whatsapp,
+      };
 
-        setUser(userData);
-        await AsyncStorage.setItem(
-          SIGNED_IN_USER,
-          JSON.stringify(userData)
-        );
-      }
+      setUser(userData);
+      await AsyncStorage.setItem(
+        SIGNED_IN_USER,
+        JSON.stringify(userData)
+      );
+    }
 
-      if (response.status === 401) {
-        await AsyncStorage.removeItem(SIGNED_IN_USER);
-        await AsyncStorage.removeItem(SIGNED_IN_USER_TOKEN);
-
-        if (user !== null) {
-          setUser(null);
-        }
-      }
-    } catch (error) {
-      console.error(error);
+    if (response.status === 401) {
+      await signOut();
     }
   }
 
@@ -124,17 +120,8 @@ export function AuthContextProvider({
     password,
     rememberMe,
   }: SignInDTO) {
-    try {
-      await fetchUserSession({ email, password, rememberMe });
-      await fetchUser();
-    } catch (error) {
-      throw new Error(error as any);
-    }
-  }
-
-  async function signOut() {
-    await AsyncStorage.removeItem(SIGNED_IN_USER_TOKEN);
-    setUser(null);
+    await fetchUserSession({ email, password, rememberMe });
+    await fetchUser();
   }
 
   function setAxiosInterceptorInvalidToken() {
