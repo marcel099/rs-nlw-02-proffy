@@ -1,11 +1,17 @@
+import { ApiClassSchedule } from './ClassSchedule';
+
 export interface Teacher {
-  id: number,
-  user_id: number,
-  name: string,
-  subject: string,
-  bio: string,
-  avatar: string,
-  cost: number,
-  whatsapp: string,
-  favorited: boolean,
+  user_id: number;
+  first_name: string;
+  last_name: string;
+  bio: string;
+  avatar_url: string;
+  whatsapp: string;
+  lesson: {
+    cost: number;
+  };
+  subject: {
+    name: string;
+  };
+  class_schedules: ApiClassSchedule[];
 }

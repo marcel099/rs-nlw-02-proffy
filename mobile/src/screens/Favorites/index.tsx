@@ -52,7 +52,7 @@ export function Favorites() {
       >
         {favoriteTeachers.map((teacher) => (
           <TeacherItem
-            key={teacher.id}
+            key={teacher.user_id}
             {...teacher}
             favorited
           />

@@ -16,10 +16,23 @@ import { loadFavoriteTeachers } from '@utils/loaders';
 
 import styles from './styles';
 
+interface TeacherItemProps extends Teacher {
+  favorited: boolean;
+}
+
 export function TeacherItem({
-  id, user_id, avatar, name, subject, bio, cost, whatsapp, favorited,
-}: Teacher) {
-  const [isFavorite, setIsFavorite] = useState(favorited);
+  user_id,
+  first_name,
+  last_name,
+  avatar_url,
+  bio,
+  whatsapp,
+  subject,
+  lesson,
+  class_schedules,
+  favorited,
+}: TeacherItemProps) {
+  const [isFavoriteTeacher, setIsFavoriteTeacher] = useState(favorited);
 
   function handleLinkToWhatsapp() {
     api.post('connections', {
@@ -32,30 +45,32 @@ export function TeacherItem({
   async function handleToggleFavorite() {
     const favoriteTeachers = await loadFavoriteTeachers();
 
-    if (isFavorite) {
-      setIsFavorite(false);
+    if (isFavoriteTeacher) {
+      setIsFavoriteTeacher(false);
 
       const favoritedIndex = favoriteTeachers
-        .map((teacher) => teacher.id)
+        .map((teacher) => teacher.user_id)
         .find((teacherId: number) => teacherId === user_id);
 
       if (favoritedIndex !== undefined) {
         favoriteTeachers.splice(favoritedIndex, 1);
       }
     } else {
-      setIsFavorite(true);
+      setIsFavoriteTeacher(true);
 
-      favoriteTeachers.push({
-        id,
+      const newTeacher: Teacher = {
         user_id,
-        avatar,
-        name,
+        avatar_url,
+        first_name,
+        last_name,
         subject,
+        lesson,
         bio,
-        cost,
         whatsapp,
-        favorited,
-      });
+        class_schedules,
+      };
+
+      favoriteTeachers.push(newTeacher);
     }
 
     await AsyncStorage.setItem(
@@ -69,11 +84,11 @@ export function TeacherItem({
       <View style={styles.profile}>
         <Image
           style={styles.avatar}
-          source={{ uri: avatar }}
+          source={{ uri: avatar_url }}
         />
         <View style={styles.profileInfo}>
-          <Text style={styles.name}>{name}</Text>
-          <Text style={styles.subject}>{subject}</Text>
+          <Text style={styles.name}>{`${first_name} ${last_name}`}</Text>
+          <Text style={styles.subject}>{subject.name}</Text>
         </View>
       </View>
 
@@ -84,7 +99,7 @@ export function TeacherItem({
       <View style={styles.footer}>
         <Text style={styles.price}>
           Preço/hora {'   '}
-          <Text style={styles.priceValue}>R$ {cost}</Text>
+          <Text style={styles.priceValue}>R$ {lesson.cost}</Text>
         </Text>
 
         <View style={styles.buttonsContainer}>
@@ -92,10 +107,10 @@ export function TeacherItem({
             onPress={handleToggleFavorite}
             style={[
               styles.favoriteButton,
-              isFavorite ? styles.favorited : {},
+              isFavoriteTeacher ? styles.favorited : {},
             ]}
           >
-            { isFavorite
+            { isFavoriteTeacher
               ? <Image source={unfavoriteIcon} />
               : <Image source={heartOutlineIcon} /> }
           </RectButton>

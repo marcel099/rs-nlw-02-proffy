@@ -2,7 +2,7 @@ import { Feather } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useCallback, useState } from 'react';
 import {
-  View, Text, TextInput, ScrollView, StatusBar,
+  Alert, View, Text, TextInput, ScrollView, StatusBar,
 } from 'react-native';
 import { BorderlessButton, RectButton } from 'react-native-gesture-handler';
 
@@ -16,10 +16,18 @@ import { TeacherItem } from '@components/TeacherItem';
 
 import { styles } from './styles';
 
+interface ResponseTeacherList {
+  data: Teacher[];
+  offset: number;
+  total: number;
+}
+
 export function TeacherList() {
   const [isFiltersVisible, setIsFiltersVisible] = useState(false);
 
   const [teachers, setTeachers] = useState<Teacher[]>([]);
+  const [teachersTotal, setTeachersTotal] = useState(0);
+  const [teachersOffset, setTeachersOffset] = useState(0);
   const [favoritesTeachersIds, setFavoriteTeachersIds] = useState<number[]>([]);
 
   const [subject, setSubject] = useState('');
@@ -30,7 +38,7 @@ export function TeacherList() {
     const favoriteTeachersStorage = await loadFavoriteTeachers();
 
     const favoriteTeachersIds = favoriteTeachersStorage.map(
-      (teacher) => teacher.id
+      (teacher) => teacher.user_id
     );
 
     setFavoriteTeachersIds(favoriteTeachersIds);
@@ -45,17 +53,34 @@ export function TeacherList() {
     setIsFiltersVisible(!isFiltersVisible);
   }
 
-  async function handleFiltersSubmit() {
-    const response = await api.get('/classes', {
-      params: {
-        subject,
-        week_day,
+  async function fetchClasses({
+    subjectId, weekDay, time,
+  }: TeacherListFiltersData) {
+    try {
+      const params = {
+        subject_id: subjectId,
+        week_day: weekDay,
         time,
-      },
-    });
+        page: 1,
+      };
 
-    setIsFiltersVisible(false);
-    setTeachers(response.data);
+      const response = await api.get('/classes', {
+        params,
+      });
+
+      const {
+        data,
+        offset,
+        total,
+      } = response.data as ResponseTeacherList;
+
+      setTeachersTotal(offset);
+      setTeachersOffset(total);
+
+      setTeachers(data);
+    } catch {
+      Alert.alert('Erro ao buscar dados da lista de aulas');
+    }
   }
 
   return (
@@ -126,9 +151,9 @@ export function TeacherList() {
       >
         {teachers.map((teacher) => (
           <TeacherItem
-            key={teacher.id}
+            key={teacher.user_id}
             {...teacher}
-            favorited={favoritesTeachersIds.includes(teacher.id)}
+            favorited={favoritesTeachersIds.includes(teacher.user_id)}
           />
         ))}
       </ScrollView>
