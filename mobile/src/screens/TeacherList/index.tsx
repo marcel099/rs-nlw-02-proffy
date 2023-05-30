@@ -1,20 +1,28 @@
-import { Feather } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useCallback, useState } from 'react';
 import {
-  Alert, View, Text, TextInput, ScrollView, StatusBar,
+  Alert, View, ScrollView, StatusBar, Image,
 } from 'react-native';
-import { BorderlessButton, RectButton } from 'react-native-gesture-handler';
+
+import nerdFaceEmojiIcon from '@assets/images/icons/nerd-face.png';
 
 import { Teacher } from '@dtos/Teacher';
 import api from '@services/api';
 import { loadFavoriteTeachers } from '@utils/loaders';
 
+import { EncouragementMessage } from '@components/EncouragementMessage';
 import { ScreenHeader } from '@components/ScreenHeader';
 import { ScreenSubtitle } from '@components/ScreenSubtitle';
 import { TeacherItem } from '@components/TeacherItem';
+import { TeacherListFilters } from '@components/TeacherListFilters';
 
 import { styles } from './styles';
+
+export interface TeacherListFiltersData {
+  subjectId: number | null;
+  weekDay: number | null;
+  time: string | null;
+}
 
 interface ResponseTeacherList {
   data: Teacher[];
@@ -23,16 +31,10 @@ interface ResponseTeacherList {
 }
 
 export function TeacherList() {
-  const [isFiltersVisible, setIsFiltersVisible] = useState(false);
-
   const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [teachersTotal, setTeachersTotal] = useState(0);
   const [teachersOffset, setTeachersOffset] = useState(0);
   const [favoritesTeachersIds, setFavoriteTeachersIds] = useState<number[]>([]);
-
-  const [subject, setSubject] = useState('');
-  const [week_day, setWeekDay] = useState('');
-  const [time, setTime] = useState('');
 
   async function loadFavorites() {
     const favoriteTeachersStorage = await loadFavoriteTeachers();
@@ -48,10 +50,6 @@ export function TeacherList() {
     loadFavorites();
   }, []);
   useFocusEffect(loadFavoritesCallback);
-
-  function handleToggleFiltersVisible() {
-    setIsFiltersVisible(!isFiltersVisible);
-  }
 
   async function fetchClasses({
     subjectId, weekDay, time,
@@ -92,54 +90,18 @@ export function TeacherList() {
       />
       <ScreenHeader title="Estudar" />
       <View style={styles.subheader}>
-        <ScreenSubtitle subtitle={'Proffys\ndisponíveis'} />
-        <BorderlessButton onPress={handleToggleFiltersVisible}>
-          <Feather name="filter" size={20} color="#fff" />
-        </BorderlessButton>
-        { isFiltersVisible && (
-          <View style={styles.searchForm}>
-            <Text style={styles.label}>Matéria</Text>
-            <TextInput
-              style={styles.input}
-              value={subject}
-              onChangeText={(text) => setSubject(text)}
-              placeholder="Qual a matéria?"
-              placeholderTextColor="#c1b2cc"
-
-            />
-
-            <View style={styles.inputGroup}>
-              <View style={styles.inputBlock}>
-                <Text style={styles.label}>Dia da semana</Text>
-                <TextInput
-                  style={styles.input}
-                  value={week_day}
-                  onChangeText={(text) => setWeekDay(text)}
-                  placeholder="Qual o dia?"
-                  placeholderTextColor="#c1b2cc"
-                />
-              </View>
-
-              <View style={styles.inputBlock}>
-                <Text style={styles.label}>Horário</Text>
-                <TextInput
-                  style={styles.input}
-                  value={time}
-                  onChangeText={(text) => setTime(text)}
-                  placeholder="Qual horário?"
-                  placeholderTextColor="#c1b2cc"
-                />
-              </View>
-            </View>
-
-            <RectButton
-              onPress={handleFiltersSubmit}
-              style={styles.submitButton}
-            >
-              <Text style={styles.submitButtonText}>Filtrar</Text>
-            </RectButton>
-          </View>
-        )}
+        <View style={styles.screenDescriptionContainer}>
+          <ScreenSubtitle subtitle={'Proffys\ndisponíveis'} />
+          <EncouragementMessage
+            Icon={<Image source={nerdFaceEmojiIcon} />}
+            message={
+              `${teachers.length} proffy${teachers.length > 1 ? 's' : ''}`
+            }
+          />
+        </View>
+        <TeacherListFilters
+          onfiltersUpdate={fetchClasses}
+        />
       </View>
 
       <ScrollView
