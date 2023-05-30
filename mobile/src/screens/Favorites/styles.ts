@@ -11,6 +11,9 @@ export const styles = StyleSheet.create({
   },
 
   subheader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+
     backgroundColor: '#8257E5',
 
     paddingHorizontal: 40,

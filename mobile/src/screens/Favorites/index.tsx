@@ -1,12 +1,15 @@
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useState } from 'react';
 import {
-  View, ScrollView, StatusBar,
+  Image, View, ScrollView, StatusBar,
 } from 'react-native';
+
+import heartEyesEmojiIcon from '@assets/images/icons/heart-eyes.png';
 
 import { Teacher } from '@dtos/Teacher';
 import { loadFavoriteTeachers } from '@utils/loaders';
 
+import { EncouragementMessage } from '@components/EncouragementMessage';
 import { ScreenHeader } from '@components/ScreenHeader';
 import { ScreenSubtitle } from '@components/ScreenSubtitle';
 import { TeacherItem } from '@components/TeacherItem';
@@ -27,10 +30,6 @@ export function Favorites() {
   }, []);
   useFocusEffect(loadFavoritesCallback);
 
-  useFocusEffect(() => {
-    loadFavorites();
-  });
-
   return (
     <View style={styles.container}>
       <StatusBar
@@ -41,6 +40,12 @@ export function Favorites() {
       <ScreenHeader title="Estudar" />
       <View style={styles.subheader}>
         <ScreenSubtitle subtitle={'Meus proffys\nfavoritos'} />
+        <EncouragementMessage
+          Icon={<Image source={heartEyesEmojiIcon} />}
+          message={
+            `${favoriteTeachers.length} proffy${favoriteTeachers.length > 1 ? 's' : ''}`
+          }
+        />
       </View>
 
       <ScrollView
