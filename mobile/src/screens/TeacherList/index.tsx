@@ -1,6 +1,6 @@
 import { Feather } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   View, Text, TextInput, ScrollView, StatusBar,
 } from 'react-native';
@@ -36,9 +36,10 @@ export function TeacherList() {
     setFavoriteTeachersIds(favoriteTeachersIds);
   }
 
-  useFocusEffect(() => { // Reexecuta a cada vez que entrar em foco
+  const loadFavoritesCallback = useCallback(() => {
     loadFavorites();
-  });
+  }, []);
+  useFocusEffect(loadFavoritesCallback);
 
   function handleToggleFiltersVisible() {
     setIsFiltersVisible(!isFiltersVisible);
