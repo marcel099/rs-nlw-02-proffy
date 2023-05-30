@@ -30,6 +30,19 @@ export function Favorites() {
   }, []);
   useFocusEffect(loadFavoritesCallback);
 
+  function handleRemoveFavorite(user_id: number) {
+    setFavoriteTeachers((previousFavorites) => {
+      const updatedFavorites = [...previousFavorites];
+      const favoritedIndex = updatedFavorites
+        .findIndex((teacher) => teacher.user_id === user_id);
+      if (favoritedIndex !== undefined) {
+        updatedFavorites.splice(favoritedIndex, 1);
+      }
+
+      return updatedFavorites;
+    });
+  }
+
   return (
     <View style={styles.container}>
       <StatusBar
@@ -60,6 +73,7 @@ export function Favorites() {
             key={teacher.user_id}
             {...teacher}
             favorited
+            onRemoveFavorite={handleRemoveFavorite}
           />
         ))}
       </ScrollView>

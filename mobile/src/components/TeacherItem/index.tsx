@@ -20,6 +20,7 @@ import { styles } from './styles';
 
 interface TeacherItemProps extends Teacher {
   favorited: boolean;
+  onRemoveFavorite?: (user_id: number) => void;
 }
 
 export function TeacherItem({
@@ -33,6 +34,7 @@ export function TeacherItem({
   lesson,
   class_schedules,
   favorited,
+  onRemoveFavorite,
 }: TeacherItemProps) {
   const [isFavoriteTeacher, setIsFavoriteTeacher] = useState(favorited);
 
@@ -51,11 +53,14 @@ export function TeacherItem({
       setIsFavoriteTeacher(false);
 
       const favoritedIndex = favoriteTeachers
-        .map((teacher) => teacher.user_id)
-        .find((teacherId: number) => teacherId === user_id);
+        .findIndex((teacher) => teacher.user_id === user_id);
 
       if (favoritedIndex !== undefined) {
         favoriteTeachers.splice(favoritedIndex, 1);
+      }
+
+      if (onRemoveFavorite !== undefined) {
+        onRemoveFavorite(user_id);
       }
     } else {
       setIsFavoriteTeacher(true);
