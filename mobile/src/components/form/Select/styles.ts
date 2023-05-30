@@ -5,6 +5,8 @@ export const styles = StyleSheet.create({
     marginBottom: 16,
   },
   dropdownStyle: {
+    minHeight: 56,
+    paddingBottom: 4,
     borderWidth: 1,
     borderColor: '#E6E6F0',
   },
