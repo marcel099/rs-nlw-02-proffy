@@ -1,5 +1,5 @@
 import { useFocusEffect } from '@react-navigation/native';
-import React, { useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
   View, ScrollView, StatusBar,
 } from 'react-native';
@@ -22,7 +22,12 @@ export function Favorites() {
     setFavoriteTeachers(favoriteTeachersStorage);
   }
 
-  useFocusEffect(() => { // Reexecuta a cada vez que entrar em foco
+  const loadFavoritesCallback = useCallback(() => {
+    loadFavorites();
+  }, []);
+  useFocusEffect(loadFavoritesCallback);
+
+  useFocusEffect(() => {
     loadFavorites();
   });
 
