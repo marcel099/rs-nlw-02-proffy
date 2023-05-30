@@ -4,13 +4,14 @@ import { db } from '@database/connection';
 import { convertHourToMinutes } from '@utils/convertHoursToMinutes';
 
 interface QueryUserClass {
+  user_id: number;
   first_name: string;
   last_name: string;
   bio: string;
   avatar: string;
   whatsapp: string;
-  class_id: number;
-  class_cost: number;
+  lesson_id: number;
+  lesson_cost: number;
   subject_name: string;
 }
 
@@ -22,18 +23,25 @@ interface QueryClassSchedule {
 }
 
 interface ResponseUnitDTO {
+  user_id: number;
   first_name: string;
   last_name: string;
   bio: string;
   avatar_url: string;
   whatsapp: string;
-  class: {
+  lesson: {
     cost: number;
   };
   subject: {
     name: string;
   };
   class_schedules: QueryClassSchedule[];
+}
+
+interface ResponseTeacherList {
+  data: ResponseUnitDTO[];
+  offset: number;
+  total: number;
 }
 
 interface GetUserClassBaseQueryParams {
@@ -51,13 +59,14 @@ function getUserClassBaseQuery({
     .join('users as u', 'c.user_id', '=', 'u.id')
     .join('subjects as s', 'c.subject_id', '=', 's.id')
     .select(
+      'u.id as user_id',
       'u.first_name',
       'u.last_name',
       'u.bio',
       'u.avatar',
       'u.whatsapp',
-      'c.id as class_id',
-      'c.cost as class_cost',
+      'c.id as lesson_id',
+      'c.cost as lesson_cost',
       's.name as subject_name'
     )
     .whereExists(function sample() {
@@ -118,47 +127,47 @@ export class ClassesControler {
       timeInMinutes,
     });
 
-    const classes: QueryUserClass[] = await fullUserClassQuery
+    const lessons: QueryUserClass[] = await fullUserClassQuery
       .limit(5)
       .offset(offset);
-
-    console.log(total);
-    console.log(classes);
 
     const parsedClasses: ResponseUnitDTO[] = [];
 
     // eslint-disable-next-line no-restricted-syntax
-    for (const clas of classes) {
+    for (const lesson of lessons) {
       // eslint-disable-next-line no-await-in-loop
       const class_schedules: QueryClassSchedule[] = await db(
         'class_schedule as cs'
       )
         .select('cs.id', 'cs.week_day', 'cs.from', 'cs.to')
-        .where('cs.class_id', '=', clas.class_id);
+        .where('cs.class_id', '=', lesson.lesson_id);
 
-      const newClas: ResponseUnitDTO = {
-        first_name: clas.first_name,
-        last_name: clas.last_name,
-        bio: clas.bio,
-        avatar_url: `${process.env.API_URL}/avatar/${clas.avatar}`,
-        whatsapp: clas.whatsapp,
+      const newLesson: ResponseUnitDTO = {
+        user_id: lesson.user_id,
+        first_name: lesson.first_name,
+        last_name: lesson.last_name,
+        bio: lesson.bio,
+        avatar_url: `${process.env.API_URL}/avatar/${lesson.avatar}`,
+        whatsapp: lesson.whatsapp,
         subject: {
-          name: clas.subject_name,
+          name: lesson.subject_name,
         },
-        class: {
-          cost: clas.class_cost,
+        lesson: {
+          cost: lesson.lesson_cost,
         },
         class_schedules,
       };
 
-      parsedClasses.push(newClas);
+      parsedClasses.push(newLesson);
     }
 
-    return response.json({
+    const responseData: ResponseTeacherList = {
       data: parsedClasses,
       offset,
       total,
-    });
+    };
+
+    return response.json(responseData);
   }
 
   async userClassSchedules(request: Request, response: Response) {
