@@ -13,8 +13,9 @@ import { FAVORITE_TEACHERS } from '@configs/storage';
 import { Teacher } from '@dtos/Teacher';
 import api from '@services/api';
 import { loadFavoriteTeachers } from '@utils/loaders';
+import { parseWeekDayValueToName } from '@utils/mappers';
 
-import styles from './styles';
+import { styles } from './styles';
 
 interface TeacherItemProps extends Teacher {
   favorited: boolean;
@@ -96,11 +97,44 @@ export function TeacherItem({
         {bio}
       </Text>
 
+      <View style={styles.classSchedulesContainer}>
+        <View style={styles.classScheduleHeader}>
+          <Text style={styles.classScheduleInfoHeader}>Dia</Text>
+          <Text style={styles.classScheduleInfoHeader}>Horário</Text>
+        </View>
+        {[1, 2, 3, 4, 5].map((value) => {
+          const class_schedule = class_schedules.find(
+            (item) => item.week_day === value
+          );
+
+          return (
+            <View
+              key={value}
+              style={[
+                styles.classSchedule,
+                class_schedule === undefined && styles.nonexistentClassSchedule,
+              ]}
+            >
+              <Text style={styles.classScheduleInfo}>
+                {parseWeekDayValueToName(value)}
+              </Text>
+              <Text style={styles.classScheduleInfo}>
+                {class_schedule?.from ?? ''} - {class_schedule?.to ?? ''}
+              </Text>
+            </View>
+          );
+        })}
+      </View>
+
       <View style={styles.footer}>
-        <Text style={styles.price}>
-          Preço/hora {'   '}
-          <Text style={styles.priceValue}>R$ {lesson.cost}</Text>
-        </Text>
+        <View style={styles.priceContainer}>
+          <Text style={styles.priceMessage}>
+            Preço da minha hora:
+          </Text>
+          <Text style={styles.priceValue}>
+            R$ {lesson.cost}
+          </Text>
+        </View>
 
         <View style={styles.buttonsContainer}>
           <RectButton

@@ -6,9 +6,10 @@ import {
 
 import nerdFaceEmojiIcon from '@assets/images/icons/nerd-face.png';
 
-import { Teacher } from '@dtos/Teacher';
+import { ApiTeacher, Teacher } from '@dtos/Teacher';
 import api from '@services/api';
 import { loadFavoriteTeachers } from '@utils/loaders';
+import { parseFetchedToParsedClassSchedule } from '@utils/mappers';
 
 import { EncouragementMessage } from '@components/EncouragementMessage';
 import { ScreenHeader } from '@components/ScreenHeader';
@@ -25,7 +26,7 @@ export interface TeacherListFiltersData {
 }
 
 interface ResponseTeacherList {
-  data: Teacher[];
+  data: ApiTeacher[];
   offset: number;
   total: number;
 }
@@ -67,15 +68,25 @@ export function TeacherList() {
       });
 
       const {
-        data,
+        data: fetchedTeachers,
         offset,
         total,
       } = response.data as ResponseTeacherList;
 
+      const parsedTeachers = fetchedTeachers.map((teacher) => {
+        const parsedClassSchedules = teacher.class_schedules
+          .map(parseFetchedToParsedClassSchedule);
+
+        return {
+          ...teacher,
+          class_schedules: parsedClassSchedules,
+        };
+      });
+
       setTeachersTotal(offset);
       setTeachersOffset(total);
 
-      setTeachers(data);
+      setTeachers(parsedTeachers);
     } catch {
       Alert.alert('Erro ao buscar dados da lista de aulas');
     }

@@ -6,6 +6,7 @@ import {
 
 import { Subject } from '@dtos/Subject';
 import { fetchSubjects } from '@utils/fetchers';
+import { weekDays } from '@utils/staticData';
 
 import { Select } from '@components/form/Select';
 import { TimeInput } from '@components/form/TimeInput';
@@ -97,15 +98,7 @@ export function TeacherListFilters({
             <View style={styles.weekDayFieldBlock}>
               <Select
                 label="Dia da semana"
-                options={[
-                  { value: '0', label: 'Domingo' },
-                  { value: '1', label: 'Segunda-feira' },
-                  { value: '2', label: 'Terça-feira' },
-                  { value: '3', label: 'Quarta-feira' },
-                  { value: '4', label: 'Quinta-feira' },
-                  { value: '5', label: 'Sexta-feira' },
-                  { value: '6', label: 'Sábado' },
-                ]}
+                options={weekDays}
                 optionValue="value"
                 optionLabel="label"
                 selectedValue={weekDay !== null ? String(weekDay) : ''}
