@@ -12,6 +12,7 @@ import whatsappIcon from '@assets/images/icons/whatsapp.png';
 import { FAVORITE_TEACHERS } from '@configs/storage';
 import { Teacher } from '@dtos/Teacher';
 import api from '@services/api';
+import { formatNumberToCurrency } from '@utils/formatters';
 import { loadFavoriteTeachers } from '@utils/loaders';
 import { parseWeekDayValueToName } from '@utils/mappers';
 
@@ -132,7 +133,7 @@ export function TeacherItem({
             Preço da minha hora:
           </Text>
           <Text style={styles.priceValue}>
-            R$ {lesson.cost}
+            {formatNumberToCurrency(lesson.cost)}
           </Text>
         </View>
 
