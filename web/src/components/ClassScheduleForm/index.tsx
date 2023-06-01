@@ -67,7 +67,7 @@ export function ClassScheduleForm({
         </button>
       </legend>
 
-      { classSchedules.map((classSchedule, index) => (
+      { classSchedules.map((classSchedule) => (
         <div
           key={classSchedule.id}
           className="schedule-item"
@@ -84,7 +84,11 @@ export function ClassScheduleForm({
                       : ''
                   }
               placeholder="Selecione o dia"
-              onChange={(e) => setClassScheduleValue(index, 'week_day', e.target.value)}
+              onChange={(e) => setClassScheduleValue(
+                classSchedule.id,
+                'week_day',
+                e.target.value
+              )}
               options={[
                 { value: '0', label: 'Domingo' },
                 { value: '1', label: 'Segunda-feira' },
@@ -101,14 +105,22 @@ export function ClassScheduleForm({
                 label="Das"
                 type="time"
                 value={classSchedule.from}
-                onChange={(e) => setClassScheduleValue(index, 'from', e.target.value)}
+                onChange={(e) => setClassScheduleValue(
+                  classSchedule.id,
+                  'from',
+                  e.target.value
+                )}
               />
               <OuterLabelInput
                 name="to"
                 label="Até"
                 type="time"
                 value={classSchedule.to}
-                onChange={(e) => setClassScheduleValue(index, 'to', e.target.value)}
+                onChange={(e) => setClassScheduleValue(
+                  classSchedule.id,
+                  'to',
+                  e.target.value
+                )}
               />
             </div>
           </div>
