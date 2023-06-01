@@ -23,16 +23,37 @@ export const styles = StyleSheet.create({
     marginTop: -60,
   },
 
-  teacherListWarningContainer: {
-    // flex: 1,
-    // alignItems: 'center',
-  },
-
   noTeachersFoundMessage: {
     fontFamily: 'Poppins_400Regular',
     fontSize: 14,
     color: '#9C98A6',
     lineHeight: 22,
     textAlign: 'center',
+  },
+
+  fetchNextPageButton: {
+    justifyContent: 'center',
+    alignItems: 'center',
+
+    width: '100%',
+    paddingVertical: 8,
+    marginTop: 8,
+  },
+
+  fetchNextPageButtonText: {
+    fontFamily: 'Poppins_400Regular',
+    fontSize: 12,
+    color: '#9C98A6',
+    lineHeight: 24,
+  },
+
+  endTeacherListMessage: {
+    fontFamily: 'Poppins_400Regular',
+    fontSize: 12,
+    color: '#6A6180',
+    lineHeight: 22,
+    textAlign: 'center',
+
+    marginTop: 8,
   },
 });

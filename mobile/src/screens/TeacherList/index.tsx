@@ -3,6 +3,7 @@ import React, { useCallback, useState } from 'react';
 import {
   ActivityIndicator, Alert, View, ScrollView, StatusBar, Image, Text,
 } from 'react-native';
+import { RectButton } from 'react-native-gesture-handler';
 
 import nerdFaceEmojiIcon from '@assets/images/icons/nerd-face.png';
 
@@ -23,6 +24,7 @@ export interface TeacherListFiltersData {
   subjectId: number | null;
   weekDay: number | null;
   time: string | null;
+  page: number;
 }
 
 interface ResponseTeacherList {
@@ -33,10 +35,17 @@ interface ResponseTeacherList {
 
 export function TeacherList() {
   const [teachers, setTeachers] = useState<Teacher[]>([]);
+  const [favoritesTeachersIds, setFavoriteTeachersIds] = useState<number[]>([]);
+  const [isFetchingTeachers, setIsFetchingTeachers] = useState(true);
+
   const [teachersTotal, setTeachersTotal] = useState(0);
   const [teachersOffset, setTeachersOffset] = useState(0);
-  const [favoritesTeachersIds, setFavoriteTeachersIds] = useState<number[]>([]);
-  const [isLoadingTeachers, setIsLoadingTeachers] = useState(true);
+  const [teachersPage, setTeachersPage] = useState<number>(1);
+  const teachersPerPage = 5;
+
+  const isTeacherListEmpty = teachers.length === 0;
+  const hasFetchedAllTeachers =
+    (teachersOffset + teachersPerPage) >= teachersTotal;
 
   async function loadFavorites() {
     const favoriteTeachersStorage = await loadFavoriteTeachers();
@@ -54,14 +63,16 @@ export function TeacherList() {
   useFocusEffect(loadFavoritesCallback);
 
   async function fetchClasses({
-    subjectId, weekDay, time,
+    subjectId, weekDay, time, page,
   }: TeacherListFiltersData) {
     try {
+      setIsFetchingTeachers(true);
+
       const params = {
         subject_id: subjectId,
         week_day: weekDay,
         time,
-        page: 1,
+        page,
       };
 
       const response = await api.get('/classes', {
@@ -84,16 +95,32 @@ export function TeacherList() {
         };
       });
 
-      setTeachersTotal(offset);
-      setTeachersOffset(total);
+      setTeachersTotal(total);
+      setTeachersOffset(offset);
 
-      setTeachers(parsedTeachers);
+      setTeachers((previousTeachers) => {
+        if (page > 1) {
+          return [...previousTeachers, ...parsedTeachers];
+        }
+
+        return parsedTeachers;
+      });
     } catch {
       Alert.alert('Erro ao buscar dados da lista de aulas');
     } finally {
-      setIsLoadingTeachers(false);
+      setIsFetchingTeachers(false);
     }
   }
+
+  function handleFetchNextPage() {
+    setTeachersPage((previousPageNumber) => previousPageNumber + 1);
+  }
+
+  // console.log({
+  //   showButton: teachersOffset + teachersPerPage < teachersTotal,
+  //   teachersOffset,
+  //   teachersTotal,
+  // });
 
   return (
     <View style={styles.container}>
@@ -109,12 +136,14 @@ export function TeacherList() {
           <EncouragementMessage
             Icon={<Image source={nerdFaceEmojiIcon} />}
             message={
-              `${teachers.length} proffy${teachers.length > 1 ? 's' : ''}`
+              `${teachersTotal} proffy${teachers.length > 1 ? 's' : ''}`
             }
           />
         </View>
         <TeacherListFilters
           onfiltersUpdate={fetchClasses}
+          page={teachersPage}
+          setPage={setTeachersPage}
         />
       </View>
 
@@ -125,27 +154,46 @@ export function TeacherList() {
           paddingBottom: 24,
         }}
       >
-        { isLoadingTeachers || teachers.length === 0 ? (
-          <View style={styles.teacherListWarningContainer}>
-            {isLoadingTeachers ? (
-              <ActivityIndicator
-                color="#9C98A6"
-                size="large"
-              />
-            ) : (
-              <Text style={styles.noTeachersFoundMessage}>
-                Nenhum proffy encontrado{'\n'}com sua pesquisa.
-              </Text>
-            )}
-          </View>
+        {isFetchingTeachers && teachersPage === 1 ? (
+          <ActivityIndicator
+            color="#9C98A6"
+            size="large"
+          />
+        ) : isTeacherListEmpty ? (
+          <Text style={styles.noTeachersFoundMessage}>
+            Nenhum proffy encontrado{'\n'}com sua pesquisa.
+          </Text>
         ) : (
-          teachers.map((teacher) => (
-            <TeacherItem
-              key={teacher.user_id}
-              {...teacher}
-              favorited={favoritesTeachersIds.includes(teacher.user_id)}
-            />
-          ))
+          <>
+            {teachers.map((teacher) => (
+              <TeacherItem
+                key={teacher.user_id}
+                {...teacher}
+                favorited={favoritesTeachersIds.includes(teacher.user_id)}
+              />
+            ))}
+            {hasFetchedAllTeachers ? (
+              <Text style={styles.endTeacherListMessage}>
+                Estes são todos os resultados
+              </Text>
+            ) : (
+              isFetchingTeachers === false ? (
+                <RectButton
+                  onPress={handleFetchNextPage}
+                  style={styles.fetchNextPageButton}
+                >
+                  <Text style={styles.fetchNextPageButtonText}>
+                    Carregar mais
+                  </Text>
+                </RectButton>
+              ) : (
+                <ActivityIndicator
+                  color="#9C98A6"
+                  size="small"
+                />
+              )
+            )}
+          </>
         )}
       </ScrollView>
     </View>

@@ -16,10 +16,12 @@ import { styles } from './styles';
 
 interface TeacherListFiltersProps {
   onfiltersUpdate: (data: TeacherListFiltersData) => void;
+  page: number;
+  setPage: (value: number) => void;
 }
 
 export function TeacherListFilters({
-  onfiltersUpdate,
+  onfiltersUpdate, setPage, page,
 }: TeacherListFiltersProps) {
   const [isFiltersVisible, setIsFiltersVisible] = useState(false);
 
@@ -32,6 +34,14 @@ export function TeacherListFilters({
 
   function handleToggleFiltersVisible() {
     setIsFiltersVisible(!isFiltersVisible);
+  }
+
+  function getFiltersData() {
+    return {
+      subjectId,
+      weekDay,
+      time,
+    };
   }
 
   useEffect(() => {
@@ -50,14 +60,22 @@ export function TeacherListFilters({
   }, []);
 
   useEffect(() => {
-    const data = {
-      subjectId,
-      weekDay,
-      time,
-    };
+    if (page > 1) {
+      setPage(1);
+    }
 
-    onfiltersUpdate(data);
+    onfiltersUpdate({
+      ...getFiltersData(),
+      page: 1,
+    });
   }, [subjectId, weekDay, time]);
+
+  useEffect(() => {
+    onfiltersUpdate({
+      ...getFiltersData(),
+      page,
+    });
+  }, [page]);
 
   return (
     <View style={styles.container}>
