@@ -11,7 +11,7 @@ import TeacherItem, { TeacherItemProps } from '@components/TeacherItem';
 
 import './styles.css';
 
-export function TeacherList() {
+export function Study() {
   const [teachers, setTeachers] = useState([]);
 
   const [subject, setSubject] = useState('');
@@ -36,7 +36,6 @@ export function TeacherList() {
     <div id="page-teacher-list" className="page-container">
       <PageHeader
         title="Estudar"
-        contentSize="sm"
       >
         <PageSubtitle subtitle="Estes são os proffys disponíveis." />
         <form id="search-teachers" onSubmit={handleSearchTeachers}>
