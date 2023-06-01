@@ -1,7 +1,7 @@
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useState } from 'react';
 import {
-  Image, View, ScrollView, StatusBar,
+  Image, View, ScrollView, StatusBar, Text,
 } from 'react-native';
 
 import heartEyesEmojiIcon from '@assets/images/icons/heart-eyes.png';
@@ -60,7 +60,6 @@ export function Favorites() {
           }
         />
       </View>
-
       <ScrollView
         style={styles.teacherList}
         contentContainerStyle={{
@@ -68,14 +67,20 @@ export function Favorites() {
           paddingBottom: 24,
         }}
       >
-        {favoriteTeachers.map((teacher) => (
-          <TeacherItem
-            key={teacher.user_id}
-            {...teacher}
-            favorited
-            onRemoveFavorite={handleRemoveFavorite}
-          />
-        ))}
+        {favoriteTeachers.length === 0 ? (
+          <Text style={styles.noFavoriteTeachersFoundMessage}>
+            Nenhum proffy favorito encontrado.
+          </Text>
+        ) : (
+          favoriteTeachers.map((teacher) => (
+            <TeacherItem
+              key={teacher.user_id}
+              {...teacher}
+              favorited
+              onRemoveFavorite={handleRemoveFavorite}
+            />
+          ))
+        )}
       </ScrollView>
     </View>
   );

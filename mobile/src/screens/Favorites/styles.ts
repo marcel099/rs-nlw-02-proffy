@@ -20,4 +20,12 @@ export const styles = StyleSheet.create({
     paddingTop: 40,
     paddingBottom: 72,
   },
+
+  noFavoriteTeachersFoundMessage: {
+    fontFamily: 'Poppins_400Regular',
+    fontSize: 14,
+    color: '#9C98A6',
+    lineHeight: 22,
+    textAlign: 'center',
+  },
 });

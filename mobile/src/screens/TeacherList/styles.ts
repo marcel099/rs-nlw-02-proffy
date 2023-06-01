@@ -22,4 +22,17 @@ export const styles = StyleSheet.create({
   teacherList: {
     marginTop: -60,
   },
+
+  teacherListWarningContainer: {
+    // flex: 1,
+    // alignItems: 'center',
+  },
+
+  noTeachersFoundMessage: {
+    fontFamily: 'Poppins_400Regular',
+    fontSize: 14,
+    color: '#9C98A6',
+    lineHeight: 22,
+    textAlign: 'center',
+  },
 });

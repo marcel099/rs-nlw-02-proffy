@@ -1,7 +1,7 @@
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useCallback, useState } from 'react';
 import {
-  Alert, View, ScrollView, StatusBar, Image,
+  ActivityIndicator, Alert, View, ScrollView, StatusBar, Image, Text,
 } from 'react-native';
 
 import nerdFaceEmojiIcon from '@assets/images/icons/nerd-face.png';
@@ -36,6 +36,7 @@ export function TeacherList() {
   const [teachersTotal, setTeachersTotal] = useState(0);
   const [teachersOffset, setTeachersOffset] = useState(0);
   const [favoritesTeachersIds, setFavoriteTeachersIds] = useState<number[]>([]);
+  const [isLoadingTeachers, setIsLoadingTeachers] = useState(true);
 
   async function loadFavorites() {
     const favoriteTeachersStorage = await loadFavoriteTeachers();
@@ -89,6 +90,8 @@ export function TeacherList() {
       setTeachers(parsedTeachers);
     } catch {
       Alert.alert('Erro ao buscar dados da lista de aulas');
+    } finally {
+      setIsLoadingTeachers(false);
     }
   }
 
@@ -117,18 +120,33 @@ export function TeacherList() {
 
       <ScrollView
         style={styles.teacherList}
-        contentContainerStyle={{ // é melhor pra aplicar estilos
+        contentContainerStyle={{
           paddingHorizontal: 16,
           paddingBottom: 24,
         }}
       >
-        {teachers.map((teacher) => (
-          <TeacherItem
-            key={teacher.user_id}
-            {...teacher}
-            favorited={favoritesTeachersIds.includes(teacher.user_id)}
-          />
-        ))}
+        { isLoadingTeachers || teachers.length === 0 ? (
+          <View style={styles.teacherListWarningContainer}>
+            {isLoadingTeachers ? (
+              <ActivityIndicator
+                color="#9C98A6"
+                size="large"
+              />
+            ) : (
+              <Text style={styles.noTeachersFoundMessage}>
+                Nenhum proffy encontrado{'\n'}com sua pesquisa.
+              </Text>
+            )}
+          </View>
+        ) : (
+          teachers.map((teacher) => (
+            <TeacherItem
+              key={teacher.user_id}
+              {...teacher}
+              favorited={favoritesTeachersIds.includes(teacher.user_id)}
+            />
+          ))
+        )}
       </ScrollView>
     </View>
   );
