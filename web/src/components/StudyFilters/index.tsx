@@ -96,7 +96,10 @@ export function StudyFilters({
               setSubjectId(value === '' ? null : Number(value));
             }
           }
-          options={parsedSubjects}
+          options={[
+            { value: '', label: 'Selecione' },
+            ...parsedSubjects,
+          ]}
         />
       )}
       <Select
@@ -109,15 +112,21 @@ export function StudyFilters({
             setWeekDay(value === '' ? null : Number(value));
           }
         }
-        options={weekDays}
+        options={[
+          { value: '', label: 'Selecione' },
+          ...weekDays,
+        ]}
       />
       <OuterLabelInput
         name="time"
         label="Hora"
         type="time"
-        value={time !== null ? String(time) : '00:00'}
+        value={time !== null ? String(time) : ''}
         onChange={
-          (e) => setTime(e.target.value)
+          (e) => {
+            const { value } = e.target;
+            setTime(value === '' ? null : value);
+          }
         }
       />
     </form>
