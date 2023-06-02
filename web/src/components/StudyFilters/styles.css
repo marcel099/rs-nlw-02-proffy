@@ -1,0 +1,42 @@
+#study-form {
+  display: grid;
+  grid-template-columns: repeat(2, 2fr);
+  column-gap: 0.8rem;
+  
+  margin-top: 3.2rem;
+  margin-bottom: 8rem;
+}
+
+#study-form .select-block:first-child {
+  grid-column: span 2;
+}
+
+#study-form .select-block + .select-block,
+#study-form .select-block + .input-block {
+  margin-top: 0.8rem; 
+}
+
+#study-form label {
+  color: var(--color-text-in-primary);
+}
+
+@media (min-width: 700px) {
+  #study-form {
+    position: absolute;
+    bottom: -28px;
+
+    grid-template-columns: repeat(3, 2fr);
+    column-gap: 16px;
+
+    margin-bottom: initial;
+  }
+
+  #study-form .select-block:first-child {
+    grid-column: initial;
+  }
+
+  #study-form .select-block + .select-block,
+  #study-form .select-block + .input-block {
+    margin-top: 0; 
+  }
+}

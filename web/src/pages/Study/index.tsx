@@ -1,38 +1,102 @@
-import { useState, FormEvent } from 'react';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 import nerdFaceIcon from '@assets/images/icons/nerd-face.svg';
 
+import { ApiTeacher, Teacher } from '@dtos/Teacher';
 import api from '@services/api';
-import { weekDays } from '@utils/staticData';
+import { parseFetchedToParsedClassSchedule } from '@utils/mappers';
 
 import { EncouragementMessage } from '@components/EncouragementMessage';
-import { OuterLabelInput } from '@components/OuterLabelInput';
 import { PageHeader } from '@components/PageHeader';
 import { PageSubtitle } from '@components/PageSubtitle';
-import { Select } from '@components/Select';
-import TeacherItem, { TeacherItemProps } from '@components/TeacherItem';
+import { StudyFilters } from '@components/StudyFilters';
+import { TeacherItem } from '@components/TeacherItem';
 
 import './styles.css';
 
+export interface StudyFiltersData {
+  subjectId: number | null;
+  weekDay: number | null;
+  time: string | null;
+  page: number;
+}
+
+interface ResponseTeacherList {
+  data: ApiTeacher[];
+  offset: number;
+  total: number;
+}
+
 export function Study() {
-  const [teachers, setTeachers] = useState([]);
+  const [teachers, setTeachers] = useState<Teacher[]>([]);
+  const [isFetchingTeachers, setIsFetchingTeachers] = useState(true);
 
-  const [subject, setSubject] = useState('');
-  const [week_day, setWeekDay] = useState('');
-  const [time, setTime] = useState('');
+  const [teachersTotal, setTeachersTotal] = useState(0);
+  const [teachersOffset, setTeachersOffset] = useState(0);
+  const [teachersPage, setTeachersPage] = useState(1);
+  const teachersPerPage = 5;
 
-  async function handleSearchTeachers(e: FormEvent) {
-    e.preventDefault();
+  const isTeacherListEmpty = teachers.length === 0;
+  const hasFetchedAllTeachers =
+    (teachersOffset + teachersPerPage) >= teachersTotal;
 
-    const response = await api.get('/classes', {
-      params: {
-        subject,
-        week_day,
+  async function fetchClasses({
+    subjectId, weekDay, time, page,
+  }: StudyFiltersData) {
+    try {
+      if (isFetchingTeachers) {
+        return;
+      }
+
+      setIsFetchingTeachers(true);
+
+      const params = {
+        subject_id: subjectId,
+        week_day: weekDay,
         time,
-      },
-    });
+        page,
+      };
 
-    setTeachers(response.data);
+      const response = await api.get('/classes', {
+        params,
+      });
+
+      const {
+        data: fetchedTeachers,
+        offset,
+        total,
+      } = response.data as ResponseTeacherList;
+
+      const parsedTeachers = fetchedTeachers.map((teacher) => {
+        const parsedClassSchedules = teacher.class_schedules
+          .map(parseFetchedToParsedClassSchedule);
+
+        return {
+          ...teacher,
+          class_schedules: parsedClassSchedules,
+        };
+      });
+
+      setTeachersTotal(total);
+      setTeachersOffset(offset);
+
+      setTeachers((previousTeachers) => {
+        if (page > 1) {
+          return [...previousTeachers, ...parsedTeachers];
+        }
+
+        return parsedTeachers;
+      });
+    } catch {
+      toast.error('Erro ao buscar dados da lista de aulas');
+    } finally {
+      setIsFetchingTeachers(false);
+    }
+  }
+
+  function handleFetchNextPage() {
+    setTeachersPage((previousPageNumber) => previousPageNumber + 1);
   }
 
   return (
@@ -47,49 +111,45 @@ export function Study() {
               iconUrl={nerdFaceIcon}
               iconAlt="Foguete"
             >
-              Nós temos<br />{teachers.length} proffys.
+              Nós temos<br />{teachersTotal} proffys.
             </EncouragementMessage>
           </div>
         </div>
-        <form id="search-teachers-form" onSubmit={handleSearchTeachers}>
-          <Select
-            name="subject"
-            label="Matéria"
-            value={subject}
-            onChange={(e) => setSubject(e.target.value)}
-            options={[
-              { value: 'Matemática', label: 'Matemática' },
-              { value: 'Português', label: 'Língua Portuguesa' },
-              { value: 'Biologia', label: 'Biologia' },
-              { value: 'Química', label: 'Química' },
-              { value: 'Física', label: 'Física' },
-              { value: 'Geografia', label: 'Geografia' },
-              { value: 'História', label: 'História' },
-              { value: 'Artes', label: 'Artes' },
-              { value: 'Educação Física', label: 'Educação Física' },
-            ]}
-          />
-          <Select
-            name="week_day"
-            label="Dia da semana"
-            value={week_day}
-            onChange={(e) => setWeekDay(e.target.value)}
-            options={weekDays}
-          />
-          <OuterLabelInput
-            name="time"
-            label="Hora"
-            type="time"
-            value={time}
-            onChange={(e) => setTime(e.target.value)}
-          />
-        </form>
+        <StudyFilters
+          onfiltersUpdate={fetchClasses}
+          page={teachersPage}
+          setPage={setTeachersPage}
+        />
       </PageHeader>
 
       <main>
-        {teachers.map((teacher: TeacherItemProps) => (
-          <TeacherItem key={teacher.id} {...teacher} />
-        ))}
+        {isTeacherListEmpty ? (
+          <p className="warning-message no-teachers-found-message">
+            Nenhum proffy encontrado<br />com sua pesquisa.
+          </p>
+        ) : (
+          <>
+            {teachers.map((teacher) => (
+              <TeacherItem key={teacher.user_id} {...teacher} />
+            ))}
+            {hasFetchedAllTeachers ? (
+              <p className="warning-message end-teacher-list-message">
+                Estes são todos os resultados
+              </p>
+            ) : (
+              <div className="fetch-next-page-button-container">
+                <button
+                  type="button"
+                  className="fetch-next-page-button"
+                  onClick={handleFetchNextPage}
+                  disabled={isFetchingTeachers}
+                >
+                  Carregar mais
+                </button>
+              </div>
+            )}
+          </>
+        )}
       </main>
     </div>
   );

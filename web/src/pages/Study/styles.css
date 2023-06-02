@@ -16,56 +16,55 @@
   align-items: center;
 }
 
-#search-teachers-form {
-  display: grid;
-  grid-template-columns: repeat(2, 2fr);
-  column-gap: 0.8rem;
-  
-  margin-top: 3.2rem;
-  margin-bottom: 8rem;
-}
-
-#search-teachers-form .select-block:first-child {
-  grid-column: span 2;
-}
-
-#search-teachers-form .select-block + .select-block,
-#search-teachers-form .select-block + .input-block {
-  margin-top: 0.8rem; 
-}
-
-#search-teachers-form label {
-  color: var(--color-text-in-primary);
-}
-
 #page-study main {
   margin: 3.2rem auto;
   width: 90%;
+}
+
+#page-study main .warning-message {
+  font: 400 1.6rem Poppins, sans-serif;
+  color: var(--color-text-complement);
+  line-height: 2.6rem;
+  text-align: center;
+}
+
+#page-study main .no-teachers-found-message {
+  margin-top: 12rem;
+}
+
+#page-study main .end-teacher-list-message {
+  margin-top: 4rem;
+}
+
+#page-study main .fetch-next-page-button-container {
+  display: grid;
+  place-items: center;
+
+  margin-top: 4rem;
+}
+
+#page-study main .fetch-next-page-button {
+  font: 400 1.4rem Poppins, sans-serif;
+  color: var(--color-text-complement);
+  line-height: 2.4rem;
+
+  background-color: transparent;
+  border: 0;
+
+  text-decoration: underline;
+
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+#page-study main .fetch-next-page-button:hover {
+  color: var(--color-text-complement-blur);
 }
 
 @media (min-width: 700px) {
   #page-study .header-content .page-description-container {
     margin-top: 6.4rem;
     margin-bottom: 10.8rem; 
-  }
-
-  #search-teachers-form {
-    position: absolute;
-    bottom: -28px;
-
-    grid-template-columns: repeat(3, 2fr);
-    column-gap: 16px;
-
-    margin-bottom: initial;
-  }
-
-  #search-teachers-form .select-block:first-child {
-    grid-column: initial;
-  }
-
-  #search-teachers-form .select-block + .select-block,
-  #search-teachers-form .select-block + .input-block {
-    margin-top: 0; 
   }
 
   #page-study main {
