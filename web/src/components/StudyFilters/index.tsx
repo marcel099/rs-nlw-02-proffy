@@ -68,6 +68,10 @@ export function StudyFilters({
   }, [subjectId, weekDay, time]);
 
   useEffect(() => {
+    if (page === 1) {
+      return;
+    }
+
     onfiltersUpdate({
       ...getFiltersData(),
       page,

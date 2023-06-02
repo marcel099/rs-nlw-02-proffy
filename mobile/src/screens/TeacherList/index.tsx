@@ -36,7 +36,7 @@ interface ResponseTeacherList {
 export function TeacherList() {
   const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [favoritesTeachersIds, setFavoriteTeachersIds] = useState<number[]>([]);
-  const [isFetchingTeachers, setIsFetchingTeachers] = useState(true);
+  const [isFetchingTeachers, setIsFetchingTeachers] = useState(false);
 
   const [teachersTotal, setTeachersTotal] = useState(0);
   const [teachersOffset, setTeachersOffset] = useState(0);
@@ -66,6 +66,10 @@ export function TeacherList() {
     subjectId, weekDay, time, page,
   }: TeacherListFiltersData) {
     try {
+      if (isFetchingTeachers) {
+        return;
+      }
+
       setIsFetchingTeachers(true);
 
       const params = {

@@ -71,6 +71,10 @@ export function TeacherListFilters({
   }, [subjectId, weekDay, time]);
 
   useEffect(() => {
+    if (page === 1) {
+      return;
+    }
+
     onfiltersUpdate({
       ...getFiltersData(),
       page,

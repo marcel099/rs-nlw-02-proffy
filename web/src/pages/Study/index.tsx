@@ -30,7 +30,7 @@ interface ResponseTeacherList {
 
 export function Study() {
   const [teachers, setTeachers] = useState<Teacher[]>([]);
-  const [isFetchingTeachers, setIsFetchingTeachers] = useState(true);
+  const [isFetchingTeachers, setIsFetchingTeachers] = useState(false);
 
   const [teachersTotal, setTeachersTotal] = useState(0);
   const [teachersOffset, setTeachersOffset] = useState(0);
