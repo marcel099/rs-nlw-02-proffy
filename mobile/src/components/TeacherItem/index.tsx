@@ -109,24 +109,37 @@ export function TeacherItem({
           <Text style={styles.classScheduleInfoHeader}>Horário</Text>
         </View>
         {[1, 2, 3, 4, 5].map((value) => {
-          const class_schedule = class_schedules.find(
+          const filteredClassSchedules = class_schedules.filter(
             (item) => item.week_day === value
           );
+
+          const noClassOnWeekDay = filteredClassSchedules.length === 0;
 
           return (
             <View
               key={value}
               style={[
                 styles.classSchedule,
-                class_schedule === undefined && styles.nonexistentClassSchedule,
+                noClassOnWeekDay && styles.nonexistentClassSchedule,
               ]}
             >
               <Text style={styles.classScheduleInfo}>
                 {parseWeekDayValueToName(value)}
               </Text>
-              <Text style={styles.classScheduleInfo}>
-                {class_schedule?.from ?? ''} - {class_schedule?.to ?? ''}
-              </Text>
+              {noClassOnWeekDay ? (
+                <Text style={styles.classScheduleInfo}>-</Text>
+              ) : (
+                <View>
+                  {filteredClassSchedules.map((classSchedule) => (
+                    <Text
+                      key={classSchedule.id}
+                      style={styles.classScheduleInfo}
+                    >
+                      {classSchedule?.from ?? ''} - {classSchedule?.to ?? ''}
+                    </Text>
+                  ))}
+                </View>
+              )}
             </View>
           );
         })}

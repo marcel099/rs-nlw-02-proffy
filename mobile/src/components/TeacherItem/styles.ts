@@ -74,7 +74,6 @@ export const styles = StyleSheet.create({
   classSchedule: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
 
     backgroundColor: '#FAFAFC',
 
