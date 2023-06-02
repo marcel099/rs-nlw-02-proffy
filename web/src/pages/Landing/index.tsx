@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { FiPower } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import giveClassesIcon from '@assets/images/icons/give-classes.svg';
 import purpleHeartIcon from '@assets/images/icons/purple-heart.svg';
@@ -24,15 +25,23 @@ export function Landing() {
     try {
       await signOut();
     } catch (error) {
-      console.error(error);
+      toast.error('Não foi possível sair');
+    }
+  }
+
+  async function getConnections() {
+    try {
+      const response = await api.get('/connections');
+
+      const { total } = response.data;
+      setTotalConnections(total);
+    } catch (error) {
+      toast.error('Não foi possível obter o número de conexões');
     }
   }
 
   useEffect(() => {
-    api.get('/connections').then((response) => {
-      const { total } = response.data;
-      setTotalConnections(total);
-    });
+    getConnections();
   }, []);
 
   return (
