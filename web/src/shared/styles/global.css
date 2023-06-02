@@ -25,6 +25,8 @@
   --color-box-base: #FFFFFF;
   --color-box-footer: #FAFAFC;
   --color-shapes-disabled: #DCDCE5;
+
+  --main-content-width: 800px;
   
   font-size: 60%; /* 9.6px */
 }

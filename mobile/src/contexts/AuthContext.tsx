@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AxiosError } from 'axios';
 import React, {
   createContext,
   ReactNode,
@@ -7,6 +8,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
+import { Alert } from 'react-native';
 
 import {
   SIGNED_IN_USER,
@@ -49,67 +51,67 @@ export function AuthContextProvider({
   const [user, setUser] = useState<User | null>(null);
   // const [isFetchingAuthData, setIsFetchingAuthData] = useState(true);
 
+  function setAxiosDefaultAuthorization(token: string) {
+    api.defaults.headers['Authorization'] = `Bearer ${token}`;
+  }
+
+  async function signOut() {
+    await AsyncStorage.removeItem(SIGNED_IN_USER);
+    await AsyncStorage.removeItem(SIGNED_IN_USER_TOKEN);
+
+    if (user !== null) {
+      setUser(null);
+    }
+  }
+
   async function fetchUserSession({
     email,
     password,
     rememberMe,
   }: SignInDTO) {
-    try {
-      const sessionResponse = await api.post('/sessions', { email, password });
+    const sessionResponse = await api.post('/sessions', { email, password });
 
-      if (sessionResponse.status !== 200) {
-        throw new Error('');
-      }
+    if (sessionResponse.status !== 200) {
+      throw new Error('');
+    }
 
-      const { token } = sessionResponse.data;
-      api.defaults.headers['Authorization'] = `Bearer ${token}`;
+    const { token } = sessionResponse.data;
+    setAxiosDefaultAuthorization(token);
 
-      if (rememberMe) {
-        AsyncStorage.setItem(
-          SIGNED_IN_USER_TOKEN,
-          token
-        );
-      }
-    } catch (error) {
-      throw new Error(error as any);
+    if (rememberMe) {
+      await AsyncStorage.setItem(
+        SIGNED_IN_USER_TOKEN,
+        token
+      );
     }
   }
 
   async function fetchUser() {
-    try {
-      const response = await api.get('/users/me');
+    const response = await api.get('/users/me');
 
-      if (response.status === 200) {
-        const {
-          email, first_name, last_name, avatar, bio, whatsapp,
-        } = response.data;
+    if (response.status === 200) {
+      const {
+        email, first_name, last_name, avatar, bio, whatsapp,
+      } = response.data;
 
-        const userData = {
-          email,
-          firstName: first_name,
-          lastName: last_name,
-          avatar,
-          bio,
-          whatsapp,
-        };
+      const userData = {
+        email,
+        firstName: first_name,
+        lastName: last_name,
+        avatar,
+        bio,
+        whatsapp,
+      };
 
-        setUser(userData);
-        await AsyncStorage.setItem(
-          SIGNED_IN_USER,
-          JSON.stringify(userData)
-        );
-      }
+      setUser(userData);
+      await AsyncStorage.setItem(
+        SIGNED_IN_USER,
+        JSON.stringify(userData)
+      );
+    }
 
-      if (response.status === 401) {
-        await AsyncStorage.removeItem(SIGNED_IN_USER);
-        await AsyncStorage.removeItem(SIGNED_IN_USER_TOKEN);
-
-        if (user !== null) {
-          setUser(null);
-        }
-      }
-    } catch (error) {
-      console.error(error);
+    if (response.status === 401) {
+      await signOut();
     }
   }
 
@@ -118,17 +120,26 @@ export function AuthContextProvider({
     password,
     rememberMe,
   }: SignInDTO) {
-    try {
-      await fetchUserSession({ email, password, rememberMe });
-      await fetchUser();
-    } catch (error) {
-      throw new Error(error as any);
-    }
+    await fetchUserSession({ email, password, rememberMe });
+    await fetchUser();
   }
 
-  async function signOut() {
-    await AsyncStorage.removeItem(SIGNED_IN_USER_TOKEN);
-    setUser(null);
+  function setAxiosInterceptorInvalidToken() {
+    api.interceptors.response.use(
+      (response) => response,
+      (error: AxiosError) => {
+        if (error?.response?.status === 401 &&
+            error?.response.data.message === 'Token inválido') {
+          Alert.alert(
+            'Sessão expirada',
+            'Sua sessão está expirada. Por favor, faça login novamente.',
+            [{ text: 'Ok', onPress: () => signOut() }]
+          );
+        }
+
+        return Promise.reject(error);
+      }
+    );
   }
 
   useEffect(() => {
@@ -137,7 +148,7 @@ export function AuthContextProvider({
       const token = await AsyncStorage.getItem(SIGNED_IN_USER_TOKEN);
 
       if (token !== null && loadedUser !== null) {
-        api.defaults.headers['Authorization'] = `Bearer ${token}`;
+        setAxiosDefaultAuthorization(token);
         setUser(JSON.parse(loadedUser));
       }
 
@@ -145,6 +156,7 @@ export function AuthContextProvider({
     }
 
     loadTokenAndUser();
+    setAxiosInterceptorInvalidToken();
   }, []);
 
   const value = useMemo(() => ({

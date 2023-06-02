@@ -1,32 +1,47 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
-import React, { useState } from 'react';
+import { useCallback, useState } from 'react';
 import {
-  View, ScrollView, StatusBar, Text,
+  Image, View, ScrollView, StatusBar, Text,
 } from 'react-native';
 
+import heartEyesEmojiIcon from '@assets/images/icons/heart-eyes.png';
+
+import { Teacher } from '@dtos/Teacher';
+import { loadFavoriteTeachers } from '@utils/loaders';
+
+import { EncouragementMessage } from '@components/EncouragementMessage';
 import { ScreenHeader } from '@components/ScreenHeader';
 import { ScreenSubtitle } from '@components/ScreenSubtitle';
-import TeacherItem, { TeacherItemProps } from '@components/TeacherItem';
+import { TeacherItem } from '@components/TeacherItem';
 
 import { styles } from './styles';
 
 export function Favorites() {
-  const [favorites, setFavorites] = useState([]);
+  const [favoriteTeachers, setFavoriteTeachers] = useState<Teacher[]>([]);
 
-  function loadFavorites() {
-    AsyncStorage.getItem('favorites').then((response) => {
-      if (response) {
-        const favoritedTeachers = JSON.parse(response);
+  async function loadFavorites() {
+    const favoriteTeachersStorage = await loadFavoriteTeachers();
 
-        setFavorites(favoritedTeachers);
-      }
-    });
+    setFavoriteTeachers(favoriteTeachersStorage);
   }
 
-  useFocusEffect(() => { // Reexecuta a cada vez que entrar em foco
+  const loadFavoritesCallback = useCallback(() => {
     loadFavorites();
-  });
+  }, []);
+  useFocusEffect(loadFavoritesCallback);
+
+  function handleRemoveFavorite(user_id: number) {
+    setFavoriteTeachers((previousFavorites) => {
+      const updatedFavorites = [...previousFavorites];
+      const favoritedIndex = updatedFavorites
+        .findIndex((teacher) => teacher.user_id === user_id);
+      if (favoritedIndex !== undefined) {
+        updatedFavorites.splice(favoritedIndex, 1);
+      }
+
+      return updatedFavorites;
+    });
+  }
 
   return (
     <View style={styles.container}>
@@ -38,8 +53,13 @@ export function Favorites() {
       <ScreenHeader title="Estudar" />
       <View style={styles.subheader}>
         <ScreenSubtitle subtitle={'Meus proffys\nfavoritos'} />
+        <EncouragementMessage
+          Icon={<Image source={heartEyesEmojiIcon} />}
+          message={
+            `${favoriteTeachers.length} proffy${favoriteTeachers.length > 1 ? 's' : ''}`
+          }
+        />
       </View>
-
       <ScrollView
         style={styles.teacherList}
         contentContainerStyle={{
@@ -47,13 +67,20 @@ export function Favorites() {
           paddingBottom: 24,
         }}
       >
-        {favorites.map((teacher: TeacherItemProps) => (
-          <TeacherItem
-            key={teacher.id}
-            {...teacher}
-            favorited
-          />
-        ))}
+        {favoriteTeachers.length === 0 ? (
+          <Text style={styles.noFavoriteTeachersFoundMessage}>
+            Nenhum proffy favorito encontrado.
+          </Text>
+        ) : (
+          favoriteTeachers.map((teacher) => (
+            <TeacherItem
+              key={teacher.user_id}
+              {...teacher}
+              favorited
+              onRemoveFavorite={handleRemoveFavorite}
+            />
+          ))
+        )}
       </ScrollView>
     </View>
   );

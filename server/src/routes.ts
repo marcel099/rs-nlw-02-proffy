@@ -4,7 +4,7 @@ import multer from 'multer';
 import { uploadConfig } from '@config/upload';
 
 import { AuthenticationController } from '@controllers/AuthenticationController';
-import ClassesControler from '@controllers/ClassesController';
+import { ClassesControler } from '@controllers/ClassesController';
 import ConnectionsControler from '@controllers/ConnectionsController';
 import { SubjectsController } from '@controllers/SubjectsController';
 import { UsersController } from '@controllers/UsersController';

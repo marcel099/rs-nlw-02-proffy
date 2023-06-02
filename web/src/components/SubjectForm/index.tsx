@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
+import { toast } from 'react-toastify';
 
 import { Subject } from '@dtos/Subject';
-import api from '@services/api';
+import { fetchSubjects } from '@utils/fetchers';
 
 import { OuterLabelInput } from '@components/OuterLabelInput';
 import { Select } from '@components/Select';
@@ -21,10 +22,23 @@ export function SubjectForm({
   subjects, setSubjects, subjectId, setSubjectId, cost, setCost,
 }: SubjectFormProps) {
   useEffect(() => {
-    api.get('/subjects').then((response) => {
-      setSubjects(response.data);
-    });
+    fetchSubjects()
+      .then((data) => {
+        setSubjects(data.subjects);
+      })
+      .catch((error) => {
+        if (error?.response?.status === 401) {
+          return;
+        }
+
+        toast.error('Erro ao buscar dados das matérias');
+      });
   });
+
+  const parsedSubjects = useMemo(() => subjects.map((subject) => ({
+    label: subject.name,
+    value: String(subject.id),
+  })), [subjects]);
 
   return (
     <fieldset>
@@ -37,10 +51,7 @@ export function SubjectForm({
           value={subjectId}
           placeholder="Selecione qual você quer ensinar"
           onChange={(e) => setSubjectId(Number(e.target.value))}
-          options={subjects.map((subject) => ({
-            value: String(subject.id),
-            label: subject.name,
-          }))}
+          options={parsedSubjects}
         />
         <OuterLabelInput
           name="cost"

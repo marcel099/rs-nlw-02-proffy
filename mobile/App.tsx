@@ -1,18 +1,20 @@
-import React, { useEffect } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import * as SplashScreen from 'expo-splash-screen';
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import 'intl';
+import 'intl/locale-data/jsonp/pt-BR';
 import {
   Archivo_400Regular,
   Archivo_600SemiBold,
   Archivo_700Bold,
-  useFonts
+  useFonts,
 } from '@expo-google-fonts/archivo';
 import {
   Poppins_400Regular,
   Poppins_500Medium,
-  Poppins_600SemiBold
+  Poppins_600SemiBold,
 } from '@expo-google-fonts/poppins';
+import * as SplashScreen from 'expo-splash-screen';
+import { StatusBar } from 'expo-status-bar';
+import React, { useEffect } from 'react';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { AuthContextProvider } from './src/contexts/AuthContext';
 import { Routes } from './src/routes';
@@ -20,14 +22,14 @@ import { Routes } from './src/routes';
 SplashScreen.preventAutoHideAsync();
 
 export function App() {
-  let [ hasFontsLoaded ] = useFonts({
+  const [hasFontsLoaded] = useFonts({
     Archivo_400Regular,
     Archivo_600SemiBold,
     Archivo_700Bold,
     Poppins_400Regular,
     Poppins_500Medium,
     Poppins_600SemiBold,
-  })
+  });
 
   useEffect(() => {
     const hideSplashScreen = async () => {
@@ -37,7 +39,7 @@ export function App() {
     if (hasFontsLoaded) {
       hideSplashScreen();
     }
-  }, [hasFontsLoaded])
+  }, [hasFontsLoaded]);
 
   if (!hasFontsLoaded) {
     return null;
@@ -45,6 +47,7 @@ export function App() {
 
   return (
     <>
+      {/* eslint-disable-next-line react/style-prop-object */}
       <StatusBar style="light" />
       <GestureHandlerRootView style={{ flex: 1 }}>
         <AuthContextProvider>

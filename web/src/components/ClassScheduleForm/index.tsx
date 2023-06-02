@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction } from 'react';
 
 import { ClassSchedule } from '@dtos/ClassSchedule';
 import { createBlankClassSchedule } from '@utils/factories';
+import { weekDays } from '@utils/staticData';
 
 import { OuterLabelInput } from '@components/OuterLabelInput';
 import { Select } from '@components/Select';
@@ -67,7 +68,7 @@ export function ClassScheduleForm({
         </button>
       </legend>
 
-      { classSchedules.map((classSchedule, index) => (
+      { classSchedules.map((classSchedule) => (
         <div
           key={classSchedule.id}
           className="schedule-item"
@@ -84,16 +85,12 @@ export function ClassScheduleForm({
                       : ''
                   }
               placeholder="Selecione o dia"
-              onChange={(e) => setClassScheduleValue(index, 'week_day', e.target.value)}
-              options={[
-                { value: '0', label: 'Domingo' },
-                { value: '1', label: 'Segunda-feira' },
-                { value: '2', label: 'Terça-feira' },
-                { value: '3', label: 'Quarta-feira' },
-                { value: '4', label: 'Quinta-feira' },
-                { value: '5', label: 'Sexta-feira' },
-                { value: '6', label: 'Sábado' },
-              ]}
+              onChange={(e) => setClassScheduleValue(
+                classSchedule.id,
+                'week_day',
+                e.target.value
+              )}
+              options={weekDays}
             />
             <div className="interval-section">
               <OuterLabelInput
@@ -101,14 +98,22 @@ export function ClassScheduleForm({
                 label="Das"
                 type="time"
                 value={classSchedule.from}
-                onChange={(e) => setClassScheduleValue(index, 'from', e.target.value)}
+                onChange={(e) => setClassScheduleValue(
+                  classSchedule.id,
+                  'from',
+                  e.target.value
+                )}
               />
               <OuterLabelInput
                 name="to"
                 label="Até"
                 type="time"
                 value={classSchedule.to}
-                onChange={(e) => setClassScheduleValue(index, 'to', e.target.value)}
+                onChange={(e) => setClassScheduleValue(
+                  classSchedule.id,
+                  'to',
+                  e.target.value
+                )}
               />
             </div>
           </div>

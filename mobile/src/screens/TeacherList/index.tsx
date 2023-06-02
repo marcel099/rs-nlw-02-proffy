@@ -1,63 +1,130 @@
-import { Feather } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
-  View, Text, TextInput, ScrollView, StatusBar,
+  ActivityIndicator, Alert, View, ScrollView, StatusBar, Image, Text,
 } from 'react-native';
-import { BorderlessButton, RectButton } from 'react-native-gesture-handler';
+import { RectButton } from 'react-native-gesture-handler';
 
+import nerdFaceEmojiIcon from '@assets/images/icons/nerd-face.png';
+
+import { ApiTeacher, Teacher } from '@dtos/Teacher';
 import api from '@services/api';
+import { loadFavoriteTeachers } from '@utils/loaders';
+import { parseFetchedToParsedClassSchedule } from '@utils/mappers';
 
+import { EncouragementMessage } from '@components/EncouragementMessage';
 import { ScreenHeader } from '@components/ScreenHeader';
 import { ScreenSubtitle } from '@components/ScreenSubtitle';
-import TeacherItem, { TeacherItemProps } from '@components/TeacherItem';
+import { TeacherItem } from '@components/TeacherItem';
+import { TeacherListFilters } from '@components/TeacherListFilters';
 
 import { styles } from './styles';
 
+export interface TeacherListFiltersData {
+  subjectId: number | null;
+  weekDay: number | null;
+  time: string | null;
+  page: number;
+}
+
+interface ResponseTeacherList {
+  data: ApiTeacher[];
+  offset: number;
+  total: number;
+}
+
 export function TeacherList() {
-  const [isFiltersVisible, setIsFiltersVisible] = useState(false);
+  const [teachers, setTeachers] = useState<Teacher[]>([]);
+  const [favoritesTeachersIds, setFavoriteTeachersIds] = useState<number[]>([]);
+  const [isFetchingTeachers, setIsFetchingTeachers] = useState(false);
 
-  const [teachers, setTeachers] = useState([]);
-  const [favoritesIds, setFavoritesids] = useState<number[]>([]);
+  const [teachersTotal, setTeachersTotal] = useState(0);
+  const [teachersOffset, setTeachersOffset] = useState(0);
+  const [teachersPage, setTeachersPage] = useState<number>(1);
+  const teachersPerPage = 5;
 
-  const [subject, setSubject] = useState('');
-  const [week_day, setWeekDay] = useState('');
-  const [time, setTime] = useState('');
+  const isTeacherListEmpty = teachers.length === 0;
+  const hasFetchedAllTeachers =
+    (teachersOffset + teachersPerPage) >= teachersTotal;
 
-  function loadFavorites() {
-    AsyncStorage.getItem('favorites').then((response) => {
-      if (response) {
-        const favoritedTeachers = JSON.parse(response);
-        const favoritedTeachersIds = favoritedTeachers.map(
-          (teacher: TeacherItemProps) => teacher.id
-        );
+  async function loadFavorites() {
+    const favoriteTeachersStorage = await loadFavoriteTeachers();
 
-        setFavoritesids(favoritedTeachersIds);
-      }
-    });
+    const favoriteTeachersIds = favoriteTeachersStorage.map(
+      (teacher) => teacher.user_id
+    );
+
+    setFavoriteTeachersIds(favoriteTeachersIds);
   }
 
-  useFocusEffect(() => { // Reexecuta a cada vez que entrar em foco
+  const loadFavoritesCallback = useCallback(() => {
     loadFavorites();
-  });
+  }, []);
+  useFocusEffect(loadFavoritesCallback);
 
-  function handleToggleFiltersVisible() {
-    setIsFiltersVisible(!isFiltersVisible);
-  }
+  async function fetchClasses({
+    subjectId, weekDay, time, page,
+  }: TeacherListFiltersData) {
+    try {
+      if (isFetchingTeachers) {
+        return;
+      }
 
-  async function handleFiltersSubmit() {
-    const response = await api.get('/classes', {
-      params: {
-        subject,
-        week_day,
+      setIsFetchingTeachers(true);
+
+      const params = {
+        subject_id: subjectId,
+        week_day: weekDay,
         time,
-      },
-    });
+        page,
+      };
 
-    setIsFiltersVisible(false);
-    setTeachers(response.data);
+      const response = await api.get('/classes', {
+        params,
+      });
+
+      const {
+        data: fetchedTeachers,
+        offset,
+        total,
+      } = response.data as ResponseTeacherList;
+
+      const parsedTeachers = fetchedTeachers.map((teacher) => {
+        const parsedClassSchedules = teacher.class_schedules
+          .map(parseFetchedToParsedClassSchedule);
+
+        return {
+          ...teacher,
+          class_schedules: parsedClassSchedules,
+        };
+      });
+
+      setTeachersTotal(total);
+      setTeachersOffset(offset);
+
+      setTeachers((previousTeachers) => {
+        if (page > 1) {
+          return [...previousTeachers, ...parsedTeachers];
+        }
+
+        return parsedTeachers;
+      });
+    } catch {
+      Alert.alert('Erro ao buscar dados da lista de aulas');
+    } finally {
+      setIsFetchingTeachers(false);
+    }
   }
+
+  function handleFetchNextPage() {
+    setTeachersPage((previousPageNumber) => previousPageNumber + 1);
+  }
+
+  // console.log({
+  //   showButton: teachersOffset + teachersPerPage < teachersTotal,
+  //   teachersOffset,
+  //   teachersTotal,
+  // });
 
   return (
     <View style={styles.container}>
@@ -68,70 +135,70 @@ export function TeacherList() {
       />
       <ScreenHeader title="Estudar" />
       <View style={styles.subheader}>
-        <ScreenSubtitle subtitle={'Proffys\ndisponíveis'} />
-        <BorderlessButton onPress={handleToggleFiltersVisible}>
-          <Feather name="filter" size={20} color="#fff" />
-        </BorderlessButton>
-        { isFiltersVisible && (
-          <View style={styles.searchForm}>
-            <Text style={styles.label}>Matéria</Text>
-            <TextInput
-              style={styles.input}
-              value={subject}
-              onChangeText={(text) => setSubject(text)}
-              placeholder="Qual a matéria?"
-              placeholderTextColor="#c1b2cc"
-
-            />
-
-            <View style={styles.inputGroup}>
-              <View style={styles.inputBlock}>
-                <Text style={styles.label}>Dia da semana</Text>
-                <TextInput
-                  style={styles.input}
-                  value={week_day}
-                  onChangeText={(text) => setWeekDay(text)}
-                  placeholder="Qual o dia?"
-                  placeholderTextColor="#c1b2cc"
-                />
-              </View>
-
-              <View style={styles.inputBlock}>
-                <Text style={styles.label}>Horário</Text>
-                <TextInput
-                  style={styles.input}
-                  value={time}
-                  onChangeText={(text) => setTime(text)}
-                  placeholder="Qual horário?"
-                  placeholderTextColor="#c1b2cc"
-                />
-              </View>
-            </View>
-
-            <RectButton
-              onPress={handleFiltersSubmit}
-              style={styles.submitButton}
-            >
-              <Text style={styles.submitButtonText}>Filtrar</Text>
-            </RectButton>
-          </View>
-        )}
+        <View style={styles.screenDescriptionContainer}>
+          <ScreenSubtitle subtitle={'Proffys\ndisponíveis'} />
+          <EncouragementMessage
+            Icon={<Image source={nerdFaceEmojiIcon} />}
+            message={
+              `${teachersTotal} proffy${teachers.length > 1 ? 's' : ''}`
+            }
+          />
+        </View>
+        <TeacherListFilters
+          onfiltersUpdate={fetchClasses}
+          page={teachersPage}
+          setPage={setTeachersPage}
+        />
       </View>
 
       <ScrollView
         style={styles.teacherList}
-        contentContainerStyle={{ // é melhor pra aplicar estilos
+        contentContainerStyle={{
           paddingHorizontal: 16,
           paddingBottom: 24,
         }}
       >
-        {teachers.map((teacher: TeacherItemProps) => (
-          <TeacherItem
-            key={teacher.id}
-            {...teacher}
-            favorited={favoritesIds.includes(teacher.id)}
+        {isFetchingTeachers && teachersPage === 1 ? (
+          <ActivityIndicator
+            color="#9C98A6"
+            size="large"
           />
-        ))}
+        ) : isTeacherListEmpty ? (
+          <Text style={styles.noTeachersFoundMessage}>
+            Nenhum proffy encontrado{'\n'}com sua pesquisa.
+          </Text>
+        ) : (
+          <>
+            {teachers.map((teacher) => (
+              <TeacherItem
+                key={teacher.user_id}
+                {...teacher}
+                favorited={favoritesTeachersIds.includes(teacher.user_id)}
+              />
+            ))}
+            {hasFetchedAllTeachers ? (
+              <Text style={styles.endTeacherListMessage}>
+                Estes são todos os resultados
+              </Text>
+            ) : (
+              isFetchingTeachers === false ? (
+                <RectButton
+                  onPress={handleFetchNextPage}
+                  style={styles.fetchNextPageButton}
+                >
+                  <Text style={styles.fetchNextPageButtonText}>
+                    Carregar mais
+                  </Text>
+                </RectButton>
+              ) : (
+                <ActivityIndicator
+                  color="#9C98A6"
+                  size="small"
+                />
+              )
+            )}
+          </>
+        )}
       </ScrollView>
     </View>
   );

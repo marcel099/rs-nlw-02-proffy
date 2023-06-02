@@ -43,7 +43,7 @@ export function UserAvatar({
           <img
             src={selectedFileUrl === null ? avatar : selectedFileUrl}
             className={`user-avatar size-${size}`}
-            alt="Sua foto de perfil"
+            alt="Foto de perfil"
           />
         ) : (
           <div

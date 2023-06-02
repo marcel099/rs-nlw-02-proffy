@@ -9,7 +9,7 @@ import { GiveClasses } from '@pages/GiveClasses';
 import { Landing } from '@pages/Landing';
 import { MyProfile } from '@pages/MyProfile';
 import { PageLoader } from '@pages/PageLoader';
-import { TeacherList } from '@pages/TeacherList';
+import { Study } from '@pages/Study';
 
 import { ProtectedRoutes } from './ProtectedRoutes';
 
@@ -37,7 +37,7 @@ export function Routes() {
         <Route path="/confirmation" component={Confirmation} />
         <ProtectedRoutes isAllowed={user !== null}>
           <Route path="/landing" component={Landing} />
-          <Route path="/study" component={TeacherList} />
+          <Route path="/study" component={Study} />
           <Route path="/give-classes" component={GiveClasses} />
           <Route path="/my-profile" component={MyProfile} />
         </ProtectedRoutes>

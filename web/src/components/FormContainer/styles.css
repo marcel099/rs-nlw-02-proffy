@@ -5,7 +5,7 @@
   background: var(--color-box-base);
 
   width: auto;
-  max-width: 74rem;
+  max-width: var(--main-content-width);
   
   margin-top: -4rem;
   margin-bottom: 3.2rem;

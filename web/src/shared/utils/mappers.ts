@@ -27,3 +27,34 @@ export function parseFetchedToParsedClassSchedule(
     to,
   };
 }
+
+export function parseWeekDayValueToName(weekDayValue: number) {
+  let weekDayName = '';
+
+  switch (weekDayValue) {
+    case 0:
+      weekDayName = 'Domingo';
+      break;
+    case 1:
+      weekDayName = 'Segunda';
+      break;
+    case 2:
+      weekDayName = 'Terça';
+      break;
+    case 3:
+      weekDayName = 'Quarta';
+      break;
+    case 4:
+      weekDayName = 'Quinta';
+      break;
+    case 5:
+      weekDayName = 'Sexta';
+      break;
+    case 6:
+    default:
+      weekDayName = 'Sábado';
+      break;
+  }
+
+  return weekDayName;
+}
