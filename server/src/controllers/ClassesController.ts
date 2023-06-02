@@ -27,7 +27,7 @@ interface ResponseUnitDTO {
   first_name: string;
   last_name: string;
   bio: string;
-  avatar_url: string;
+  avatar_url: string | null;
   whatsapp: string;
   lesson: {
     cost: number;
@@ -147,7 +147,10 @@ export class ClassesControler {
         first_name: lesson.first_name,
         last_name: lesson.last_name,
         bio: lesson.bio,
-        avatar_url: `${process.env.API_URL}/avatar/${lesson.avatar}`,
+        avatar_url:
+          lesson.avatar !== null
+            ? `${process.env.API_URL}/avatar/${lesson.avatar}`
+            : null,
         whatsapp: lesson.whatsapp,
         subject: {
           name: lesson.subject_name,
