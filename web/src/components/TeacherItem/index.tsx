@@ -49,16 +49,18 @@ export function TeacherItem({
           <p>Horário</p>
         </header>
         {[1, 2, 3, 4, 5].map((value) => {
-          const class_schedule = class_schedules.find(
+          const filteredClassSchedules = class_schedules.filter(
             (item) => item.week_day === value
           );
+
+          const noClassOnWeekDay = filteredClassSchedules.length === 0;
 
           return (
             <div
               className={
                 `
                   class-schedule-item
-                  ${!class_schedule && 'nonexistent-class-schedule-item'}
+                  ${noClassOnWeekDay ? 'nonexistent-class-schedule-item' : ''}
                 `
               }
               key={value}
@@ -68,9 +70,20 @@ export function TeacherItem({
                 {parseWeekDayValueToName(value)}
               </p>
               <p className="class-schedule-info-header">Horário</p>
-              <p className="class-schedule-info">
-                {class_schedule?.from ?? ''} - {class_schedule?.to ?? ''}
-              </p>
+              {noClassOnWeekDay ? (
+                <p className="class-schedule-info">-</p>
+              ) : (
+                <div>
+                  {filteredClassSchedules.map((classSchedule) => (
+                    <p
+                      key={classSchedule.id}
+                      className="class-schedule-info"
+                    >
+                      {classSchedule?.from ?? ''} - {classSchedule?.to ?? ''}
+                    </p>
+                  ))}
+                </div>
+              )}
             </div>
           );
         })}
