@@ -24,7 +24,7 @@ export function Select({
       <label htmlFor={name}>{label}</label>
       <select id={name} value="" {...rest}>
         <option value="" disabled hidden>
-          { placeholder || 'Selecione uma opção' }
+          { placeholder || 'Selecione' }
         </option>
         {
           options.map(({ value, label: optionLabel }) => (

@@ -1,52 +1,74 @@
-#search-teachers {
-  margin-top: 3.2rem;
+#page-study .header-content .page-description-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: 4rem;
+  margin-bottom: 3.2rem;
 }
 
-#search-teachers label {
+#page-study .header-content .page-subtitle {
+  margin-top: initial;
+}
+
+#page-study .header-content .encouragement-message-container {
+  display: flex;
+  align-items: center;
+}
+
+#search-teachers-form {
+  display: grid;
+  grid-template-columns: repeat(2, 2fr);
+  column-gap: 0.8rem;
+  
+  margin-top: 3.2rem;
+  margin-bottom: 8rem;
+}
+
+#search-teachers-form .select-block:first-child {
+  grid-column: span 2;
+}
+
+#search-teachers-form .select-block + .select-block,
+#search-teachers-form .select-block + .input-block {
+  margin-top: 0.8rem; 
+}
+
+#search-teachers-form label {
   color: var(--color-text-in-primary);
 }
 
-#search-teachers button {
-  width: 100%;
-  height: 5.6rem;
-  background: var(--color-secundary);
-  color: var(--color-button-text);
-  border: 0;
-  border-radius: 0.8rem;
-  cursor: pointer;  
-  font: 700 1.6rem Archivo, sans-serif;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  transition: background-color 0.2s;
-  margin-top: 3.2rem;
-}
-
-#search-teachers button:hover {
-  background: var(--color-secundary-dark);
-}
-
-#page-teacher-list main {
+#page-study main {
   margin: 3.2rem auto;
   width: 90%;
 }
 
 @media (min-width: 700px) {
-  #search-teachers {
-    display: grid;
-    grid-template-columns: repeat(3, 2fr) 1fr;
-    column-gap: 16px;
-    position: absolute;
-    bottom: -28px;
+  #page-study .header-content .page-description-container {
+    margin-top: 6.4rem;
+    margin-bottom: 10.8rem; 
   }
 
-  #search-teachers .select-block + .select-block,
-  #search-teachers .select-block + .input-block {
+  #search-teachers-form {
+    position: absolute;
+    bottom: -28px;
+
+    grid-template-columns: repeat(3, 2fr);
+    column-gap: 16px;
+
+    margin-bottom: initial;
+  }
+
+  #search-teachers-form .select-block:first-child {
+    grid-column: initial;
+  }
+
+  #search-teachers-form .select-block + .select-block,
+  #search-teachers-form .select-block + .input-block {
     margin-top: 0; 
   }
 
-  #page-teacher-list main {
+  #page-study main {
     padding: 3.2rem 0;
     max-width: 740px;
     margin: 0 auto;

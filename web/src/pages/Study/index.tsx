@@ -1,8 +1,11 @@
 import { useState, FormEvent } from 'react';
 
+import nerdFaceIcon from '@assets/images/icons/nerd-face.svg';
+
 import api from '@services/api';
 import { weekDays } from '@utils/staticData';
 
+import { EncouragementMessage } from '@components/EncouragementMessage';
 import { OuterLabelInput } from '@components/OuterLabelInput';
 import { PageHeader } from '@components/PageHeader';
 import { PageSubtitle } from '@components/PageSubtitle';
@@ -33,12 +36,22 @@ export function Study() {
   }
 
   return (
-    <div id="page-teacher-list" className="page-container">
+    <div id="page-study" className="page-container">
       <PageHeader
         title="Estudar"
       >
-        <PageSubtitle subtitle="Estes são os proffys disponíveis." />
-        <form id="search-teachers" onSubmit={handleSearchTeachers}>
+        <div className="page-description-container">
+          <PageSubtitle subtitle="Estes são os proffys disponíveis." />
+          <div className="encouragement-message-container">
+            <EncouragementMessage
+              iconUrl={nerdFaceIcon}
+              iconAlt="Foguete"
+            >
+              Nós temos<br />{teachers.length} proffys.
+            </EncouragementMessage>
+          </div>
+        </div>
+        <form id="search-teachers-form" onSubmit={handleSearchTeachers}>
           <Select
             name="subject"
             label="Matéria"
@@ -70,9 +83,6 @@ export function Study() {
             value={time}
             onChange={(e) => setTime(e.target.value)}
           />
-          <button type="submit">
-            Buscar
-          </button>
         </form>
       </PageHeader>
 
