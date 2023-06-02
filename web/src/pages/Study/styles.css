@@ -16,34 +16,37 @@
   align-items: center;
 }
 
-#page-study main {
-  margin: 3.2rem auto;
+#page-study > main {
+  margin-inline: auto;
+  margin-top: -6rem;
   width: 90%;
 }
 
-#page-study main .warning-message {
+#page-study > main .warning-message {
   font: 400 1.6rem Poppins, sans-serif;
   color: var(--color-text-complement);
   line-height: 2.6rem;
   text-align: center;
 }
 
-#page-study main .no-teachers-found-message {
+#page-study > main .no-teachers-found-message {
   margin-top: 12rem;
 }
 
-#page-study main .end-teacher-list-message {
+#page-study > main .end-teacher-list-message {
   margin-top: 4rem;
+  padding-bottom: 4rem;
 }
 
-#page-study main .fetch-next-page-button-container {
+#page-study > main .fetch-next-page-button-container {
   display: grid;
   place-items: center;
 
   margin-top: 4rem;
+  padding-bottom: 4rem;
 }
 
-#page-study main .fetch-next-page-button {
+#page-study > main .fetch-next-page-button {
   font: 400 1.4rem Poppins, sans-serif;
   color: var(--color-text-complement);
   line-height: 2.4rem;
@@ -57,7 +60,7 @@
   transition: color 0.2s;
 }
 
-#page-study main .fetch-next-page-button:hover {
+#page-study > main .fetch-next-page-button:hover {
   color: var(--color-text-complement-blur);
 }
 
@@ -67,9 +70,10 @@
     margin-bottom: 10.8rem; 
   }
 
-  #page-study main {
-    padding: 3.2rem 0;
-    max-width: 740px;
+  #page-study > main {
+    padding-inline: 0;
+    padding-top: 3.2rem;
+    max-width: var(--main-content-width);
     margin: 0 auto;
   }
 }

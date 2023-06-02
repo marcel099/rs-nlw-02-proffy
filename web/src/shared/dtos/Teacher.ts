@@ -5,7 +5,7 @@ export interface ApiTeacher {
   first_name: string;
   last_name: string;
   bio: string;
-  avatar_url: string;
+  avatar_url: string | null;
   whatsapp: string;
   lesson: {
     cost: number;
@@ -21,7 +21,7 @@ export interface Teacher {
   first_name: string;
   last_name: string;
   bio: string;
-  avatar_url: string;
+  avatar_url: string | null;
   whatsapp: string;
   lesson: {
     cost: number;
