@@ -2,6 +2,7 @@ import 'intl';
 import 'intl/locale-data/jsonp/pt-BR';
 import {
   Archivo_400Regular,
+  Archivo_500Medium,
   Archivo_600SemiBold,
   Archivo_700Bold,
   useFonts,
@@ -16,14 +17,16 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-import { AuthContextProvider } from './src/contexts/AuthContext';
-import { Routes } from './src/routes';
+import { AuthContextProvider } from '@contexts/AuthContext';
+import { OnboardingContextProvider } from '@contexts/OnboardingContext';
+import { Routes } from '@routes/index';
 
 SplashScreen.preventAutoHideAsync();
 
 export function App() {
   const [hasFontsLoaded] = useFonts({
     Archivo_400Regular,
+    Archivo_500Medium,
     Archivo_600SemiBold,
     Archivo_700Bold,
     Poppins_400Regular,
@@ -51,7 +54,9 @@ export function App() {
       <StatusBar style="light" />
       <GestureHandlerRootView style={{ flex: 1 }}>
         <AuthContextProvider>
-          <Routes />
+          <OnboardingContextProvider>
+            <Routes />
+          </OnboardingContextProvider>
         </AuthContextProvider>
       </GestureHandlerRootView>
     </>
