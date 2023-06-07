@@ -7,7 +7,11 @@ import { AppRoutes } from './app.stack.routes';
 import { NonAuthRoutes } from './nonAuth.stack.routes';
 
 export function Routes() {
-  const { user } = useAuth();
+  const { user, isLoadingAuthData } = useAuth();
+
+  if (isLoadingAuthData) {
+    return null;
+  }
 
   return (
     <NavigationContainer>
