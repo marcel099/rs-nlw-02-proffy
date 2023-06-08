@@ -9,6 +9,7 @@ import { useAuth } from '@contexts/AuthContext';
 import { ClassSchedule, NotSavedClassSchedule } from '@dtos/ClassSchedule';
 import { Subject } from '@dtos/Subject';
 import api from '@services/api';
+import { isTokenExpiredError } from '@utils/errors';
 import { fetchUserClasses } from '@utils/fetchers';
 
 import { ClassScheduleForm } from '@components/ClassScheduleForm';
@@ -102,7 +103,11 @@ export function MyProfile() {
         buttonTitle: 'Acessar lista',
         nextUri: '/study',
       });
-    } catch (error) {
+    } catch (error: unknown) {
+      if (isTokenExpiredError(error)) {
+        return;
+      }
+
       toast.error('Erro ao salvar perfil');
     }
   }
@@ -114,7 +119,7 @@ export function MyProfile() {
         setSubjectId(data.subjectId);
         setCost(data.cost);
       }).catch((error) => {
-        if (error?.response?.status === 401) {
+        if (isTokenExpiredError(error)) {
           return;
         }
 

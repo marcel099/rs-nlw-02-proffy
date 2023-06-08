@@ -4,6 +4,7 @@ import {
 import { toast } from 'react-toastify';
 
 import { Subject } from '@dtos/Subject';
+import { isTokenExpiredError } from '@utils/errors';
 import { fetchSubjects } from '@utils/fetchers';
 import { weekDays } from '@utils/staticData';
 
@@ -48,7 +49,7 @@ export function StudyFilters({
         setIsFetchingSubjects(false);
       })
       .catch((error) => {
-        if (error?.response?.status === 401) {
+        if (isTokenExpiredError(error)) {
           return;
         }
 
