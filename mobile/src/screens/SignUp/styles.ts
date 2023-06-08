@@ -1,5 +1,5 @@
-import { Dimensions, StyleSheet } from "react-native";
-import { getStatusBarHeight } from "react-native-iphone-x-helper";
+import { Dimensions, StyleSheet } from 'react-native';
+import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 
 export const styles = StyleSheet.create({
   container: {
@@ -48,5 +48,5 @@ export const styles = StyleSheet.create({
   stepContentForm: {
     width: '100%',
     marginVertical: 24,
-  }
+  },
 });

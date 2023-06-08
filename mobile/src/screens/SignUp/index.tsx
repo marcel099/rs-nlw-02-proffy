@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import { useEffect, useRef, useState } from 'react';
 import {
   useWindowDimensions,
@@ -11,19 +12,19 @@ import {
   TouchableWithoutFeedback,
   View,
   Alert,
-} from "react-native";
+} from 'react-native';
 import { BorderlessButton } from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
 
-import backIcon from '../../assets/images/icons/back.png';
-import api from '../../services/api';
-import { NonAuthStackScreenProp } from '../../routes/nonAuth.stack.routes';
+import backIcon from '@assets/images/icons/back.png';
 
-import { Bullet } from '../../components/Bullet';
-import { ConfirmationButton } from '../../components/form/ConfirmationButton';
-import { InnerLabelInput } from '../../components/form/InnerLabelInput';
+import { NonAuthStackScreenProp } from '@routes/nonAuth.stack.routes';
+import api from '@services/api';
 
-import { styles } from "./styles";
+import { Bullet } from '@components/Bullet';
+import { ConfirmationButton } from '@components/form/ConfirmationButton';
+import { InnerLabelInput } from '@components/form/InnerLabelInput';
+
+import { styles } from './styles';
 
 export function SignUp() {
   const { width } = useWindowDimensions();
@@ -33,47 +34,47 @@ export function SignUp() {
   const [stepIndex, setStepIndex] = useState(0);
   const [isSaving, setIsSaving] = useState(false);
 
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const scrollViewRef = useRef<ScrollView>(null)
+  const scrollViewRef = useRef<ScrollView>(null);
 
   function handleNextStep() {
-    setStepIndex(previous => {
+    setStepIndex(() => {
       const updatedStepIndex = 1;
 
-      const nextXPos
-        = ((width - 64) * updatedStepIndex) + (32 * updatedStepIndex);
+      const nextXPos =
+        ((width - 64) * updatedStepIndex) + (32 * updatedStepIndex);
 
       scrollViewRef.current
         ?.scrollTo({
           x: nextXPos,
-          animated: true
+          animated: true,
         });
-      
+
       return updatedStepIndex;
     });
-  };
+  }
 
   function handlePreviousStep() {
-    setStepIndex(previous => {
+    setStepIndex(() => {
       const updatedStepIndex = 0;
 
       scrollViewRef.current
         ?.scrollTo({
           x: 0,
-          animated: true
+          animated: true,
         });
-      
+
       return updatedStepIndex;
     });
   }
 
   function handleGoBack() {
     if (stepIndex === 0) {
-      navigation.navigate('SignIn')
+      navigation.navigate('SignIn');
     } else if (stepIndex === 1) {
       handlePreviousStep();
     }
@@ -96,9 +97,9 @@ export function SignUp() {
         buttonTitle: 'Fazer login',
         nextScreenName: 'SignIn',
       });
-    } catch ( error ) {
+    } catch {
       setIsSaving(false);
-      console.log(error);
+      // console.log(error);
       Alert.alert('Cadastro', 'Não foi possível fazer o cadastro.');
     }
   }
@@ -107,8 +108,8 @@ export function SignUp() {
     BackHandler.removeEventListener('hardwareBackPress', handleGoBack);
     BackHandler.addEventListener('hardwareBackPress', handleGoBack);
 
-    return () =>
-      BackHandler.removeEventListener('hardwareBackPress', handleGoBack);
+    return () => BackHandler
+      .removeEventListener('hardwareBackPress', handleGoBack);
   }, [stepIndex]);
 
   return (
@@ -176,7 +177,7 @@ export function SignUp() {
                   enabled={!!firstName && !!lastName}
                 />
               </View>
-              <View style={[ styles.stepContent, { marginLeft: 32 } ]}>
+              <View style={[styles.stepContent, { marginLeft: 32 }]}>
                 <Text style={styles.stepContentTitle}>
                   02.  Email e Senha
                 </Text>
@@ -200,7 +201,7 @@ export function SignUp() {
                   title="Concluir cadastro"
                   type="secondary"
                   onPress={handleCreateUser}
-                  enabled={isSaving ? false : !!email && !!password}  
+                  enabled={isSaving ? false : !!email && !!password}
                   isLoading={isSaving}
                 />
               </View>

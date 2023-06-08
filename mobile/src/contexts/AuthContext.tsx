@@ -33,7 +33,7 @@ interface SignInDTO {
 
 interface AuthContextData {
   user: User | null;
-  // isFetchingAuthData: boolean;
+  isLoadingAuthData: boolean;
   signIn: (data: SignInDTO) => Promise<void>;
   signOut: () => Promise<void>;
   fetchUser: () => Promise<void>;
@@ -49,7 +49,7 @@ export function AuthContextProvider({
   children,
 }: AuthContextProviderProps) {
   const [user, setUser] = useState<User | null>(null);
-  // const [isFetchingAuthData, setIsFetchingAuthData] = useState(true);
+  const [isLoadingAuthData, setIsLoadingAuthData] = useState(true);
 
   function setAxiosDefaultAuthorization(token: string) {
     api.defaults.headers['Authorization'] = `Bearer ${token}`;
@@ -152,7 +152,7 @@ export function AuthContextProvider({
         setUser(JSON.parse(loadedUser));
       }
 
-      // setIsFetchingAuthData(false);
+      setIsLoadingAuthData(false);
     }
 
     loadTokenAndUser();
@@ -161,11 +161,11 @@ export function AuthContextProvider({
 
   const value = useMemo(() => ({
     user,
-    // isFetchingAuthData,
+    isLoadingAuthData,
     signIn,
     signOut,
     fetchUser,
-  }), [user]);
+  }), [user, isLoadingAuthData]);
 
   return (
     <AuthContext.Provider value={value}>

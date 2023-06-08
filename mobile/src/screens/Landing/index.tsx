@@ -6,9 +6,9 @@ import {
 } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler';
 
-import giveClassesIcon from '@assets/images/icons/give-classes.png';
+import giveClassesIcon from '@assets/images/icons/give-classes-small.png';
 import heartIcon from '@assets/images/icons/heart.png';
-import studyIcon from '@assets/images/icons/study.png';
+import studyIcon from '@assets/images/icons/study-small.png';
 import landingImage from '@assets/images/landing.png';
 
 import { useAuth } from '@contexts/AuthContext';
