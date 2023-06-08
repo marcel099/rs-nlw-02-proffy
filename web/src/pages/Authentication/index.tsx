@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import backIcon from '@assets/images/icons/back.svg';
 
+import { ForgottenPassword } from '@components/Authentication/ForgottenPassword';
 import { SignIn } from '@components/Authentication/SignIn';
 import { SignUp } from '@components/Authentication/SignUp';
 import { ProffyBanner } from '@components/ProffyBanner';
@@ -60,12 +61,12 @@ export function Authentication() {
         className="authentication-content-container"
       >
         <header>
-          <a onClick={handleOpenSignIn}>
+          <button type="button" onClick={handleOpenSignIn}>
             <img src={backIcon} alt="Voltar" />
-          </a>
+          </button>
         </header>
         { currentPage === 'SignUp' && <SignUp /> }
-        {/* { currentPage === 'ForgottenPassword' && <ForgottenPassword /> } */}
+        { currentPage === 'ForgottenPassword' && <ForgottenPassword /> }
         <footer />
       </article>
 
