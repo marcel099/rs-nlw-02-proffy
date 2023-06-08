@@ -1,6 +1,6 @@
-import { View } from "react-native";
+import { View } from 'react-native';
 
-import { styles } from "./styles";
+import { styles } from './styles';
 
 interface Props {
   active?: boolean;
@@ -8,9 +8,11 @@ interface Props {
 
 export function Bullet({ active = false }: Props) {
   return (
-    <View style={[
-      styles.container,
-      active ? styles.active : null,
-    ]} />
+    <View
+      style={[
+        styles.container,
+        active ? styles.active : null,
+      ]}
+    />
   );
 }

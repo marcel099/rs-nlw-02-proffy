@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { Feather } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { useState } from 'react';
 import {
   Alert,
   Keyboard,
@@ -7,18 +9,17 @@ import {
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  View
-} from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { Feather } from '@expo/vector-icons';
+  View,
+} from 'react-native';
 
-import { useAuth } from "../../contexts/AuthContext";
-import { AuthenticationPageHeader } from "../../components/AuthenticationPageHeader";
-import { ConfirmationButton } from "../../components/form/ConfirmationButton";
-import { InnerLabelInput } from "../../components/form/InnerLabelInput";
-import { NonAuthStackScreenProp } from "../../routes/nonAuth.stack.routes";
+import { useAuth } from '@contexts/AuthContext';
+import { NonAuthStackScreenProp } from '@routes/nonAuth.stack.routes';
 
-import { styles } from "./styles";
+import { AuthenticationScreenHeader } from '@components/AuthenticationScreenHeader';
+import { ConfirmationButton } from '@components/form/ConfirmationButton';
+import { InnerLabelInput } from '@components/form/InnerLabelInput';
+
+import { styles } from './styles';
 
 export function SignIn() {
   const navigation =
@@ -27,12 +28,12 @@ export function SignIn() {
 
   const [isSigningIn, setIsSigningIn] = useState(false);
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
 
   function handleChangeRememberMe() {
-    setRememberMe(previousState => !previousState);
+    setRememberMe((previousState) => !previousState);
   }
 
   function handleNavigateToSignUp() {
@@ -54,7 +55,7 @@ export function SignIn() {
       });
     } catch (error) {
       Alert.alert('Falha no login', 'Não foi possível fazer login');
-      setIsSigningIn(false); 
+      setIsSigningIn(false);
     }
   }
 
@@ -68,7 +69,7 @@ export function SignIn() {
       <KeyboardAvoidingView behavior="position" enabled>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={styles.container}>
-            <AuthenticationPageHeader />
+            <AuthenticationScreenHeader />
             <View style={styles.formHeader}>
               <Text style={styles.formTitle}>
                 Entrar
@@ -103,8 +104,8 @@ export function SignIn() {
                       style={[
                         styles.rememberMeInput,
                         rememberMe
-                        ? styles.rememberMeInputChecked
-                        : styles.rememberMeInputUnchecked
+                          ? styles.rememberMeInputChecked
+                          : styles.rememberMeInputUnchecked,
                       ]}
                     >
                       <Feather name="check" size={16} color="#fff" />

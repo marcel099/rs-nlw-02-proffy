@@ -1,11 +1,13 @@
-import { Image, ImageBackground, Text, View } from "react-native";
+import {
+  Image, ImageBackground, Text, View,
+} from 'react-native';
 
-import largeLogoImage from '../../assets/images/large-logo.png'
-import authenticationBackground from '../../assets/images/authentication-background.png'
+import authenticationBackground from '@assets/images/authentication-background.png';
+import largeLogoImage from '@assets/images/large-logo.png';
 
-import { styles } from "./styles";
+import { styles } from './styles';
 
-export function AuthenticationPageHeader() {
+export function AuthenticationScreenHeader() {
   return (
     <View style={styles.container}>
       <ImageBackground
