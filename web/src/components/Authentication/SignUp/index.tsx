@@ -1,10 +1,11 @@
-import React, { FormEvent, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
+import api from '@services/api';
 
 import { ConfirmationButton } from '@components/ConfirmationButton';
 import { InnerLabelInput } from '@components/InnerLabelInput';
-
-import api from '../../../services/api';
 
 import './styles.css';
 
@@ -34,7 +35,7 @@ export function SignUp() {
         nextUri: '/',
       });
     } catch (error) {
-      console.error(error);
+      toast.error('Não foi possível fazer o cadastro.');
     }
   }
 

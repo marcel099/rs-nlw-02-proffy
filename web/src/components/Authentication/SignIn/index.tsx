@@ -1,11 +1,12 @@
 import { FormEvent, useRef, useState } from 'react';
+import { toast } from 'react-toastify';
+
+import purpleHeartIcon from '@assets/images/icons/purple-heart.svg';
 
 import { useAuth } from '@contexts/AuthContext';
 
 import { ConfirmationButton } from '@components/ConfirmationButton';
 import { InnerLabelInput } from '@components/InnerLabelInput';
-
-import purpleHeartIcon from '../../../assets/images/icons/purple-heart.svg';
 
 import './styles.css';
 
@@ -33,9 +34,8 @@ export function SignIn({ openSignUp, openForgottenPassword }: SignInProps) {
         password,
         rememberMe,
       });
-    } catch (error) {
-      console.error(error);
-      window.alert('Não foi possível realizar login');
+    } catch {
+      toast.error('Não foi possível realizar login');
     }
   }
 
@@ -72,6 +72,7 @@ export function SignIn({ openSignUp, openForgottenPassword }: SignInProps) {
                 name="remember-me"
                 ref={rememberMeCheckboxRef}
               />
+              {/* eslint-disable-next-line max-len */}
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label htmlFor="remember-me">Lembrar-me</label>
             </fieldset>

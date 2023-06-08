@@ -81,8 +81,14 @@
   color: var(--color-primary-dark);
 }
 
-.sign-in-footer-content span {
+.sign-in-footer-content > p {
+  display: flex;
+}
+
+.sign-in-footer-content > p > span {
   font: 400 1.2rem Poppins, sans-serif;
   line-height: 2rem;
   color: var(--color-text-complement);
+
+  margin-right: 0.8rem;
 }

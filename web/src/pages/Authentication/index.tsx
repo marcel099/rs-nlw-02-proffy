@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 
-import { SignUp } from '../../components/Authentication/SignUp';
-import { SignIn } from '../../components/Authentication/SignIn';
-import { ProffyBanner } from '../../components/ProffyBanner';
-import backIcon from '../../assets/images/icons/back.svg';
+import backIcon from '@assets/images/icons/back.svg';
+
+import { SignIn } from '@components/Authentication/SignIn';
+import { SignUp } from '@components/Authentication/SignUp';
+import { ProffyBanner } from '@components/ProffyBanner';
 
 import './styles.css';
 
@@ -13,20 +14,21 @@ type AuthenticationPagesType = 'SignIn' | 'SignUp' | 'ForgottenPassword';
 export function Authentication() {
   const [
     currentBannerSide,
-    setCurrentBannerSide
+    setCurrentBannerSide,
   ] = useState<BannerSidesType>('left');
   const [isBannerExpanded, setIsBannerExpanded] = useState(false);
 
   const [
     currentPage,
-    setCurrentPage
+    setCurrentPage,
   ] = useState<AuthenticationPagesType>('SignIn');
 
   function changeCurrentPageSmoothly(
-    nextPage: AuthenticationPagesType, nextBannerSide: BannerSidesType
+    nextPage: AuthenticationPagesType,
+    nextBannerSide: BannerSidesType
   ) {
     setIsBannerExpanded(true);
-    
+
     setTimeout(() => {
       setIsBannerExpanded(false);
 
@@ -79,5 +81,5 @@ export function Authentication() {
         )}
       </article>
     </div>
-  )
+  );
 }

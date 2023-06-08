@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import bannerBackgroundImg from '@assets/images/banner-background.svg';
+import logoImg from '@assets/images/logo.svg';
 
-import bannerBackgroundImg from '../../assets/images/banner-background.svg'
-import logoImg from '../../assets/images/logo.svg'
-import { BannerSidesType } from '../../pages/Authentication';
+import { BannerSidesType } from '@pages/Authentication';
 
 import './styles.css';
 
@@ -12,7 +11,7 @@ interface Props {
 }
 
 export function ProffyBanner({
-  bannerSide, isBannerExpanded
+  bannerSide, isBannerExpanded,
 }: Props) {
   return (
     <div id="proffy-banner-container">
@@ -39,5 +38,5 @@ export function ProffyBanner({
         </main>
       </aside>
     </div>
-  )
+  );
 }
