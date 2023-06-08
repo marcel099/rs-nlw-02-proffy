@@ -12,6 +12,9 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: getStatusBarHeight() + 34,
   },
+  backButton: {
+    marginLeft: -11,
+  },
   bulletsContainer: {
     flexDirection: 'row',
     alignItems: 'center',

@@ -15,7 +15,7 @@ import {
 } from 'react-native';
 import { BorderlessButton } from 'react-native-gesture-handler';
 
-import backIcon from '@assets/images/icons/back.png';
+import backIcon from '@assets/images/icons/light-background-back.png';
 
 import { NonAuthStackScreenProp } from '@routes/nonAuth.stack.routes';
 import api from '@services/api';
@@ -127,7 +127,10 @@ export function SignUp() {
             style={styles.container}
           >
             <View style={styles.header}>
-              <BorderlessButton onPress={handleGoBack}>
+              <BorderlessButton
+                onPress={handleGoBack}
+                style={styles.backButton}
+              >
                 <Image source={backIcon} resizeMode="contain" />
               </BorderlessButton>
               <View style={styles.bulletsContainer}>
