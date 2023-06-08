@@ -6,6 +6,7 @@ import {
   useMemo,
   useState,
 } from 'react';
+import { toast } from 'react-toastify';
 
 import { SIGNED_IN_USER_TOKEN } from '@configs/storage';
 import api from '@services/api';
@@ -68,8 +69,8 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         window.localStorage.removeItem(SIGNED_IN_USER_TOKEN);
         setUser(null);
       }
-    } catch (error) {
-      console.error(error);
+    } catch {
+      toast.error('Erro ao buscar dados do usuário');
     }
   }
 
@@ -78,25 +79,21 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     password,
     rememberMe,
   }: SignInDTO) {
-    try {
-      const sessionResponse =
-        await api.post('/sessions', { email, password });
+    const sessionResponse =
+      await api.post('/sessions', { email, password });
 
-      if (sessionResponse.status !== 200) {
-        throw new Error('');
-      }
-
-      const { token } = sessionResponse.data;
-      api.defaults.headers['Authorization'] = `Bearer ${token}`;
-
-      if (rememberMe) {
-        window.localStorage.setItem(SIGNED_IN_USER_TOKEN, token);
-      }
-
-      await fetchUser();
-    } catch (error) {
-      throw new Error(error as any);
+    if (sessionResponse.status !== 200) {
+      throw new Error('');
     }
+
+    const { token } = sessionResponse.data;
+    api.defaults.headers['Authorization'] = `Bearer ${token}`;
+
+    if (rememberMe) {
+      window.localStorage.setItem(SIGNED_IN_USER_TOKEN, token);
+    }
+
+    await fetchUser();
   }
 
   async function signOut() {

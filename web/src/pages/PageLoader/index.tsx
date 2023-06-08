@@ -1,9 +1,5 @@
-import React from 'react';
-
-export function PageLoader() {  
+export function PageLoader() {
   return (
-    <>
-      
-    </>
-  )
+    <> </>
+  );
 }

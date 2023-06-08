@@ -1,11 +1,11 @@
-import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 
-import successBackgroundSvg from '../../assets/images/success-background.svg'
-import successCheckIconSvg from '../../assets/images/icons/success-check-icon.svg'
-import { ConfirmationButton } from '../../components/ConfirmationButton';
+import successCheckIconSvg from '@assets/images/icons/success-check-icon.svg';
+import successBackgroundSvg from '@assets/images/success-background.svg';
 
-import "./styles.css";
+import { ConfirmationButton } from '@components/ConfirmationButton';
+
+import './styles.css';
 
 interface Props {
   title: string;
@@ -18,8 +18,8 @@ export function Confirmation() {
   const history = useHistory();
   const {
     state: {
-      title, message, buttonTitle, nextUri
-    }
+      title, message, buttonTitle, nextUri,
+    },
   } = useLocation<Props>();
 
   function handleConfirmationButtonClick() {
@@ -31,13 +31,17 @@ export function Confirmation() {
       id="confirmation-page-container"
       style={{ backgroundImage: `url(${successBackgroundSvg})` }}
     >
-      <img src={successCheckIconSvg} />
+      <img
+        src={successCheckIconSvg}
+        alt="ìcone que transmite uma mensagem de que o processo ocorreu com sucesso"
+      />
       <h1>{title}</h1>
-      <p dangerouslySetInnerHTML={{__html: message}} />
+      {/* eslint-disable-next-line react/no-danger */}
+      <p dangerouslySetInnerHTML={{ __html: message }} />
       <ConfirmationButton
         title={buttonTitle}
         onClick={handleConfirmationButtonClick}
       />
     </div>
-  )
+  );
 }
