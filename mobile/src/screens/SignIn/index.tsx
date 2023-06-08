@@ -18,6 +18,7 @@ import { NonAuthStackScreenProp } from '@routes/nonAuth.stack.routes';
 import { AuthenticationScreenHeader } from '@components/AuthenticationScreenHeader';
 import { ConfirmationButton } from '@components/form/ConfirmationButton';
 import { InnerLabelInput } from '@components/form/InnerLabelInput';
+import { LightScreenSubtitle } from '@components/texts/LightScreenSubtitle';
 
 import { styles } from './styles';
 
@@ -41,7 +42,7 @@ export function SignIn() {
   }
 
   function handleNavigateToForgottenPassword() {
-    // navigation.navigate('ForgottenPassword');
+    navigation.navigate('ForgottenPassword');
   }
 
   async function handleSignIn() {
@@ -71,9 +72,7 @@ export function SignIn() {
           <View style={styles.container}>
             <AuthenticationScreenHeader />
             <View style={styles.formHeader}>
-              <Text style={styles.formTitle}>
-                Entrar
-              </Text>
+              <LightScreenSubtitle subtitle="Entrar" />
               <TouchableOpacity onPress={handleNavigateToSignUp}>
                 <Text style={styles.signUpButtonText}>
                   Criar uma conta

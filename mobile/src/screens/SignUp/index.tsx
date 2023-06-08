@@ -23,6 +23,8 @@ import api from '@services/api';
 import { Bullet } from '@components/Bullet';
 import { ConfirmationButton } from '@components/form/ConfirmationButton';
 import { InnerLabelInput } from '@components/form/InnerLabelInput';
+import { LightScreenSubtitle } from '@components/texts/LightScreenSubtitle';
+import { ScreenDescription } from '@components/texts/ScreenDescription';
 
 import { styles } from './styles';
 
@@ -138,10 +140,11 @@ export function SignUp() {
                 Crie sua {'\n'}
                 conta gratuita
               </Text>
-              <Text style={styles.description}>
-                Basta preencher esses dados {'\n'}
-                e você estará conosco
-              </Text>
+              <ScreenDescription
+                description={
+                  'Basta preencher esses dados\ne você estará conosco'
+                }
+              />
             </View>
             <ScrollView
               horizontal
@@ -151,9 +154,7 @@ export function SignUp() {
               style={styles.stepsContainer}
             >
               <View style={styles.stepContent}>
-                <Text style={styles.stepContentTitle}>
-                  01.  Quem é você?
-                </Text>
+                <LightScreenSubtitle subtitle="01.  Quem é você?" />
                 <View style={styles.stepContentForm}>
                   <InnerLabelInput
                     label="Nome"
@@ -178,9 +179,7 @@ export function SignUp() {
                 />
               </View>
               <View style={[styles.stepContent, { marginLeft: 32 }]}>
-                <Text style={styles.stepContentTitle}>
-                  02.  Email e Senha
-                </Text>
+                <LightScreenSubtitle subtitle="02.  Email e Senha" />
                 <View style={styles.stepContentForm}>
                   <InnerLabelInput
                     label="E-mail"

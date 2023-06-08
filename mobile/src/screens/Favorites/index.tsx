@@ -11,8 +11,8 @@ import { loadFavoriteTeachers } from '@utils/loaders';
 
 import { EncouragementMessage } from '@components/EncouragementMessage';
 import { ScreenHeader } from '@components/ScreenHeader';
-import { ScreenSubtitle } from '@components/ScreenSubtitle';
 import { TeacherItem } from '@components/TeacherItem';
+import { DarkScreenSubtitle } from '@components/texts/DarkScreenSubtitle';
 
 import { styles } from './styles';
 
@@ -52,7 +52,7 @@ export function Favorites() {
       />
       <ScreenHeader title="Estudar" />
       <View style={styles.subheader}>
-        <ScreenSubtitle subtitle={'Meus proffys\nfavoritos'} />
+        <DarkScreenSubtitle subtitle={'Meus proffys\nfavoritos'} />
         <EncouragementMessage
           Icon={<Image source={heartEyesEmojiIcon} />}
           message={
