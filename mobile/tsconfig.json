@@ -15,13 +15,13 @@
     "paths": {
       "@components/*": ["src/components/*"],
       "@screens/*": ["src/screens/*"],
-      "@assets/*": ["src/assets/*"],
-      "@configs/*": ["src/configs/*"],
-      "@contexts/*": ["src/contexts/*"],
+      "@assets/*": ["src/shared/assets/*"],
+      "@configs/*": ["src/shared/configs/*"],
+      "@contexts/*": ["src/shared/contexts/*"],
       "@dtos/*": ["src/shared/dtos/*"],
       "@routes/*": ["src/routes/*"],
       "@utils/*": ["src/shared/utils/*"],
-      "@services/*": ["src/services/*"],
+      "@services/*": ["src/shared/services/*"],
     },
   },
   "extends": "expo/tsconfig.base"

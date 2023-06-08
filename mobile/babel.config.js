@@ -20,13 +20,13 @@ module.exports = function(api) {
           alias: {
             '@components': './src/components',
             '@screens': './src/screens',
-            '@configs': './src/configs',
-            '@contexts': './src/contexts',
+            '@configs': './src/shared/configs',
+            '@contexts': './src/shared/contexts',
             '@dtos': './src/shared/contexts',
             '@routes': './src/routes',
-            '@services': './src/services',
+            '@services': './src/shared/services',
             '@utils': './src/shared/utils',
-            '@assets': './src/assets',
+            '@assets': './src/shared/assets',
           }
         }
       ]
