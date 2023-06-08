@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   stepContent: {
-    width: Dimensions.get('window').width,
+    width,
   },
   stepContentHeader: {
     justifyContent: 'flex-end',

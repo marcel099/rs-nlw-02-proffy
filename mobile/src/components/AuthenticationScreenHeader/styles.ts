@@ -1,20 +1,24 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
+
+const { height, width } = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#8257E5',
+
+    height: height * 0.46, // 379 * 100 / 812
+
+    paddingTop: getStatusBarHeight(),
   },
   background: {
     justifyContent: 'center',
     alignItems: 'center',
 
-    height: 212,
-    width: 238,
-    marginTop: getStatusBarHeight() + 39,
-    marginBottom: 38,
+    height: height * 0.29, // 238 * 100 / 812
+    width: width * 0.7, //    266 * 100 / 375
   },
   slogan: {
     color: '#D4C2FF',
