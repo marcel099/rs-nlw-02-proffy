@@ -24,7 +24,7 @@ import { OuterLabelInput } from '@components/form/OuterLabelInput';
 import { SubjectForm } from '@components/form/SubjectForm';
 import { TextArea } from '@components/form/TextArea';
 import { ScreenHeader } from '@components/ScreenHeader';
-import { ScreenSubtitle } from '@components/ScreenSubtitle';
+import { DarkScreenSubtitle } from '@components/texts/DarkScreenSubtitle';
 import { UserAvatar } from '@components/UserAvatar';
 
 import { styles } from './styles';
@@ -137,7 +137,7 @@ export function GiveClasses() {
           <View style={styles.container}>
             <ScreenHeader title="Dar aulas" />
             <View style={styles.subheader}>
-              <ScreenSubtitle
+              <DarkScreenSubtitle
                 subtitle={'Que incrível que você\nquer dar aulas.'}
               />
               <Text style={styles.screenDescription}>

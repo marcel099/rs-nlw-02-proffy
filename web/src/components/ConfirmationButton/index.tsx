@@ -7,7 +7,9 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   isFullWidth?: boolean;
 }
 
-export function ConfirmationButton({ title, isFullWidth = false, ...rest }: Props) {
+export function ConfirmationButton({
+  title, isFullWidth = false, ...rest
+}: Props) {
   return (
     <button
       type="button"

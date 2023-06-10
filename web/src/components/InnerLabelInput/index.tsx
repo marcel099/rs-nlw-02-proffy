@@ -1,5 +1,5 @@
 import React, { useState, InputHTMLAttributes } from 'react';
-import { FiEye, FiEyeOff } from "react-icons/fi";
+import { FiEye, FiEyeOff } from 'react-icons/fi';
 
 import './styles.css';
 
@@ -18,8 +18,7 @@ export function InnerLabelInput({
     if (typeInput === 'password') {
       setIsPasswordVisible(false);
       setTypeInput('text');
-    }
-    else {
+    } else {
       setIsPasswordVisible(true);
       setTypeInput('password');
     }
@@ -42,14 +41,12 @@ export function InnerLabelInput({
             className="toggle-visibility-button"
             onClick={toggleVisibility}
           >
-            { 
-              isPasswordVisible
+            { isPasswordVisible
               ? <FiEye color="#9C98A6" />
-              : <FiEyeOff color="#9C98A6"/>
-            }
+              : <FiEyeOff color="#9C98A6" />}
           </button>
         )
       }
     </div>
-  )
+  );
 }

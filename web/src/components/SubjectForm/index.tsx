@@ -2,6 +2,7 @@ import { useEffect, useMemo } from 'react';
 import { toast } from 'react-toastify';
 
 import { Subject } from '@dtos/Subject';
+import { isTokenExpiredError } from '@utils/errors';
 import { fetchSubjects } from '@utils/fetchers';
 
 import { OuterLabelInput } from '@components/OuterLabelInput';
@@ -27,7 +28,7 @@ export function SubjectForm({
         setSubjects(data.subjects);
       })
       .catch((error) => {
-        if (error?.response?.status === 401) {
+        if (isTokenExpiredError(error)) {
           return;
         }
 

@@ -14,9 +14,9 @@ import { parseFetchedToParsedClassSchedule } from '@utils/mappers';
 
 import { EncouragementMessage } from '@components/EncouragementMessage';
 import { ScreenHeader } from '@components/ScreenHeader';
-import { ScreenSubtitle } from '@components/ScreenSubtitle';
 import { TeacherItem } from '@components/TeacherItem';
 import { TeacherListFilters } from '@components/TeacherListFilters';
+import { DarkScreenSubtitle } from '@components/texts/DarkScreenSubtitle';
 
 import { styles } from './styles';
 
@@ -136,7 +136,7 @@ export function TeacherList() {
       <ScreenHeader title="Estudar" />
       <View style={styles.subheader}>
         <View style={styles.screenDescriptionContainer}>
-          <ScreenSubtitle subtitle={'Proffys\ndisponíveis'} />
+          <DarkScreenSubtitle subtitle={'Proffys\ndisponíveis'} />
           <EncouragementMessage
             Icon={<Image source={nerdFaceEmojiIcon} />}
             message={

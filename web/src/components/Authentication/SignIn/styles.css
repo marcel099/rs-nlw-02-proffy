@@ -1,9 +1,36 @@
+#sign-in-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#sign-in-container .redirect-button {
+  font-size: 1.2rem;
+  font-family: Poppins, sans-serif;
+  line-height: 2.4rem;
+
+  background-color: transparent;
+  border: 0;
+
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
 .sign-in-form-options {
   display: flex;
   align-items: center;
   justify-content: space-between;
 
   margin-top: 2.4rem;
+}
+
+#sign-in-container > header {
+  display: none;
+}
+
+#sign-in-container > main > header {
+  display: flex;
+  justify-content: space-between;
 }
 
 .sign-in-form-options fieldset {
@@ -32,57 +59,79 @@
 }
 
 .sign-in-form-options button {
-  font: 400 1.4rem Poppins, sans-serif;
-  line-height: 2.4rem;
+  font-weight: 400;
   color: var(--color-text-complement);
-
-  background-color: transparent;
-  border: 0;
-
-  cursor: pointer;
-  transition: color 0.2s;
 }
 
 .sign-in-form-options button:hover {
   color: var(--color-text-complement-blur);
 }
 
-.sign-in-footer-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+#sign-in-container > footer {
+  display: none;
 }
 
-.sign-in-footer-content div {
+#sign-in-container > footer div {
   font-family: Poppins, sans-serif;
   font-size: 1.6rem;
   line-height: 2.6rem;
 }
 
-.sign-in-footer-content div p {
+#sign-in-container > footer div p {
   font-weight: 400;
   color: var(--color-text-base);
 }
 
-.sign-in-footer-content div button {
-  font-weight: 600;
-  color: var(--color-primary);
-
-  background-color: transparent;
-  border: 0;
-
-  text-decoration: underline;
-
-  cursor: pointer;
-  transition: color 0.2s;
+#sign-in-container > main > header button {
+  text-decoration: none;
 }
 
-.sign-in-footer-content div button:hover {
+#sign-in-container > footer div button {
+  font-weight: 600;
+
+  text-decoration: underline;
+}
+
+#sign-in-container > main > header button,
+#sign-in-container > footer div button {
+  color: var(--color-primary);
+}
+
+#sign-in-container > main > header button,
+#sign-in-container > footer div button:hover {
   color: var(--color-primary-dark);
 }
 
-.sign-in-footer-content span {
+#sign-in-container > footer > p {
+  display: flex;
+}
+
+#sign-in-container > footer > p > span {
   font: 400 1.2rem Poppins, sans-serif;
   line-height: 2rem;
   color: var(--color-text-complement);
+
+  margin-right: 0.8rem;
+}
+
+@media (min-width: 700px) {
+  #sign-in-container .redirect-button {
+    font-size: 1.4rem;
+  }
+
+  #sign-in-container > main > header button {
+    display: none;
+  }
+
+  #sign-in-container > header {
+    display: initial;
+  }
+
+  #sign-in-container > footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    margin-bottom: 4.8rem;
+  }
 }

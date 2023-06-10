@@ -22,11 +22,7 @@ export function Landing() {
   const [totalConnections, setTotalConnections] = useState(0);
 
   async function handleSignOut() {
-    try {
-      await signOut();
-    } catch (error) {
-      toast.error('Não foi possível sair');
-    }
+    await signOut();
   }
 
   async function getConnections() {

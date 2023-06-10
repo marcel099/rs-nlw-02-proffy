@@ -5,6 +5,7 @@ import {
 import { useOnboarding } from '@contexts/OnboardingContext';
 
 import { Confirmation } from '@screens/Confirmation';
+import { ForgottenPassword } from '@screens/ForgottenPassword';
 import { Onboarding } from '@screens/Onboarding';
 import { SignIn } from '@screens/SignIn';
 import { SignUp } from '@screens/SignUp';
@@ -54,6 +55,10 @@ export function NonAuthRoutes() {
       <Screen
         name="SignUp"
         component={SignUp}
+      />
+      <Screen
+        name="ForgottenPassword"
+        component={ForgottenPassword}
       />
       <Screen
         name="Confirmation"

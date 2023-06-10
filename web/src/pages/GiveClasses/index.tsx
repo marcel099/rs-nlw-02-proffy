@@ -5,11 +5,11 @@ import { toast } from 'react-toastify';
 import rocketIcon from '@assets/images/icons/rocket.svg';
 
 import { useAuth } from '@contexts/AuthContext';
-import { ApiClassSchedule, ClassSchedule, NotSavedClassSchedule } from '@dtos/ClassSchedule';
+import { ClassSchedule, NotSavedClassSchedule } from '@dtos/ClassSchedule';
 import { Subject } from '@dtos/Subject';
 import api from '@services/api';
-import { createBlankClassSchedule } from '@utils/factories';
-import { parseFetchedToParsedClassSchedule } from '@utils/mappers';
+import { isTokenExpiredError } from '@utils/errors';
+import { fetchUserClasses } from '@utils/fetchers';
 
 import { ClassScheduleForm } from '@components/ClassScheduleForm';
 import { EncouragementMessage } from '@components/EncouragementMessage';
@@ -77,26 +77,27 @@ export function GiveClasses() {
         nextUri: '/study',
       });
     } catch (error) {
+      if (isTokenExpiredError(error)) {
+        return;
+      }
+
       toast.error('Erro ao salvar perfil');
     }
   }
 
   useEffect(() => {
-    api.get('/classes/me').then((response) => {
-      const fetchedClassSchedules: ApiClassSchedule[] =
-        response.data.class_schedules;
+    fetchUserClasses()
+      .then((data) => {
+        setClassSchedules(data.classSchedules);
+        setSubjectId(data.subjectId);
+        setCost(data.cost);
+      }).catch((error) => {
+        if (isTokenExpiredError(error)) {
+          return;
+        }
 
-      const parsedClassSchedules = fetchedClassSchedules
-        .map(parseFetchedToParsedClassSchedule);
-
-      const newClassSchedules = parsedClassSchedules.length > 0
-        ? parsedClassSchedules
-        : [createBlankClassSchedule()];
-
-      setClassSchedules(newClassSchedules);
-      setSubjectId(response.data.class.subject.id);
-      setCost(response.data.class.cost);
-    });
+        toast.error('Erro ao buscar dados das aulas do usuário');
+      });
   }, []);
 
   return (

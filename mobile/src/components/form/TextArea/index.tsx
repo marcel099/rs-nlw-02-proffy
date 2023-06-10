@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import {
   Text, TextInput, TextInputProps, View,
 } from 'react-native';
@@ -12,8 +12,6 @@ interface TextAreaProps extends TextInputProps {
 
 export function TextArea({ label, description, ...rest }: TextAreaProps) {
   const [isFocused, setIsFocused] = useState(false);
-
-  const isFilledOut = useMemo(() => !!rest.value, [rest.value]);
 
   function handleInputFocus() {
     setIsFocused(true);

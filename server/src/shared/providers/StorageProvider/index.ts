@@ -1,8 +1,4 @@
 import { LocalStorageProvider } from './implementations/LocalStorageProvider';
+import { StorageProvider } from './IStorageProvider';
 
-export interface StorageProvider {
-  save(file: string, folder: string): Promise<string>;
-  delete(file: string, folder: string): Promise<void>;
-}
-
-export const storageProvider = new LocalStorageProvider();
+export const storageProvider: StorageProvider = new LocalStorageProvider();

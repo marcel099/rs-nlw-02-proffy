@@ -6,9 +6,11 @@ import {
   useMemo,
   useState,
 } from 'react';
+import { toast } from 'react-toastify';
 
 import { SIGNED_IN_USER_TOKEN } from '@configs/storage';
 import api from '@services/api';
+import { isTokenExpiredError } from '@utils/errors';
 
 interface User {
   firstName: string;
@@ -43,6 +45,10 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const [user, setUser] = useState<User | null>(null);
   const [isFetchingAuthData, setIsFetchingAuthData] = useState(true);
 
+  function setAxiosDefaultAuthorization(token: string) {
+    api.defaults.headers['Authorization'] = `Bearer ${token}`;
+  }
+
   async function fetchUser() {
     try {
       const response = await api.get('/users/me');
@@ -63,13 +69,12 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
         setUser(userData);
       }
-
-      if (response.status === 401) {
-        window.localStorage.removeItem(SIGNED_IN_USER_TOKEN);
-        setUser(null);
-      }
     } catch (error) {
-      console.error(error);
+      if (isTokenExpiredError(error)) {
+        return;
+      }
+
+      toast.error('Erro ao buscar dados do usuário');
     }
   }
 
@@ -78,30 +83,53 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     password,
     rememberMe,
   }: SignInDTO) {
-    try {
-      const sessionResponse =
-        await api.post('/sessions', { email, password });
+    const sessionResponse =
+      await api.post('/sessions', { email, password });
 
-      if (sessionResponse.status !== 200) {
-        throw new Error('');
-      }
-
-      const { token } = sessionResponse.data;
-      api.defaults.headers['Authorization'] = `Bearer ${token}`;
-
-      if (rememberMe) {
-        window.localStorage.setItem(SIGNED_IN_USER_TOKEN, token);
-      }
-
-      await fetchUser();
-    } catch (error) {
-      throw new Error(error as any);
+    if (sessionResponse.status !== 200) {
+      throw new Error('');
     }
+
+    const { token } = sessionResponse.data;
+    setAxiosDefaultAuthorization(token);
+
+    if (rememberMe) {
+      window.localStorage.setItem(SIGNED_IN_USER_TOKEN, token);
+    }
+
+    await fetchUser();
   }
 
   async function signOut() {
-    window.localStorage.removeItem(SIGNED_IN_USER_TOKEN);
-    setUser(null);
+    try {
+      window.localStorage.removeItem(SIGNED_IN_USER_TOKEN);
+      setUser(null);
+    } catch (error) {
+      toast.error('Não foi possível sair');
+    }
+  }
+
+  function setAxiosInterceptorInvalidToken() {
+    api.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (isTokenExpiredError(error)) {
+          toast.warning(
+            'Sua sessão está expirada. Por favor, faça login novamente.',
+            { toastId: -1, autoClose: false }
+          );
+        }
+
+        return Promise.reject(error);
+      }
+    );
+
+    toast.onChange((payload) => {
+      if (payload.status === 'removed' &&
+        payload.id === -1) {
+        signOut();
+      }
+    });
   }
 
   useEffect(() => {
@@ -109,7 +137,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
       const token = window.localStorage.getItem(SIGNED_IN_USER_TOKEN);
 
       if (token !== null) {
-        api.defaults.headers['Authorization'] = `Bearer ${token}`;
+        setAxiosDefaultAuthorization(token);
         await fetchUser();
       }
 
@@ -117,6 +145,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     }
 
     loadTokenAndFetchUser();
+    setAxiosInterceptorInvalidToken();
   }, []);
 
   const value = useMemo(() => ({

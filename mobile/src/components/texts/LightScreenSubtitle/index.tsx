@@ -2,14 +2,16 @@ import { Text } from 'react-native';
 
 import { styles } from './styles';
 
-interface ScreenSubtitleProps {
+interface LightScreenSubtitleProps {
   subtitle: string;
 }
 
-export function ScreenSubtitle({ subtitle }: ScreenSubtitleProps) {
+export function LightScreenSubtitle({
+  subtitle,
+}: LightScreenSubtitleProps) {
   return (
     <Text style={styles.subtitle}>
-      {subtitle}
+      { subtitle }
     </Text>
   );
 }

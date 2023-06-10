@@ -1,3 +1,17 @@
 #sign-up-container p {
-  margin-top: 2.1rem;
+  margin-top: 1.6rem;
+}
+
+#sign-up-container .non-authenticated-content-container > footer {
+  display: none;
+}
+
+@media (min-width: 700px) {
+  #sign-up-container p {
+    margin-top: 2.1rem;
+  }
+
+  #sign-up-container .non-authenticated-content-container > footer {
+    display: initial;
+  }
 }

@@ -1,11 +1,13 @@
 import { FormEvent, useRef, useState } from 'react';
+import { toast } from 'react-toastify';
+
+import purpleHeartIcon from '@assets/images/icons/purple-heart.svg';
 
 import { useAuth } from '@contexts/AuthContext';
+import { getServerErrorMessage } from '@utils/errors';
 
 import { ConfirmationButton } from '@components/ConfirmationButton';
 import { InnerLabelInput } from '@components/InnerLabelInput';
-
-import purpleHeartIcon from '../../../assets/images/icons/purple-heart.svg';
 
 import './styles.css';
 
@@ -19,6 +21,7 @@ export function SignIn({ openSignUp, openForgottenPassword }: SignInProps) {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isSending, setIsSending] = useState(false);
 
   const rememberMeCheckboxRef = useRef<HTMLInputElement>(null);
 
@@ -26,24 +29,41 @@ export function SignIn({ openSignUp, openForgottenPassword }: SignInProps) {
     try {
       e.preventDefault();
 
+      setIsSending(true);
+
       const rememberMe = rememberMeCheckboxRef.current?.checked ?? false;
 
-      signIn({
+      await signIn({
         email,
         password,
         rememberMe,
       });
     } catch (error) {
-      console.error(error);
-      window.alert('Não foi possível realizar login');
+      setIsSending(false);
+      let message = getServerErrorMessage(error);
+
+      if (message === null) {
+        message = 'Não foi possível realizar login';
+      }
+
+      toast.error(message);
     }
   }
 
   return (
-    <>
+    <main id="sign-in-container">
       <header />
       <main>
-        <h1>Fazer login</h1>
+        <header>
+          <h1>Fazer login</h1>
+          <button
+            type="button"
+            className="redirect-button"
+            onClick={openSignUp}
+          >
+            Criar uma conta
+          </button>
+        </header>
         <form onSubmit={handleSignIn}>
           <InnerLabelInput
             name="email"
@@ -72,10 +92,15 @@ export function SignIn({ openSignUp, openForgottenPassword }: SignInProps) {
                 name="remember-me"
                 ref={rememberMeCheckboxRef}
               />
+              {/* eslint-disable-next-line max-len */}
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label htmlFor="remember-me">Lembrar-me</label>
             </fieldset>
-            <button type="button" onClick={openForgottenPassword}>
+            <button
+              type="button"
+              onClick={openForgottenPassword}
+              className="redirect-button"
+            >
               Esqueci minha senha
             </button>
           </div>
@@ -83,16 +108,25 @@ export function SignIn({ openSignUp, openForgottenPassword }: SignInProps) {
           <footer className="submit-button-container">
             <ConfirmationButton
               type="submit"
-              title="Entrar"
+              title={isSending ? '...' : 'Entrar'}
               isFullWidth
+              disabled={
+                isSending
+                  ? true
+                  : !email || !password
+              }
             />
           </footer>
         </form>
       </main>
-      <footer className="sign-in-footer-content">
+      <footer>
         <div>
           <p>Não tem conta?</p>
-          <button type="button" onClick={openSignUp}>
+          <button
+            type="button"
+            className="redirect-button"
+            onClick={openSignUp}
+          >
             Cadastre-se
           </button>
         </div>
@@ -101,6 +135,6 @@ export function SignIn({ openSignUp, openForgottenPassword }: SignInProps) {
           <img src={purpleHeartIcon} alt="Coração Roxo" />
         </p>
       </footer>
-    </>
+    </main>
   );
 }

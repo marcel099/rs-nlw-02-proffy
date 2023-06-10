@@ -12,12 +12,6 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 32,
     marginTop: 39,
   },
-  formTitle: {
-    fontFamily: 'Poppins_600SemiBold',
-    fontSize: 24,
-    color: '#32264D',
-    lineHeight: 34,
-  },
   signUpButtonText: {
     fontFamily: 'Poppins_400Regular',
     fontSize: 12,
