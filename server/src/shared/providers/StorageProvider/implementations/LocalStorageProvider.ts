@@ -3,7 +3,7 @@ import path from 'path';
 
 import { uploadConfig } from '@config/upload';
 
-import { StorageProvider } from '..';
+import { StorageProvider } from '../IStorageProvider';
 
 export class LocalStorageProvider implements StorageProvider {
   async save(file: string, folder: string): Promise<string> {
