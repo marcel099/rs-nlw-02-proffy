@@ -60,5 +60,10 @@ routes.post(
   '/password/forgot',
   authenticationController.sendForgottenPasswordEmail
 );
+// eslint-disable-next-line prettier/prettier
+routes.post(
+  '/password/reset',
+  authenticationController.resetPassword
+);
 
 export default routes;

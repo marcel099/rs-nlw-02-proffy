@@ -111,4 +111,64 @@ export class AuthenticationController {
       });
     }
   }
+
+  async resetPassword(request: Request, response: Response) {
+    const { token } = request.query;
+    const { password } = request.body;
+
+    const resetToken = String(token);
+
+    const trx = await db.transaction();
+
+    try {
+      const userTokenFound = await trx('user_tokens')
+        .where('token', '=', resetToken)
+        .select('user_id', 'expiration_date')
+        .first();
+
+      if (!userTokenFound) {
+        return response.status(400).json({
+          message: 'Token inválido',
+        });
+      }
+
+      const { user_id, expiration_date } = userTokenFound;
+
+      if (dayjs(new Date(expiration_date)).isBefore(new Date())) {
+        return response.status(403).json({
+          message: 'Token expirado',
+        });
+      }
+
+      const userFound = await trx('users')
+        .where('id', '=', user_id)
+        .select('id')
+        .first();
+
+      if (!userFound) {
+        return response.status(400).json({
+          message: 'Usuário inexistente',
+        });
+      }
+
+      const newPasswordHash = await hash(password, 8);
+
+      await trx('users').where({ id: user_id }).update({
+        password: newPasswordHash,
+      });
+
+      await trx('user_tokens').where({ user_id }).delete();
+
+      await trx.commit();
+
+      return response.send();
+    } catch (error) {
+      await trx.rollback();
+      console.error(error);
+
+      return response.status(500).json({
+        message: 'Erro ao redefinir senha do usuário',
+      });
+    }
+  }
 }
