@@ -1,8 +1,9 @@
+import { AxiosError } from 'axios';
 import { FormEvent, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-// import api from '@services/api';
+import api from '@services/api';
 
 import { ConfirmationButton } from '@components/ConfirmationButton';
 import { InnerLabelInput } from '@components/InnerLabelInput';
@@ -13,14 +14,17 @@ export function ForgottenPassword() {
   const history = useHistory();
 
   const [email, setEmail] = useState('');
+  const [isSending, setIsSending] = useState(false);
 
   async function handleSend(e: FormEvent) {
     e.preventDefault();
 
     try {
-      // await api.post('/reset-password', {
-      //   email,
-      // });
+      setIsSending(true);
+
+      await api.post('/password/forgot', {
+        email,
+      });
 
       history.push('/confirmation', {
         title: 'Redefinição enviada',
@@ -29,7 +33,18 @@ export function ForgottenPassword() {
         nextUri: '/',
       });
     } catch (error) {
-      toast.error('Não foi possível enviar o e-mail de redefinição de senha.');
+      setIsSending(false);
+
+      const defaultMessage = 'Não foi possível enviar o e-mail de redefinição de senha.';
+      let message: string;
+
+      if (error instanceof AxiosError) {
+        message = error.response?.data?.message ?? defaultMessage;
+      } else {
+        message = defaultMessage;
+      }
+
+      toast.error(message);
     }
   }
 
@@ -51,8 +66,9 @@ export function ForgottenPassword() {
         <footer className="submit-button-container">
           <ConfirmationButton
             type="submit"
-            title="Enviar"
+            title={isSending ? '...' : 'Enviar'}
             isFullWidth
+            disabled={isSending ? true : !email}
           />
         </footer>
       </form>
