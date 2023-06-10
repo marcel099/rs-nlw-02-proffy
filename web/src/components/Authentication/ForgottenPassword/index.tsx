@@ -1,9 +1,9 @@
-import { AxiosError } from 'axios';
 import { FormEvent, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import api from '@services/api';
+import { getServerErrorMessage } from '@utils/errors';
 
 import { ConfirmationButton } from '@components/ConfirmationButton';
 import { InnerLabelInput } from '@components/InnerLabelInput';
@@ -35,13 +35,10 @@ export function ForgottenPassword() {
     } catch (error) {
       setIsSending(false);
 
-      const defaultMessage = 'Não foi possível enviar o e-mail de redefinição de senha.';
-      let message: string;
+      let message = getServerErrorMessage(error);
 
-      if (error instanceof AxiosError) {
-        message = error.response?.data?.message ?? defaultMessage;
-      } else {
-        message = defaultMessage;
+      if (message === null) {
+        message = 'Não foi possível enviar o e-mail de redefinição de senha.';
       }
 
       toast.error(message);

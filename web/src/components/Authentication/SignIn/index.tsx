@@ -1,10 +1,10 @@
-import { AxiosError } from 'axios';
 import { FormEvent, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import purpleHeartIcon from '@assets/images/icons/purple-heart.svg';
 
 import { useAuth } from '@contexts/AuthContext';
+import { getServerErrorMessage } from '@utils/errors';
 
 import { ConfirmationButton } from '@components/ConfirmationButton';
 import { InnerLabelInput } from '@components/InnerLabelInput';
@@ -21,12 +21,15 @@ export function SignIn({ openSignUp, openForgottenPassword }: SignInProps) {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isSending, setIsSending] = useState(false);
 
   const rememberMeCheckboxRef = useRef<HTMLInputElement>(null);
 
   async function handleSignIn(e: FormEvent) {
     try {
       e.preventDefault();
+
+      setIsSending(true);
 
       const rememberMe = rememberMeCheckboxRef.current?.checked ?? false;
 
@@ -36,13 +39,11 @@ export function SignIn({ openSignUp, openForgottenPassword }: SignInProps) {
         rememberMe,
       });
     } catch (error) {
-      const defaultMessage = 'Não foi possível realizar login';
-      let message: string;
+      setIsSending(false);
+      let message = getServerErrorMessage(error);
 
-      if (error instanceof AxiosError) {
-        message = error.response?.data?.message ?? defaultMessage;
-      } else {
-        message = defaultMessage;
+      if (message === null) {
+        message = 'Não foi possível realizar login';
       }
 
       toast.error(message);
@@ -94,8 +95,13 @@ export function SignIn({ openSignUp, openForgottenPassword }: SignInProps) {
           <footer className="submit-button-container">
             <ConfirmationButton
               type="submit"
-              title="Entrar"
+              title={isSending ? '...' : 'Entrar'}
               isFullWidth
+              disabled={
+                isSending
+                  ? true
+                  : !email || !password
+              }
             />
           </footer>
         </form>

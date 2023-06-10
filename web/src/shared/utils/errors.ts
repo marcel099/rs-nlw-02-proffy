@@ -9,3 +9,12 @@ export function isTokenExpiredError(error: unknown): boolean {
 
   return false;
 }
+
+export function getServerErrorMessage(error: unknown): string | null {
+  let message: string | null = null;
+  if (error instanceof AxiosError) {
+    message = error.response?.data?.message ?? null;
+  }
+
+  return message;
+}

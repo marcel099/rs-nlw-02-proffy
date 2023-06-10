@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import api from '@services/api';
+import { getServerErrorMessage } from '@utils/errors';
 
 import { ConfirmationButton } from '@components/ConfirmationButton';
 import { InnerLabelInput } from '@components/InnerLabelInput';
@@ -17,10 +18,14 @@ export function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const [isSaving, setIsSaving] = useState(false);
+
   async function handleCreateUser(e: FormEvent) {
     e.preventDefault();
 
     try {
+      setIsSaving(true);
+
       await api.post('/users', {
         first_name: firstName,
         last_name: lastName,
@@ -35,7 +40,14 @@ export function SignUp() {
         nextUri: '/',
       });
     } catch (error) {
-      toast.error('Não foi possível fazer o cadastro.');
+      setIsSaving(false);
+
+      let message = getServerErrorMessage(error);
+
+      if (message === null) {
+        message = 'Não foi possível fazer o cadastro.';
+      }
+      toast.error(message);
     }
   }
 
@@ -83,8 +95,13 @@ export function SignUp() {
         <footer className="submit-button-container">
           <ConfirmationButton
             type="submit"
-            title="Concluir cadastro"
+            title={isSaving ? '...' : 'Concluir cadastro'}
             isFullWidth
+            disabled={
+              isSaving
+                ? true
+                : !firstName || !lastName || !email || !password
+            }
           />
         </footer>
       </form>
