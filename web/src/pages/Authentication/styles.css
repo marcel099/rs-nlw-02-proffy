@@ -81,17 +81,17 @@
   right: 0;
 }
 
-#left-content-container button {
+#left-content-container header button {
   border: 0;
   
   cursor: pointer;
   transition: opacity 0.2s;
 }
 
-#left-content-container button:hover {
+#left-content-container header button:hover {
   opacity: 0.6;
 }
 
-#left-content-container button img {
+#left-content-container header button img {
   height: 3.2rem;
 }
