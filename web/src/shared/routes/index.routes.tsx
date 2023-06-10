@@ -9,6 +9,7 @@ import { GiveClasses } from '@pages/GiveClasses';
 import { Landing } from '@pages/Landing';
 import { MyProfile } from '@pages/MyProfile';
 import { PageLoader } from '@pages/PageLoader';
+import { ResetPassword } from '@pages/ResetPassword';
 import { Study } from '@pages/Study';
 
 import { ProtectedRoutes } from './ProtectedRoutes';
@@ -34,6 +35,7 @@ export function Routes() {
     ) : (
       <>
         <Route path="/" exact component={Authentication} />
+        <Route path="/reset-password" component={ResetPassword} />
         <Route path="/confirmation" component={Confirmation} />
         <ProtectedRoutes isAllowed={user !== null}>
           <Route path="/landing" component={Landing} />
