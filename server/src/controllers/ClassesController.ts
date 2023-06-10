@@ -72,7 +72,7 @@ function getUserClassBaseQuery({
     .whereExists(function sample() {
       this.select('cs.*')
         .from('class_schedule as cs')
-        .whereRaw('`cs`.`class_id` = `c`.`id`')
+        .whereRaw('cs.class_id = c.id')
         .modify((queryBuilder) => {
           if (week_day !== undefined) {
             queryBuilder.where('cs.week_day', '=', Number(week_day));
@@ -89,7 +89,8 @@ function getUserClassBaseQuery({
       if (subject_id !== undefined) {
         queryBuilder.where('c.subject_id', '=', subject_id);
       }
-    });
+    })
+    .groupBy('u.id', 'c.id', 's.id');
 }
 
 export class ClassesControler {
@@ -119,7 +120,12 @@ export class ClassesControler {
       timeInMinutes,
     });
 
-    const [{ total }] = await countUserClassQuery.count('c.id as total');
+    const result = await countUserClassQuery.count('c.id as total');
+
+    let total = 0;
+    if (result.length > 0) {
+      total = Number(result[0].total);
+    }
 
     const fullUserClassQuery = getUserClassBaseQuery({
       subject_id,

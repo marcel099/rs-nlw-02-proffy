@@ -127,11 +127,13 @@ export class UsersController {
       const isThereAClass = myPreviousClass !== undefined;
 
       if (isThereAClass === false) {
-        const insertedClassesIds = await trx('classes').insert({
-          subject_id,
-          cost,
-          user_id,
-        });
+        const insertedClassesIds = await trx('classes')
+          .insert({
+            subject_id,
+            cost,
+            user_id,
+          })
+          .returning('id');
 
         // eslint-disable-next-line prefer-destructuring
         class_id = insertedClassesIds[0];
