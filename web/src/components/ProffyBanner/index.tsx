@@ -1,9 +1,9 @@
 import bannerBackgroundImg from '@assets/images/banner-background.svg';
 import logoImg from '@assets/images/logo.svg';
 
-import { BannerSidesType } from '@pages/Authentication';
-
 import './styles.css';
+
+export type BannerSidesType = 'left' | 'right';
 
 interface Props {
   bannerSide: BannerSidesType;

@@ -5,12 +5,58 @@ import backIcon from '@assets/images/icons/back.svg';
 import { ForgottenPassword } from '@components/Authentication/ForgottenPassword';
 import { SignIn } from '@components/Authentication/SignIn';
 import { SignUp } from '@components/Authentication/SignUp';
-import { ProffyBanner } from '@components/ProffyBanner';
+import { NonAuthenticatedPageContainer } from '@components/NonAuthenticatedPageContainer';
+import { BannerSidesType } from '@components/ProffyBanner';
 
 import './styles.css';
 
-export type BannerSidesType = 'left' | 'right';
 type AuthenticationPagesType = 'SignIn' | 'SignUp' | 'ForgottenPassword';
+
+interface LeftContentContainerProps {
+  onOpenSignIn: () => void;
+  currentPage: AuthenticationPagesType;
+}
+
+function LeftContentContainer({
+  onOpenSignIn,
+  currentPage,
+}: LeftContentContainerProps) {
+  return (
+    <>
+      <header>
+        <button type="button" onClick={onOpenSignIn}>
+          <img src={backIcon} alt="Voltar" />
+        </button>
+      </header>
+      { currentPage === 'SignUp' && <SignUp /> }
+      { currentPage === 'ForgottenPassword' && <ForgottenPassword /> }
+      <footer />
+    </>
+  );
+}
+
+interface RightContentContainerProps {
+  onOpenSignUp: () => void;
+  onOpenForgottenPassword: () => void;
+  currentPage: AuthenticationPagesType;
+}
+
+function RightContentContainer({
+  onOpenSignUp,
+  onOpenForgottenPassword,
+  currentPage,
+}: RightContentContainerProps) {
+  if (currentPage !== 'SignIn') {
+    return <> </>;
+  }
+
+  return (
+    <SignIn
+      openSignUp={onOpenSignUp}
+      openForgottenPassword={onOpenForgottenPassword}
+    />
+  );
+}
 
 export function Authentication() {
   const [
@@ -51,36 +97,27 @@ export function Authentication() {
   }
 
   return (
-    <div id="authentication-page">
-      <ProffyBanner
-        bannerSide={currentBannerSide}
+    <div
+      id="authentication-page"
+      className="non-authenticated-page-container"
+    >
+      <NonAuthenticatedPageContainer
+        currentBannerSide={currentBannerSide}
         isBannerExpanded={isBannerExpanded}
-      />
-      <article
-        id="left-content-container"
-        className="authentication-content-container"
-      >
-        <header>
-          <button type="button" onClick={handleOpenSignIn}>
-            <img src={backIcon} alt="Voltar" />
-          </button>
-        </header>
-        { currentPage === 'SignUp' && <SignUp /> }
-        { currentPage === 'ForgottenPassword' && <ForgottenPassword /> }
-        <footer />
-      </article>
-
-      <article
-        id="right-content-container"
-        className="authentication-content-container"
-      >
-        { currentPage === 'SignIn' && (
-          <SignIn
-            openSignUp={handleOpenSignUp}
-            openForgottenPassword={handleOpenForgottenPassword}
+        LeftContentContainer={(
+          <LeftContentContainer
+            currentPage={currentPage}
+            onOpenSignIn={handleOpenSignIn}
           />
         )}
-      </article>
+        RightContentContainer={(
+          <RightContentContainer
+            currentPage={currentPage}
+            onOpenSignUp={handleOpenSignUp}
+            onOpenForgottenPassword={handleOpenForgottenPassword}
+          />
+        )}
+      />
     </div>
   );
 }
