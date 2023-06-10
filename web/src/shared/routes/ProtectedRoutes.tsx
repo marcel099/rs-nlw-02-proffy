@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useLocation } from 'react-router-dom';
 
 interface ProtectedRoutesProps {
   isAllowed: boolean;
@@ -7,12 +7,21 @@ interface ProtectedRoutesProps {
   children: ReactNode;
 }
 
+const protectedRoutes = [
+  '/landing',
+  '/study',
+  '/give-classes',
+  '/my-profile',
+];
+
 export function ProtectedRoutes({
   isAllowed,
   redirectPath = '/',
   children,
 }: ProtectedRoutesProps) {
-  if (!isAllowed) {
+  const location = useLocation();
+
+  if (isAllowed === false && protectedRoutes.includes(location.pathname)) {
     return <Redirect to={redirectPath} />;
   }
 
