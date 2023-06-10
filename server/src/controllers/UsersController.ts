@@ -244,12 +244,7 @@ export class UsersController {
       await trx.commit();
 
       response.status(200).json();
-    } catch (error: any) {
-      console.error({
-        error,
-        code: error?.code,
-        message: error?.message,
-      });
+    } catch {
       await trx.rollback();
 
       response.status(400).json({

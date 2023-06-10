@@ -1,7 +1,7 @@
-import { NextFunction, Request, Response } from "express";
-import { verify } from "jsonwebtoken";
+import { NextFunction, Request, Response } from 'express';
+import { verify } from 'jsonwebtoken';
 
-import { auth } from "../shared/config/auth";
+import { auth } from '@config/auth';
 
 interface IPayload {
   sub: string;
@@ -16,16 +16,15 @@ export async function ensureAuthenticated(
   const authHeader = request.headers.authorization;
 
   if (!authHeader) {
-    return response.status(401).json({ message: "Token não informado" });
+    return response.status(401).json({ message: 'Token não informado' });
   }
 
-  const [, token] = authHeader.split(" ");
+  const [, token] = authHeader.split(' ');
 
   if (auth.token_secret === undefined) {
-    return response.status(500)
-      .json({
-        message: 'Não foi realizar a operação',
-      })
+    return response.status(500).json({
+      message: 'Não foi realizar a operação',
+    });
   }
 
   try {
@@ -34,7 +33,9 @@ export async function ensureAuthenticated(
     request.user = { id: user_id };
 
     next();
+
+    return undefined;
   } catch {
-    return response.status(401).json({ message: "Token inválido" });
+    return response.status(401).json({ message: 'Token inválido' });
   }
 }
