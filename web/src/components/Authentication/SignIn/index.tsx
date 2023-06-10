@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios';
 import { FormEvent, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 
@@ -29,13 +30,22 @@ export function SignIn({ openSignUp, openForgottenPassword }: SignInProps) {
 
       const rememberMe = rememberMeCheckboxRef.current?.checked ?? false;
 
-      signIn({
+      await signIn({
         email,
         password,
         rememberMe,
       });
-    } catch {
-      toast.error('Não foi possível realizar login');
+    } catch (error) {
+      const defaultMessage = 'Não foi possível realizar login';
+      let message: string;
+
+      if (error instanceof AxiosError) {
+        message = error.response?.data?.message ?? defaultMessage;
+      } else {
+        message = defaultMessage;
+      }
+
+      toast.error(message);
     }
   }
 
