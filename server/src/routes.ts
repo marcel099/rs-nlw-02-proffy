@@ -5,7 +5,7 @@ import { uploadConfig } from '@config/upload';
 
 import { AuthenticationController } from '@controllers/AuthenticationController';
 import { ClassesControler } from '@controllers/ClassesController';
-import ConnectionsControler from '@controllers/ConnectionsController';
+import { ConnectionsControler } from '@controllers/ConnectionsController';
 import { SubjectsController } from '@controllers/SubjectsController';
 import { UsersController } from '@controllers/UsersController';
 import { ensureAuthenticated } from '@middlewares/ensureAuthenticated';
@@ -51,6 +51,14 @@ routes.patch(
   usersControler.updateAvatar
 );
 
-routes.post('/sessions', authenticationController.session);
+// eslint-disable-next-line prettier/prettier
+routes.post(
+  '/sessions',
+  authenticationController.session
+);
+routes.post(
+  '/password/forgot',
+  authenticationController.sendForgottenPasswordEmail
+);
 
 export default routes;
