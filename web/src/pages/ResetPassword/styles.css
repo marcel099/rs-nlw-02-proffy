@@ -1,7 +1,4 @@
-#reset-password-page p {
+#reset-password-container p {
   margin-top: 1.6rem;
 }
 
-#reset-password-page .non-authenticated-content-container {
-  justify-content: center;
-}

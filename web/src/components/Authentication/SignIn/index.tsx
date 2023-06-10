@@ -51,10 +51,19 @@ export function SignIn({ openSignUp, openForgottenPassword }: SignInProps) {
   }
 
   return (
-    <>
+    <main id="sign-in-container">
       <header />
       <main>
-        <h1>Fazer login</h1>
+        <header>
+          <h1>Fazer login</h1>
+          <button
+            type="button"
+            className="redirect-button"
+            onClick={openSignUp}
+          >
+            Criar uma conta
+          </button>
+        </header>
         <form onSubmit={handleSignIn}>
           <InnerLabelInput
             name="email"
@@ -87,7 +96,11 @@ export function SignIn({ openSignUp, openForgottenPassword }: SignInProps) {
               {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
               <label htmlFor="remember-me">Lembrar-me</label>
             </fieldset>
-            <button type="button" onClick={openForgottenPassword}>
+            <button
+              type="button"
+              onClick={openForgottenPassword}
+              className="redirect-button"
+            >
               Esqueci minha senha
             </button>
           </div>
@@ -106,10 +119,14 @@ export function SignIn({ openSignUp, openForgottenPassword }: SignInProps) {
           </footer>
         </form>
       </main>
-      <footer className="sign-in-footer-content">
+      <footer>
         <div>
           <p>Não tem conta?</p>
-          <button type="button" onClick={openSignUp}>
+          <button
+            type="button"
+            className="redirect-button"
+            onClick={openSignUp}
+          >
             Cadastre-se
           </button>
         </div>
@@ -118,6 +135,6 @@ export function SignIn({ openSignUp, openForgottenPassword }: SignInProps) {
           <img src={purpleHeartIcon} alt="Coração Roxo" />
         </p>
       </footer>
-    </>
+    </main>
   );
 }

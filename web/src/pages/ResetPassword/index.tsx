@@ -64,7 +64,7 @@ function ResetPasswordContent() {
   }
 
   return (
-    <main id="forgotten-password-container">
+    <main id="reset-password-container">
       <h1>Redefina sua senha</h1>
       <p>Você está quase lá.</p>
 

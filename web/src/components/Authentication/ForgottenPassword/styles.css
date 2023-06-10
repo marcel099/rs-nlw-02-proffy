@@ -1,3 +1,17 @@
 #forgotten-password-container p {
   margin-top: 1.6rem;
 }
+
+#forgotten-password-container .non-authenticated-content-container > footer {
+  display: none;
+}
+
+@media (min-width: 700px) {
+  #forgotten-password-container p {
+    margin-top: 2.1rem;
+  }
+
+  #forgotten-password-container .non-authenticated-content-container > footer {
+    display: initial;
+  }
+}
