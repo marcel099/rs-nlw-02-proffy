@@ -14,6 +14,7 @@ import { BorderlessButton } from 'react-native-gesture-handler';
 import backIcon from '@assets/images/icons/light-background-back.png';
 
 import { NonAuthStackScreenProp } from '@routes/nonAuth.stack.routes';
+import api from '@services/api';
 
 import { AuthenticationScreenHeader } from '@components/AuthenticationScreenHeader';
 import { ConfirmationButton } from '@components/form/ConfirmationButton';
@@ -38,9 +39,9 @@ export function ForgottenPassword() {
     try {
       setIsSending(true);
 
-      // await api.post('/reset-password', {
-      //   email,
-      // });
+      await api.post('/password/forgot', {
+        email,
+      });
 
       navigation.navigate('Confirmation', {
         title: 'Redefinição\nenviada!',
@@ -49,6 +50,8 @@ export function ForgottenPassword() {
         nextScreenName: 'SignIn',
       });
     } catch (error) {
+      setIsSending(false);
+
       Alert.alert(
         'Falha no envio',
         'Não foi possível enviar o e-mail de redefinição de senha.'
@@ -94,7 +97,7 @@ export function ForgottenPassword() {
                 />
               </View>
               <ConfirmationButton
-                title="Concluir cadastro"
+                title="Enviar"
                 type="secondary"
                 onPress={handleSendResetPassword}
                 enabled={isSending ? false : !!email}
