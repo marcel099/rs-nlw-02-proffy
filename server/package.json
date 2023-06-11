@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node dist/src/server.js",
-    "build": "tsc --build tsconfig.json & npm run knex:migrate & npm run knex:seed",
-    "dev": "ts-node-dev -r tsconfig-paths/register --transpile-only --ignore-watch node_modules --respawn src/server.ts",    
+    "build": "CI=false tsc --build tsconfig.json & npm run knex:migrate & npm run knex:seed",
+    "dev": "ts-node-dev -r tsconfig-paths/register --transpile-only --ignore-watch node_modules --respawn src/server.ts",
     "knex:migrate": "knex --knexfile dist/knexfile.js migrate:latest",
     "knex:rollback": "knex --knexfile dist/knexfile.js migrate:rollback",
     "knex:seed": "knex --knexfile dist/knexfile.js seed:run"
