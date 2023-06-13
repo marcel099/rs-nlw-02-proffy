@@ -24,7 +24,7 @@
       * [Back-End](#back-end)
       * [Front-End Web](#front-end-web)
       * [Front-End Mobile](#front-end-mobile)
-   * [Comparação entre versões 1 e 2 da plataforma](#comparação-entre-versões-1-e-2-da-plataforma)
+   * [Comparação entre versões](#comparação-entre-versões-1-e-2-da-plataforma)
    * [Licença](#licença)
 <!--te-->
 
