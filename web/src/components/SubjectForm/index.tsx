@@ -34,7 +34,7 @@ export function SubjectForm({
 
         toast.error('Erro ao buscar dados das matérias');
       });
-  });
+  }, []);
 
   const parsedSubjects = useMemo(() => subjects.map((subject) => ({
     label: subject.name,
