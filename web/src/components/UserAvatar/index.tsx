@@ -1,4 +1,4 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent } from 'react';
 import { FiCamera } from 'react-icons/fi';
 
 import './styles.css';
@@ -7,15 +7,15 @@ interface UserAvatarProps {
   avatar: string | null;
   size: 'sm' | 'md' | 'lg';
   containButton?: boolean;
-  onUserAvatarButtonPress?: (file: File | null) => void;
+  onUserAvatarButtonPress?: (
+    file: File | null,
+    fileUrl: string | null
+  ) => void;
 }
 
 export function UserAvatar({
   avatar, size, containButton = false, onUserAvatarButtonPress,
 }: UserAvatarProps) {
-  const [selectedFileUrl, setSelectedFileUrl] =
-    useState<string | null>(null);
-
   function handleUserAvatarInputChange(e: FormEvent) {
     if (onUserAvatarButtonPress === undefined) {
       return;
@@ -28,11 +28,9 @@ export function UserAvatar({
       const file = files[0];
       const fileUrl = URL.createObjectURL(file);
 
-      setSelectedFileUrl(fileUrl);
-      onUserAvatarButtonPress(file);
+      onUserAvatarButtonPress(file, fileUrl);
     } else {
-      setSelectedFileUrl(null);
-      onUserAvatarButtonPress(null);
+      onUserAvatarButtonPress(null, null);
     }
   }
 
@@ -41,7 +39,7 @@ export function UserAvatar({
       {
         avatar !== null ? (
           <img
-            src={selectedFileUrl === null ? avatar : selectedFileUrl}
+            src={avatar}
             className={`user-avatar size-${size}`}
             alt="Foto de perfil"
           />

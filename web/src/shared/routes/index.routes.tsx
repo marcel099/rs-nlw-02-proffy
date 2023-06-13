@@ -30,20 +30,20 @@ export function Routes() {
   }, [user, location.pathname]);
 
   return (
-    isFetchingAuthData ? (
-      <Route path="/" component={PageLoader} />
-    ) : (
-      <>
-        <Route path="/" exact component={Authentication} />
-        <Route path="/reset-password" component={ResetPassword} />
-        <Route path="/confirmation" component={Confirmation} />
-        <ProtectedRoutes isAllowed={user !== null}>
-          <Route path="/landing" component={Landing} />
-          <Route path="/study" component={Study} />
-          <Route path="/give-classes" component={GiveClasses} />
-          <Route path="/my-profile" component={MyProfile} />
-        </ProtectedRoutes>
-      </>
-    )
+    <>
+      <Route
+        path="/"
+        exact
+        component={isFetchingAuthData ? PageLoader : Authentication}
+      />
+      <Route path="/reset-password" component={ResetPassword} />
+      <Route path="/confirmation" component={Confirmation} />
+      <ProtectedRoutes isAllowed={user !== null}>
+        <Route path="/landing" component={Landing} />
+        <Route path="/study" component={Study} />
+        <Route path="/give-classes" component={GiveClasses} />
+        <Route path="/my-profile" component={MyProfile} />
+      </ProtectedRoutes>
+    </>
   );
 }

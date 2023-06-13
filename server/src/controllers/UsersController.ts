@@ -7,6 +7,7 @@ import { ClassSchedule } from '@dtos/ClassSchedule';
 import { User } from '@dtos/User';
 import { storageProvider } from '@providers/StorageProvider';
 import { convertHourToMinutes } from '@utils/convertHoursToMinutes';
+import { getAvatarUrl } from '@utils/getAvatarUrl';
 
 type ClassScheduleRequestBodyDTO = Pick<ClassSchedule, 'week_day'> & {
   id: number | null;
@@ -54,9 +55,7 @@ export class UsersController {
 
     let { avatar } = result[0];
 
-    if (avatar !== null) {
-      avatar = `${process.env.API_URL}/avatar/${avatar}`;
-    }
+    avatar = getAvatarUrl(avatar);
 
     const user = {
       ...result[0],
@@ -127,11 +126,13 @@ export class UsersController {
       const isThereAClass = myPreviousClass !== undefined;
 
       if (isThereAClass === false) {
-        const insertedClassesIds = await trx('classes').insert({
-          subject_id,
-          cost,
-          user_id,
-        });
+        const insertedClassesIds = await trx('classes')
+          .insert({
+            subject_id,
+            cost,
+            user_id,
+          })
+          .returning('id');
 
         // eslint-disable-next-line prefer-destructuring
         class_id = insertedClassesIds[0];

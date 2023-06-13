@@ -75,7 +75,7 @@ export function Landing() {
               <span className="do-next">O que deseja fazer?</span>
             </div>
             <span className="total-connections">
-              Total de {totalConnections} conexões
+              Total de {totalConnections} {totalConnections !== 1 ? 'conexões' : 'conexão'}
               <br />
               já realizadas
               <img src={purpleHeartIcon} alt="Coração Roxo" />

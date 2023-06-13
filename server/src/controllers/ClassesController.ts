@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import { db } from '@database/connection';
 import { convertHourToMinutes } from '@utils/convertHoursToMinutes';
+import { getAvatarUrl } from '@utils/getAvatarUrl';
 
 interface QueryUserClass {
   user_id: number;
@@ -72,7 +73,7 @@ function getUserClassBaseQuery({
     .whereExists(function sample() {
       this.select('cs.*')
         .from('class_schedule as cs')
-        .whereRaw('`cs`.`class_id` = `c`.`id`')
+        .whereRaw('cs.class_id = c.id')
         .modify((queryBuilder) => {
           if (week_day !== undefined) {
             queryBuilder.where('cs.week_day', '=', Number(week_day));
@@ -89,7 +90,8 @@ function getUserClassBaseQuery({
       if (subject_id !== undefined) {
         queryBuilder.where('c.subject_id', '=', subject_id);
       }
-    });
+    })
+    .groupBy('u.id', 'c.id', 's.id');
 }
 
 export class ClassesControler {
@@ -119,7 +121,12 @@ export class ClassesControler {
       timeInMinutes,
     });
 
-    const [{ total }] = await countUserClassQuery.count('c.id as total');
+    const result = await countUserClassQuery.count('c.id as total');
+
+    let total = 0;
+    if (result.length > 0) {
+      total = Number(result[0].total);
+    }
 
     const fullUserClassQuery = getUserClassBaseQuery({
       subject_id,
@@ -147,10 +154,7 @@ export class ClassesControler {
         first_name: lesson.first_name,
         last_name: lesson.last_name,
         bio: lesson.bio,
-        avatar_url:
-          lesson.avatar !== null
-            ? `${process.env.API_URL}/avatar/${lesson.avatar}`
-            : null,
+        avatar_url: getAvatarUrl(lesson.avatar),
         whatsapp: lesson.whatsapp,
         subject: {
           name: lesson.subject_name,

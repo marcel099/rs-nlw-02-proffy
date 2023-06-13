@@ -23,10 +23,12 @@ import { UserAvatar } from '@components/UserAvatar';
 import './styles.css';
 
 export function MyProfile() {
-  const { fetchUser, user } = useAuth();
+  const { fetchUser, user, isFetchingAuthData } = useAuth();
   const history = useHistory();
 
   const [userAvatarFile, setUserAvatarFile] = useState<File | null>(null);
+  const [avatarUrl, setAvatarUrl] =
+    useState<string | null>(user?.avatar ?? null);
 
   const [firstName, setFirstName] = useState(user?.firstName ?? '');
   const [lastName, setLastName] = useState(user?.lastName ?? '');
@@ -40,6 +42,8 @@ export function MyProfile() {
 
   const [classSchedules, setClassSchedules] = useState<ClassSchedule[]>([]);
 
+  const [isSubmitting, setisSubmitting] = useState(false);
+
   let myProfileDesktopImg: string;
 
   if (window.matchMedia('(min-width: 700px)').matches) {
@@ -48,14 +52,20 @@ export function MyProfile() {
     myProfileDesktopImg = myProfileMobileBackgroundImg;
   }
 
-  function handleUserAvatarChange(file: File | null) {
+  function handleUserAvatarChange(
+    file: File | null,
+    fileUrl: string | null
+  ) {
     setUserAvatarFile(file);
+    setAvatarUrl(fileUrl);
   }
 
   async function handleEditUser(e: FormEvent) {
     e.preventDefault();
 
     try {
+      setisSubmitting(true);
+
       const parsedClassSchedules = classSchedules.map((classSchedule) => {
         const parsedClassSchedule: NotSavedClassSchedule =
           { ...classSchedule };
@@ -104,6 +114,8 @@ export function MyProfile() {
         nextUri: '/study',
       });
     } catch (error: unknown) {
+      setisSubmitting(false);
+
       if (isTokenExpiredError(error)) {
         return;
       }
@@ -113,19 +125,21 @@ export function MyProfile() {
   }
 
   useEffect(() => {
-    fetchUserClasses()
-      .then((data) => {
-        setClassSchedules(data.classSchedules);
-        setSubjectId(data.subjectId);
-        setCost(data.cost);
-      }).catch((error) => {
-        if (isTokenExpiredError(error)) {
-          return;
-        }
+    if (isFetchingAuthData === false) {
+      fetchUserClasses()
+        .then((data) => {
+          setClassSchedules(data.classSchedules);
+          setSubjectId(data.subjectId);
+          setCost(data.cost);
+        }).catch((error) => {
+          if (isTokenExpiredError(error)) {
+            return;
+          }
 
-        toast.error('Erro ao buscar dados das aulas do usuário');
-      });
-  }, []);
+          toast.error('Erro ao buscar dados das aulas do usuário');
+        });
+    }
+  }, [isFetchingAuthData]);
 
   return (
     <div id="page-my-profile" className="page-container">
@@ -141,7 +155,7 @@ export function MyProfile() {
         }}
       >
         <UserAvatar
-          avatar={user?.avatar ?? null}
+          avatar={avatarUrl}
           size="lg"
           containButton
           onUserAvatarButtonPress={handleUserAvatarChange}
@@ -153,7 +167,10 @@ export function MyProfile() {
           {subjects.find((subject) => subjectId === subject.id)?.name ?? 'Matéria não definida'}
         </span>
       </PageHeader>
-      <FormContainer handleSubmit={handleEditUser}>
+      <FormContainer
+        handleSubmit={handleEditUser}
+        isSubmitting={isSubmitting}
+      >
         <fieldset>
           <legend>Seus dados</legend>
 

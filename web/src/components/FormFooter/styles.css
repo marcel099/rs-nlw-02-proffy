@@ -32,10 +32,6 @@
   color: var(--color-primary);
 }
 
-.form-footer button:hover {
-  background: var(--color-secundary-dark);
-}
-
 @media (min-width: 700px) {
   .form-footer {
     display: flex;
