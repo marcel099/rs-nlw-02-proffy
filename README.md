@@ -1,12 +1,13 @@
 <h1 align="center">
   <img alt="Banner Proffy" title="#BannerProffy" src="./assets/screenshots/banner.png" />
+</h1>
 <!-- <p align="center">:green_book: Plataforma de estudos online conectando alunos e professores </p> -->
 
-<h4 style="text-align: center"> 
+<h4 align="center"> 
 	Next Level Week #02 v2 🚀
 </h4>
 
-<div style="display: flex; justify-content: center">
+<div align="center">
   <img src="https://img.shields.io/badge/languages-3-blue.svg">
   <img src="https://img.shields.io/github/last-commit/Marcel099/proffy.svg">
   <img src="https://img.shields.io/github/issues/Marcel099/proffy.svg">
@@ -29,13 +30,14 @@
 
 ## Sobre o projeto
 
-A finalidade da plataforma Proffy é conectar alunos e professores. Para fazer uso da plataforma, primeiro é preciso se cadastrar e, em seguida, realizar login.
+O sistema Proffy é uma plataforma de estudos online com a finalidade de conectar alunos e professores. Para fazer uso da plataforma, primeiro é preciso se cadastrar e, em seguida, realizar login.
 
 <div
+  align="center"
   style="
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 1rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
     margin-bottom: 1rem;
   "
 >
@@ -45,10 +47,9 @@ A finalidade da plataforma Proffy é conectar alunos e professores. Para fazer u
 
 Após entrar, alunos podem consultar uma lista de professores professores cadastrados e entrar em contato com um professor através do WhatsApp. No aplicativo, o aluno também pode favoritar professores para encontrá-los mais rapidamente quando desejado.
 <div
+  align="center"
   style="
     display: flex;
-    /* display: grid;
-    grid-template-columns: 3fr 1fr; */
     gap: 1rem;
     justify-content: center;
     margin-bottom: 1rem;
@@ -61,6 +62,7 @@ Após entrar, alunos podem consultar uma lista de professores professores cadast
 Por sua vez, professores podem personalizar seu perfil com informações referentes à disciplina que leciona, sua biografia, seus horários disponíveiees para aula e seu custo de hora por aula.
 
 <div
+  align="center"
   style="
     display: flex;
     gap: 1rem;
