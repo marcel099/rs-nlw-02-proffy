@@ -24,7 +24,7 @@ import { UserAvatar } from '@components/UserAvatar';
 import './styles.css';
 
 export function GiveClasses() {
-  const { fetchUser, user } = useAuth();
+  const { fetchUser, user, isFetchingAuthData } = useAuth();
   const history = useHistory();
 
   const firstName = user?.firstName ?? '';
@@ -86,19 +86,21 @@ export function GiveClasses() {
   }
 
   useEffect(() => {
-    fetchUserClasses()
-      .then((data) => {
-        setClassSchedules(data.classSchedules);
-        setSubjectId(data.subjectId);
-        setCost(data.cost);
-      }).catch((error) => {
-        if (isTokenExpiredError(error)) {
-          return;
-        }
+    if (isFetchingAuthData === false) {
+      fetchUserClasses()
+        .then((data) => {
+          setClassSchedules(data.classSchedules);
+          setSubjectId(data.subjectId);
+          setCost(data.cost);
+        }).catch((error) => {
+          if (isTokenExpiredError(error)) {
+            return;
+          }
 
-        toast.error('Erro ao buscar dados das aulas do usuário');
-      });
-  }, []);
+          toast.error('Erro ao buscar dados das aulas do usuário');
+        });
+    }
+  }, [isFetchingAuthData]);
 
   return (
     <div id="page-teacher-form" className="page-container">

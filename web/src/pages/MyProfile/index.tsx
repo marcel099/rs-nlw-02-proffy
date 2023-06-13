@@ -23,7 +23,7 @@ import { UserAvatar } from '@components/UserAvatar';
 import './styles.css';
 
 export function MyProfile() {
-  const { fetchUser, user } = useAuth();
+  const { fetchUser, user, isFetchingAuthData } = useAuth();
   const history = useHistory();
 
   const [userAvatarFile, setUserAvatarFile] = useState<File | null>(null);
@@ -113,19 +113,21 @@ export function MyProfile() {
   }
 
   useEffect(() => {
-    fetchUserClasses()
-      .then((data) => {
-        setClassSchedules(data.classSchedules);
-        setSubjectId(data.subjectId);
-        setCost(data.cost);
-      }).catch((error) => {
-        if (isTokenExpiredError(error)) {
-          return;
-        }
+    if (isFetchingAuthData === false) {
+      fetchUserClasses()
+        .then((data) => {
+          setClassSchedules(data.classSchedules);
+          setSubjectId(data.subjectId);
+          setCost(data.cost);
+        }).catch((error) => {
+          if (isTokenExpiredError(error)) {
+            return;
+          }
 
-        toast.error('Erro ao buscar dados das aulas do usuário');
-      });
-  }, []);
+          toast.error('Erro ao buscar dados das aulas do usuário');
+        });
+    }
+  }, [isFetchingAuthData]);
 
   return (
     <div id="page-my-profile" className="page-container">
