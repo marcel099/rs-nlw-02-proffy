@@ -12,7 +12,9 @@ import routes from './routes';
 const app = express();
 
 app.use(express.json());
-app.use('/avatar', express.static(join(uploadConfig.tmpFolder, 'avatar')));
+if (process.env.DISK === 'local') {
+  app.use('/avatar', express.static(join(uploadConfig.tmpFolder, 'avatar')));
+}
 
 app.use(cors());
 

@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 
 import { db } from '@database/connection';
 import { convertHourToMinutes } from '@utils/convertHoursToMinutes';
+import { getAvatarUrl } from '@utils/getAvatarUrl';
 
 interface QueryUserClass {
   user_id: number;
@@ -153,10 +154,7 @@ export class ClassesControler {
         first_name: lesson.first_name,
         last_name: lesson.last_name,
         bio: lesson.bio,
-        avatar_url:
-          lesson.avatar !== null
-            ? `${process.env.API_URL}/avatar/${lesson.avatar}`
-            : null,
+        avatar_url: getAvatarUrl(lesson.avatar),
         whatsapp: lesson.whatsapp,
         subject: {
           name: lesson.subject_name,
