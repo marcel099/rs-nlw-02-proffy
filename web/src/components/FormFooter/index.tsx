@@ -4,7 +4,11 @@ import { ConfirmationButton } from '@components/ConfirmationButton';
 
 import './styles.css';
 
-export function FormFooter() {
+interface FormFooterProps {
+  isSubmitting: boolean;
+}
+
+export function FormFooter({ isSubmitting }: FormFooterProps) {
   return (
     <footer className="form-footer">
       <div>
@@ -16,7 +20,8 @@ export function FormFooter() {
       </div>
       <ConfirmationButton
         type="submit"
-        title="Salvar cadastro"
+        title={isSubmitting ? '...' : 'Salvar cadastro'}
+        disabled={isSubmitting}
       />
     </footer>
   );

@@ -39,10 +39,14 @@ export function GiveClasses() {
 
   const [classSchedules, setClassSchedules] = useState<ClassSchedule[]>([]);
 
+  const [isSubmitting, setisSubmitting] = useState(false);
+
   async function handleEditUser(e: FormEvent) {
     e.preventDefault();
 
     try {
+      setisSubmitting(true);
+
       const parsedClassSchedules = classSchedules.map((classSchedule) => {
         const parsedClassSchedule: NotSavedClassSchedule =
           { ...classSchedule };
@@ -77,6 +81,8 @@ export function GiveClasses() {
         nextUri: '/study',
       });
     } catch (error) {
+      setisSubmitting(false);
+
       if (isTokenExpiredError(error)) {
         return;
       }
@@ -121,7 +127,10 @@ export function GiveClasses() {
         </div>
       </PageHeader>
 
-      <FormContainer handleSubmit={handleEditUser}>
+      <FormContainer
+        handleSubmit={handleEditUser}
+        isSubmitting={isSubmitting}
+      >
         <fieldset>
           <legend>Seus dados</legend>
 
