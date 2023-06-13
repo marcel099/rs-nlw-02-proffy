@@ -33,10 +33,6 @@
   background: var(--color-primary);
 }
 
-#page-landing-content .down-container {
-  background: var(--color-background);
-}
-
 #page-landing-content .upper-content {
   justify-self: center;
   align-self: flex-end;
