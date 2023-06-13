@@ -27,6 +27,8 @@ export function MyProfile() {
   const history = useHistory();
 
   const [userAvatarFile, setUserAvatarFile] = useState<File | null>(null);
+  const [avatarUrl, setAvatarUrl] =
+    useState<string | null>(user?.avatar ?? null);
 
   const [firstName, setFirstName] = useState(user?.firstName ?? '');
   const [lastName, setLastName] = useState(user?.lastName ?? '');
@@ -48,8 +50,12 @@ export function MyProfile() {
     myProfileDesktopImg = myProfileMobileBackgroundImg;
   }
 
-  function handleUserAvatarChange(file: File | null) {
+  function handleUserAvatarChange(
+    file: File | null,
+    fileUrl: string | null
+  ) {
     setUserAvatarFile(file);
+    setAvatarUrl(fileUrl);
   }
 
   async function handleEditUser(e: FormEvent) {
@@ -143,7 +149,7 @@ export function MyProfile() {
         }}
       >
         <UserAvatar
-          avatar={user?.avatar ?? null}
+          avatar={avatarUrl}
           size="lg"
           containButton
           onUserAvatarButtonPress={handleUserAvatarChange}
