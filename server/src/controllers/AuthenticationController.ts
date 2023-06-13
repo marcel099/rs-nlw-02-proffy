@@ -104,8 +104,10 @@ export class AuthenticationController {
       await trx.commit();
 
       return response.send();
-    } catch {
+    } catch (error) {
+      console.error(error);
       await trx.rollback();
+
       return response.status(500).json({
         message: 'Erro ao enviar e-mail de redefinição de senha',
       });
@@ -163,8 +165,8 @@ export class AuthenticationController {
 
       return response.send();
     } catch (error) {
-      await trx.rollback();
       console.error(error);
+      await trx.rollback();
 
       return response.status(500).json({
         message: 'Erro ao redefinir senha do usuário',
