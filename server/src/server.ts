@@ -1,13 +1,24 @@
-import express from 'express';
+import 'dotenv/config';
 import cors from 'cors';
+import express from 'express';
+import 'express-async-errors';
+import { join } from 'path';
+
+import { uploadConfig } from '@config/upload';
+import { handleAppError } from '@errors/handleAppError';
+
 import routes from './routes';
 
 const app = express();
 
 app.use(express.json());
-app.use(cors());    // Permite que aplicações que não estiverem no DNS do front-end possam acessar a API
+if (process.env.DISK === 'local') {
+  app.use('/avatar', express.static(join(uploadConfig.tmpFolder, 'avatar')));
+}
+
+app.use(cors());
+
 app.use(routes);
+app.use(handleAppError);
 
-app.listen(3333);
-
-
+app.listen(process.env.PORT || 3333, () => console.log('Server is running'));

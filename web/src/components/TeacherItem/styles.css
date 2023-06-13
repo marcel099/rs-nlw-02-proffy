@@ -6,99 +6,224 @@
   overflow: hidden;
 }
 
-.teacher-item header {
-  padding: 3.2rem 2rem;
+.teacher-item > header {
   display: flex;
   align-items: center;
+
+  padding: 2.4rem;
 }
 
-.teacher-item header img {
-  width: 8rem;
-  height: 8rem;
-  border-radius: 50%;
-}
-
-.teacher-item header div {
+.teacher-item > header .profile-info {
   margin-left: 2.4rem;
 }
 
-.teacher-item header div strong {
-  font: 700 2.4rem Archivo;
+.teacher-item > header .profile-info strong {
+  font: 700 2.4rem Archivo, sans-serif;
   display: block;
   color: var(--color-text-title);
 }
 
-.teacher-item header div strong {
+.teacher-item > header .profile-info strong {
   font-size: 1.6rem;
   display: block;
   margin-top: 0.4rem;
 }
 
-.teacher-item > p {
-  padding: 0 2rem;
+.teacher-item > .bio {
+  padding: 0 2.4rem;
   font-size: 1.6rem;
   line-height: 2.8rem;
 }
 
-.teacher-item footer {
-  padding: 3.2rem 2rem;
-  background: var(--color-box-footer);
-  border-top: 1px solid var(--color-line-in-white);
-  margin-top: 3.2rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.teacher-item .class-schedules-container {
+  display: grid;
+  row-gap: 0.8rem;
+
+  margin-block: 2.4rem;
+  margin-inline: 2.4rem;
 }
 
-.teacher-item footer p strong {
+.teacher-item .class-schedules-container > .class-schedule-header {
+  display: flex;
+  justify-content: space-between;
+  padding-inline: 1.6rem;
+}
+
+.teacher-item .class-schedules-container > .class-schedule-header p {
+  font: 400 1.2rem Poppins, sans-serif;
+  color: var(--color-text-complement);
+  line-height: 1.5rem;
+}
+
+.teacher-item .class-schedule-item {
+  display: flex;
+  justify-content: space-between;
+
+  background-color: var(--color-box-footer);
+
+  padding: 1.6rem;
+  border: 1px solid var(--color-line-in-white);
+  border-radius: 0.8rem;
+}
+
+.teacher-item .class-schedule-item.nonexistent-class-schedule-item {
+  opacity: 0.5;
+}
+
+.teacher-item .class-schedule-info-header {
+  display: none;
+}
+
+.teacher-item .class-schedule-info-header:not(:first-child) {
+  margin-top: 1.2rem;
+}
+
+.teacher-item .class-schedule-info {
+  font: 700 1.6rem Archivo, sans-serif;
+  color: var(--color-text-base);
+  line-height: 2.6rem;
+}
+
+.teacher-item > footer {
+  display: flex;
+  align-items: stretch;
+  flex-direction: column;
+
+  background: var(--color-box-footer);
+
+  padding: 2.4rem;
+  border-top: 1px solid var(--color-line-in-white);
+}
+
+.teacher-item > footer > div {
+  display: flex;
+  justify-content: space-between;
+
+  margin-bottom: 2.4rem;
+}
+
+.teacher-item > footer strong {
   color: var(--color-primary);
   font-size: 1.6rem;
   display: block;
 }
 
-.teacher-item footer a {
-  width: 20rem;
-  height: 5.6rem;
-  background: var(--color-secundary);
-  color: var(--color-button-text);
-  border: 0;
-  border-radius: 0.8rem;
-  cursor: pointer;
-  font: 700 1.4rem Archivo;
+.teacher-item > footer a {
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
-  text-decoration: none;
+  justify-content: center;
 
+  background: var(--color-secundary);
+
+  width: 100%;
+  height: 5.6rem;
+  border: 0;
+  border-radius: 0.8rem;
+  
+  font: 600 1.6rem Archivo, sans-serif;
+  color: var(--color-button-text);
+  text-decoration: none;
+  
+  cursor: pointer;
   transition: background 0.2s;
 }
 
-.teacher-item footer a:hover {
+.teacher-item > footer a:hover {
   background: var(--color-secundary-dark);  
 }
 
-@media (min-width: 700px) {
-  .teacher-item header,
-  .teacher-item footer {
-    padding: 3.2rem;
+.teacher-item > footer a img {
+  margin-right: 1.6rem;
+}
+
+@media (min-width: 500px) {
+  .teacher-item > header,
+  .teacher-item > footer {
+    padding: 2.8rem;
   }
 
-  .teacher-item > p {
-    padding: 0 3.2rem;
+  .teacher-item > .bio {
+    padding: 0 2.8rem;
   }
 
-  .teacher-item footer p strong {
-    display: initial;
+  .teacher-item .class-schedules-container {
+    margin-block: 2.8rem;
+    margin-inline: 2.8rem;
+  }
+
+  .teacher-item > footer {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 2.8rem;
+  }
+
+  .teacher-item > footer > div {
+    margin-bottom: unset;
+  }
+
+  .teacher-item > footer strong {
     margin-left: 1.6rem;
   }
 
-  .teacher-item footer button {
+  .teacher-item > footer a {
+    width: 20rem;
+
+    font-size: 1.4rem;
+    font-weight: 600;
+  }
+}
+
+@media (min-width: 700px) {
+  .teacher-item > header,
+  .teacher-item > footer {
+    padding: 3.2rem;
+  }
+
+  .teacher-item > .bio {
+    padding: 0 3.2rem;
+  }
+
+  .teacher-item .class-schedules-container > .class-schedule-header {
+    display: none;
+  }
+
+  .teacher-item .class-schedules-container {
+    grid-template-columns: repeat(5, 1fr);
+    column-gap: 1.6rem;
+
+    margin-block: 3.2rem;
+    margin-inline: 3.2rem;
+  }
+
+  .teacher-item .class-schedule-item {
+    display: inline-block;
+  }
+
+  .teacher-item .class-schedule-info-header {
+    display: inline-block;
+
+    font: 400 1.2rem Poppins, sans-serif;
+    color: var(--color-text-complement);
+    line-height: 2rem;
+  }
+
+  .teacher-item > footer {
+    padding: 3.2rem;
+  }
+
+  .teacher-item > footer strong {
+    display: initial;
+  }
+
+  .teacher-item > footer button {
     width: 24.5rem;
     font-size: 1.6rem;
     justify-content: center;
   }
 
-  .teacher-item footer button img {
+  .teacher-item > footer a img {
     margin-right: 1.6rem;
   }
 }

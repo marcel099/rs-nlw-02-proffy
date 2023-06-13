@@ -1,0 +1,74 @@
+.inner-label-input-block {
+  position: relative;
+  height: 5.6rem;
+}
+
+.inner-label-input-block input {
+  width: 100%;
+  height: 100%;
+
+  background: var(--color-input-background);
+  
+  padding: 1.6rem 1.6rem 0 1.6rem;
+  border: 1px solid var(--color-line-in-white);
+
+  outline: 0;
+  font: 1.6rem Archivo, sans-serif;
+}
+
+.inner-label-input-block:first-child input {
+  border-top-left-radius: 0.8rem;
+  border-top-right-radius: 0.8rem;
+}
+
+.inner-label-input-block:last-child input {
+  border-bottom-left-radius: 0.8rem;
+  border-bottom-right-radius: 0.8rem;
+}
+
+.inner-label-input-block label {
+  position: absolute;
+  top: 1.6rem;
+
+  color: var(--color-text-complement);
+  font-size: 1.6rem;
+  left: 1.6rem;
+
+  transition: all 0.2s;
+}
+
+.inner-label-input-block:focus-within label,
+.inner-label-input-block.filled label {
+  color: var(--color-text-complement-blur);
+  font-size: 1.3rem;
+  top: 0.8rem;
+}
+
+.inner-label-input-block:focus-within::before {
+  width: 2px;
+  height: 4rem;
+
+  content: '';
+  background: var(--color-primary-light);
+
+  position: absolute;
+  top: 0.8rem;
+  left: 0;
+  /* left: 1.6rem;
+  right: 1.6rem; */
+  /* bottom: 0; */
+}
+
+.inner-label-input-block .toggle-visibility-button {
+  background: transparent;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+
+  height: 2.4rem;
+  width: 2.4rem;
+
+  position: absolute;
+  right: 1.6rem;
+  top: 1.6rem;
+}

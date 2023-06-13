@@ -1,72 +1,89 @@
-import React, { useState } from 'react';
-import { View, Image, Text, Linking } from 'react-native';
-import { RectButton } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useState } from 'react';
+import {
+  View, Image, Text, Linking,
+} from 'react-native';
+import { RectButton } from 'react-native-gesture-handler';
 
-import api from '../../services/api';
+import heartOutlineIcon from '@assets/images/icons/heart-outline.png';
+import unfavoriteIcon from '@assets/images/icons/unfavorite.png';
+import whatsappIcon from '@assets/images/icons/whatsapp.png';
 
-import heartOutlineIcon from '../../assets/images/icons/heart-outline.png';
-import unfavoriteIcon from '../../assets/images/icons/unfavorite.png';
-import whatsappIcon from '../../assets/images/icons/whatsapp.png';
+import { FAVORITE_TEACHERS } from '@configs/storage';
+import { Teacher } from '@dtos/Teacher';
+import api from '@services/api';
+import { formatNumberToCurrency } from '@utils/formatters';
+import { loadFavoriteTeachers } from '@utils/loaders';
+import { parseWeekDayValueToName } from '@utils/mappers';
 
-import styles from './styles';
+import { styles } from './styles';
 
-export interface TeacherItemProps {
-  id: number,
-  user_id: number,
-  name: string,
-  subject: string,
-  bio: string,
-  avatar: string,
-  cost: number,
-  whatsapp: string,
-  favorited: boolean,
+interface TeacherItemProps extends Teacher {
+  favorited: boolean;
+  onRemoveFavorite?: (user_id: number) => void;
 }
 
-const TeacherItem: React.FC<TeacherItemProps> = ({ id, user_id, avatar, name, subject, bio, cost, whatsapp, favorited }) => {
-  const [ isFavorited, setIsFavorited ] = useState(favorited)
+export function TeacherItem({
+  user_id,
+  first_name,
+  last_name,
+  avatar_url,
+  bio,
+  whatsapp,
+  subject,
+  lesson,
+  class_schedules,
+  favorited,
+  onRemoveFavorite,
+}: TeacherItemProps) {
+  const [isFavoriteTeacher, setIsFavoriteTeacher] = useState(favorited);
 
   function handleLinkToWhatsapp() {
     api.post('connections', {
-      user_id
-    })
+      user_id,
+    });
 
-    Linking.openURL(`whatsapp://send?phone=${whatsapp}`)
+    Linking.openURL(`whatsapp://send?phone=${whatsapp}`);
   }
 
   async function handleToggleFavorite() {
-    const favorites = await AsyncStorage.getItem('favorites');
+    const favoriteTeachers = await loadFavoriteTeachers();
 
-    let favoritesArray = [];
-    if (favorites) {
-      favoritesArray = JSON.parse(favorites);
-    }
+    if (isFavoriteTeacher) {
+      setIsFavoriteTeacher(false);
 
-    if ( isFavorited ) {
-      setIsFavorited(false)
+      const favoritedIndex = favoriteTeachers
+        .findIndex((teacher) => teacher.user_id === user_id);
 
-      const favoritedIndex = favoritesArray
-        .map((favorited: TeacherItemProps) => favorited.id)
-        .find( (favoritedId: number) => favoritedId === user_id)
+      if (favoritedIndex !== undefined) {
+        favoriteTeachers.splice(favoritedIndex, 1);
+      }
 
-      favoritesArray.splice(favoritedIndex, 1)
+      if (onRemoveFavorite !== undefined) {
+        onRemoveFavorite(user_id);
+      }
     } else {
-      setIsFavorited(true)
+      setIsFavoriteTeacher(true);
 
-      favoritesArray.push({
-        id,
+      const newTeacher: Teacher = {
         user_id,
-        avatar,
-        name,
+        avatar_url,
+        first_name,
+        last_name,
         subject,
+        lesson,
         bio,
-        cost,
         whatsapp,
-        favorited,
-      })
+        class_schedules,
+      };
+
+      favoriteTeachers.push(newTeacher);
     }
-    
-    await AsyncStorage.setItem('favorites', JSON.stringify(favoritesArray))
+
+    await AsyncStorage.setItem(
+      FAVORITE_TEACHERS,
+      JSON.stringify(favoriteTeachers)
+    );
   }
 
   return (
@@ -74,45 +91,92 @@ const TeacherItem: React.FC<TeacherItemProps> = ({ id, user_id, avatar, name, su
       <View style={styles.profile}>
         <Image
           style={styles.avatar}
-          source={{ uri: avatar }}
+          source={{ uri: avatar_url }}
         />
         <View style={styles.profileInfo}>
-          <Text style={styles.name}>{name}</Text>
-          <Text style={styles.subject}>{subject}</Text>
+          <Text style={styles.name}>{`${first_name} ${last_name}`}</Text>
+          <Text style={styles.subject}>{subject.name}</Text>
         </View>
       </View>
 
       <Text style={styles.bio}>
         {bio}
       </Text>
-      
+
+      <View style={styles.classSchedulesContainer}>
+        <View style={styles.classScheduleHeader}>
+          <Text style={styles.classScheduleInfoHeader}>Dia</Text>
+          <Text style={styles.classScheduleInfoHeader}>Horário</Text>
+        </View>
+        {[1, 2, 3, 4, 5].map((value) => {
+          const filteredClassSchedules = class_schedules.filter(
+            (item) => item.week_day === value
+          );
+
+          const noClassOnWeekDay = filteredClassSchedules.length === 0;
+
+          return (
+            <View
+              key={value}
+              style={[
+                styles.classSchedule,
+                noClassOnWeekDay && styles.nonexistentClassSchedule,
+              ]}
+            >
+              <Text style={styles.classScheduleInfo}>
+                {parseWeekDayValueToName(value)}
+              </Text>
+              {noClassOnWeekDay ? (
+                <Text style={styles.classScheduleInfo}>-</Text>
+              ) : (
+                <View>
+                  {filteredClassSchedules.map((classSchedule) => (
+                    <Text
+                      key={classSchedule.id}
+                      style={styles.classScheduleInfo}
+                    >
+                      {classSchedule?.from ?? ''} - {classSchedule?.to ?? ''}
+                    </Text>
+                  ))}
+                </View>
+              )}
+            </View>
+          );
+        })}
+      </View>
+
       <View style={styles.footer}>
-        <Text style={styles.price}>
-          Preço/hora {'   '}
-          <Text style={styles.priceValue}>R$ {cost}</Text>
-        </Text>
+        <View style={styles.priceContainer}>
+          <Text style={styles.priceMessage}>
+            Preço da minha hora:
+          </Text>
+          <Text style={styles.priceValue}>
+            {formatNumberToCurrency(lesson.cost)}
+          </Text>
+        </View>
 
         <View style={styles.buttonsContainer}>
           <RectButton
             onPress={handleToggleFavorite}
             style={[
               styles.favoriteButton,
-              isFavorited ? styles.favorited : {},
+              isFavoriteTeacher ? styles.favorited : {},
             ]}
           >
-            { isFavorited
-              ? <Image source={unfavoriteIcon}/>
+            { isFavoriteTeacher
+              ? <Image source={unfavoriteIcon} />
               : <Image source={heartOutlineIcon} /> }
           </RectButton>
 
-          <RectButton onPress={handleLinkToWhatsapp} style={styles.contactButton}>
+          <RectButton
+            onPress={handleLinkToWhatsapp}
+            style={styles.contactButton}
+          >
             <Image source={whatsappIcon} />
             <Text style={styles.contactButtonText}>Entrar em contato</Text>
           </RectButton>
         </View>
       </View>
     </View>
-  )
+  );
 }
-
-export default TeacherItem;

@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 
-import db from './../database/connection';
+import { db } from '@database/connection';
 
-export default class ConnectionsControler {
+export class ConnectionsControler {
   async index(request: Request, response: Response) {
     const totalConnections = await db('connections').count('* as total');
 
@@ -16,7 +16,7 @@ export default class ConnectionsControler {
 
     await db('connections').insert({
       user_id,
-    })
+    });
 
     return response.status(201).json();
   }

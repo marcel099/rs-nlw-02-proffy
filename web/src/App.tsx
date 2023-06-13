@@ -1,12 +1,21 @@
-import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 
-import Routes from './routes';
-import './assets/styles/global.css';
+import { AuthContextProvider } from '@contexts/AuthContext';
+import { Routes } from '@routes/index.routes';
 
-function App() {
+import './shared/styles/global.css';
+
+import { HotToastContainer } from '@components/HotToastContainer';
+
+export function App() {
   return (
-    <Routes />
+    <>
+      <HotToastContainer />
+      <AuthContextProvider>
+        <BrowserRouter>
+          <Routes />
+        </BrowserRouter>
+      </AuthContextProvider>
+    </>
   );
 }
-
-export default App;

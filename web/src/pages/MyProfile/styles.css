@@ -1,0 +1,57 @@
+#page-my-profile .header-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  padding-top: 4rem;
+  padding-bottom: 8rem;
+}
+
+#page-my-profile .user-name {
+  color: var(--color-title-in-primary);
+  font: 700 2.4rem Archivo, sans-serif;
+  line-height: 2.5rem;
+
+  margin-top: 2.4rem;
+}
+
+#page-my-profile .user-subject-name {
+  color: var(--color-text-in-primary);
+  font: 400 1.6rem Poppins, sans-serif;
+  line-height: 2.6rem;
+
+  margin-top: 0.4rem;
+  /* margin-bottom: 4rem; */
+}
+
+@media (min-width: 700px) {
+  #page-my-profile .header-content {
+    padding-bottom: 12.8rem;
+  }
+
+  #page-my-profile .user-name {
+    font-size: 3.6rem;
+
+    margin-top: 3.2rem;
+  }
+
+  #page-my-profile .user-subject-name {
+    font-size: 2.4rem;
+
+    margin-top: 1.6rem;
+    margin-bottom: initial;
+  }
+
+  #page-my-profile fieldset .name-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 3.2rem;
+  }
+
+  #page-my-profile fieldset .contact-section {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    column-gap: 3.2rem;
+  }
+}
