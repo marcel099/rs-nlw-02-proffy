@@ -111,7 +111,7 @@ export function Study() {
               iconUrl={nerdFaceIcon}
               iconAlt="Foguete"
             >
-              Nós temos<br />{teachersTotal} proffys.
+              Nós temos<br />{teachersTotal} proffy{teachersTotal !== 1 ? 's' : ''}.
             </EncouragementMessage>
           </div>
         </div>
