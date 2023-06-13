@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img alt="Banner Proffy" title="#BannerProffy" src="./assets/screenshots/banner.png" />
+  <img alt="Interface inicial da plataforma Proffy" title="#BannerProffy" src="./assets/screenshots/banner.png" />
 </h1>
 <!-- <p align="center">:green_book: Plataforma de estudos online conectando alunos e professores </p> -->
 
@@ -41,8 +41,8 @@ O sistema Proffy é uma plataforma de estudos online com a finalidade de conecta
     margin-bottom: 1rem;
   "
 >
-  <img alt="Banner Proffy" style="height: 15rem" src="./assets/screenshots/sign_in_web.png" />
-  <img alt="Banner Proffy" style="height: 15rem" src="./assets/screenshots/sign_up_web.png" />
+  <img alt="Interface de login no aplicativo" style="height: 15rem" src="./assets/screenshots/sign_in_mobile.png" />
+  <img alt="Interface de cadastro de usuário no site" style="height: 15rem" src="./assets/screenshots/sign_up_web.png" />
 </div>
 
 Após entrar, alunos podem consultar uma lista de professores professores cadastrados e entrar em contato com um professor através do WhatsApp. No aplicativo, o aluno também pode favoritar professores para encontrá-los mais rapidamente quando desejado.
@@ -55,8 +55,8 @@ Após entrar, alunos podem consultar uma lista de professores professores cadast
     margin-bottom: 1rem;
   "
 >
-  <img alt="Banner Proffy" style="height: 15rem" src="./assets/screenshots/study_mobile.png" />
-  <img alt="Banner Proffy" style="height: 15rem" src="./assets/screenshots/study_web.png" />
+  <img alt="Interface Estudar no site" style="height: 15rem" src="./assets/screenshots/study_web.png" />
+  <img alt="Interface Estudar no aplicativo" style="height: 15rem" src="./assets/screenshots/study_mobile.png" />
 </div>
 
 Por sua vez, professores podem personalizar seu perfil com informações referentes à disciplina que leciona, sua biografia, seus horários disponíveiees para aula e seu custo de hora por aula.
@@ -70,8 +70,8 @@ Por sua vez, professores podem personalizar seu perfil com informações referen
     margin-bottom: 1rem;
   "
 >
-  <img alt="Banner Proffy" style="height: 15rem" src="./assets/screenshots/my_profile_web.png" />
-  <img alt="Banner Proffy" style="height: 15rem" src="./assets/screenshots/give_classes_mobile.png" />
+  <img alt="Interface Dar Aulas no aplicativo" style="height: 15rem" src="./assets/screenshots/give_classes_mobile.png" />
+  <img alt="Interface Meu Perfil no site" style="height: 15rem" src="./assets/screenshots/my_profile_web.png" />
 </div>
 
 ## Como rodar na sua máquina?
