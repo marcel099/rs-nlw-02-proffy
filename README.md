@@ -27,6 +27,7 @@
   * [Back-End](#back-end)
   * [Front-End Web](#front-end-web)
   * [Front-End Mobile](#front-end-mobile)
+* [Créditos](#créditos)
 * [Licença](#licença)
 
 ## Sobre
@@ -197,6 +198,10 @@ $ npm start
 ```
 
 Após, você poderá acessar o aplicativo através do app Expo Go ao apontar a câmera do seu celular dentro desse app no QRCode que aparecerá na tela do terminal. Se não quiser utilizar outro dispositivo, o acesso pode ser feito utilizando emuladores <a href="https://developer.android.com/studio">Android</a> ou <a href="https://developer.apple.com/xcode/">iOS</a>.
+
+## Créditos
+
+Credito a elaboração do modelo do banner deste documento e do banner social ao autor desconhecido desta [postagem](https://mckups.com/pixel-4-and-pixelbook-go-mockup/) no site [Mckups](https://mckups.com). Foi adaptado por mim de acordo com as características deste projeto.
 
 ## Licença
 Este projeto está sob a licença MIT. Para maiores detalhes acesse o <a href="./LICENSE.md">arquivo de licença</a>.
