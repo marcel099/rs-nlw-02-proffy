@@ -18,19 +18,28 @@
 
 ## Índice
 
-<!--ts-->
-   * [Índice](#índice)
-   * [Sobre](#sobre-o-projeto)
-   * [Tecnologias](#principais-tecnologias-utilizadas)
-   * [Como rodar na sua máquina?](#como-rodar-na-sua-máquina)
-      * [Back-End](#back-end)
-      * [Front-End Web](#front-end-web)
-      * [Front-End Mobile](#front-end-mobile)
-   * [Comparação entre versões](#comparação-entre-versões-1-e-2-da-plataforma)
-   * [Licença](#licença)
-<!--te-->
+* [Índice](#índice)
+* [Sobre](#sobre)
+  * [Conceito do projeto](#conceito-do-projeto)
+  * [Tecnologias](#principais-tecnologias-utilizadas)
+  * [Comparação entre versões](#comparação-entre-versões-1-e-2-da-plataforma)
+* [Como rodar na sua máquina?](#como-rodar-na-sua-máquina)
+  * [Back-End](#back-end)
+  * [Front-End Web](#front-end-web)
+  * [Front-End Mobile](#front-end-mobile)
+* [Licença](#licença)
 
-## Sobre o projeto
+## Sobre
+
+A primeira versão do projeto foi desenvolvida durante a segunda edição do evento Next Level Week propiciado pela empresa Rocketseat. Baseou-se em um layout elaborado no Figma.
+
+Por sua vez, a segunda versão baseou-se em um novo layout do Figma e em um documento para descrever as novas funcionalidades. Um sumário das diferenças entre as versões pode ser conferido [abaixo](#comparação-entre-versões-1-e-2-da-plataforma).
+
+O sistema, desenvolvido em TypeScript, é composto de um servidor HTTP Node, um [site](https://proffy.marcel099.vercel.app/) em React e um aplicativo móvel em React Native.
+
+A opção por essas ferramentas foi realizada pela Rocketseat por acreditarem formar um conjunto de tecnologias poderoso ao permitir desenvolver desde o Back-End até o aplicativo móvel em uma só linguagem: o JavaScript. A escolha por TypeScript, um superset do JavaScript, foi realizada por acreditar trazer um aumento de confiabilidade de código.
+
+### Conceito do projeto
 
 O sistema Proffy é uma plataforma de estudos online com a finalidade de conectar alunos e professores. Para fazer uso da plataforma, primeiro é preciso se cadastrar e, em seguida, realizar login.
 
@@ -76,11 +85,7 @@ Por sua vez, professores podem personalizar seu perfil com informações referen
   <img alt="Interface Meu Perfil no site" style="height: 15rem" src="./assets/screenshots/my_profile_web.png" />
 </div>
 
-Se desejar explorar as rotas do servidor HTTP Node desenvolvido para essa plataforma, poderá fazer isso através do Insomnia:
-
-[![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=NLW%20%2302%20-%20Proffy&uri=https%3A%2F%2Fgithub.com%2Fmarcel099%2Frs-nlw-02-proffy%2Fblob%2Fmaster%2Fassets%2Finsomnia_collection.json)
-
-## Principais tecnologias utilizadas
+### Principais tecnologias utilizadas
 
 A plataforma foi desenvolvida em TypeScript. É composta de 3 partes:
 
@@ -104,6 +109,28 @@ Alguns pontos a destacar:
 - A hospedagem de imagens de avatar de usuário é realizada na AWS S3
 - A autenticação do usuário baseia-se em JWT
 - O envio de e-mail de recuperação de senha usa Nodemailer e Gmail
+
+Se desejar explorar as rotas do servidor HTTP Node desenvolvido para essa plataforma, poderá fazer isso através do Insomnia:
+
+[![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=NLW%20%2302%20-%20Proffy&uri=https%3A%2F%2Fgithub.com%2Fmarcel099%2Frs-nlw-02-proffy%2Fblob%2Fmaster%2Fassets%2Finsomnia_collection.json)
+
+
+### Comparação entre versões 1 e 2 da plataforma
+
+Durante o evento Next Level Week, a aplicação foi desenvolvida com estas funcionalidades:
+
+- Cadastro de uma aula, a qual contém informações da matéria e do professor que a leciona
+- Listagem de aulas com filtros
+- No aplicativo, salvar professores favoritos para facilidade de acesso
+- Contato com professores via WhatsApp
+
+A versão 2 da plataforma foi lançada como um desafio aos alunos que finalizaram o evento ao disponibilizar um novo layout do Figma que adiciona mais funcionalidades à plataforma, as quais foram:
+
+- Cadastro de usuários professores e alunos
+- Fluxo de redefinição de senha com envio de e-mail
+- Login e logout na plataforma
+- Personalização do perfil do usuário como professor, agora com possibilidade de cadastro de horários de aula
+- Listagem de aulas passou a ser de usuários professores, além de trazer paginação da lista e com cada professor da lista apresentando informações de horários disponíveis
 
 ## Como rodar na sua máquina?
 
@@ -170,23 +197,6 @@ $ npm start
 ```
 
 Após, você poderá acessar o aplicativo através do app Expo Go ao apontar a câmera do seu celular dentro desse app no QRCode que aparecerá na tela do terminal. Se não quiser utilizar outro dispositivo, o acesso pode ser feito utilizando emuladores <a href="https://developer.android.com/studio">Android</a> ou <a href="https://developer.apple.com/xcode/">iOS</a>.
-
-## Comparação entre versões 1 e 2 da plataforma
-
-Durante o evento Next Level Week, a aplicação foi desenvolvida com estas funcionalidades:
-
-- Cadastro de uma aula, a qual contém informações da matéria e do professor que a leciona
-- Listagem de aulas com filtros
-- No aplicativo, salvar professores favoritos para facilidade de acesso
-- Contato com professores via WhatsApp
-
-A versão 2 da plataforma foi lançada como um desafio aos alunos que finalizaram o evento ao disponibilizar um novo layout do Figma que adiciona mais funcionalidades à plataforma, as quais foram:
-
-- Cadastro de usuários professores e alunos
-- Fluxo de redefinição de senha com envio de e-mail
-- Login e logout na plataforma
-- Personalização do perfil do usuário como professor, agora com possibilidade de cadastro de horários de aula
-- Listagem de aulas passou a ser de usuários professores, além de trazer paginação da lista e com cada professor da lista apresentando informações de horários disponíveis
 
 ## Licença
 Este projeto está sob a licença MIT. Para maiores detalhes acesse o <a href="./LICENSE.md">arquivo de licença</a>.
