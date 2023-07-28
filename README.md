@@ -31,9 +31,9 @@
 
 ## Sobre
 
-A primeira versão do projeto foi desenvolvida durante a segunda edição do evento Next Level Week propiciado pela empresa Rocketseat. Baseou-se em um layout elaborado no Figma.
+A primeira versão do projeto foi desenvolvida durante a segunda edição do evento Next Level Week propiciado pela empresa [Rocketseat](https://rocketseat.com.br/). Baseou-se em um layout elaborado no Figma.
 
-Por sua vez, a segunda versão baseou-se em um novo layout do Figma e em um documento para descrever as novas funcionalidades. Um sumário das diferenças entre as versões pode ser conferido [abaixo](#comparação-entre-versões-1-e-2-da-plataforma).
+Por sua vez, a segunda versão baseou-se em um novo layout do Figma para [Web](https://www.figma.com/file/Agvethfp7FANyXDDU3LUfd/Proffy-Web-2.0) e [Mobile](https://www.figma.com/file/nZ7lMEBYZSMhRxfdvy6fKz/Proffy-Mobile-2.0) e em um [documento](https://www.notion.so/Vers-o-2-0-Proffy-eefca1b981694cd0a895613bc6235970) para descrever as novas funcionalidades. Um sumário das diferenças entre as versões pode ser conferido [abaixo](#comparação-entre-versões-1-e-2-da-plataforma).
 
 O sistema, desenvolvido em TypeScript, é composto de um servidor HTTP Node, um [site](https://proffy.marcel099.vercel.app/) em React e um aplicativo móvel em React Native.
 
@@ -90,27 +90,27 @@ Por sua vez, professores podem personalizar seu perfil com informações referen
 A plataforma foi desenvolvida em TypeScript. É composta de 3 partes:
 
 - Back-End
-  - Node
-  - Express
-  - Knex
-  - PostgreSQL
+  - [Node.js](https://nodejs.org/en/)
+  - [Express](https://expressjs.com/)
+  - [Knex](https://knexjs.org/)
+  - [PostgreSQL](https://www.postgresql.org/)
 - Front-End Web
-  - Vite
-  - React
-  - React Router
+  - [Vite](https://vitejs.dev/)
+  - [React](https://react.dev/)
+  - [React Router](https://reactrouter.com/)
 - Front-End Mobile
-  - React Native
-  - React Navigation - Stack e Bottom Tabs
-  - Async Storage
+  - [React Native](https://reactnative.dev/)
+  - [React Navigation](https://reactnavigation.org/) - [Stack](https://reactnavigation.org/docs/stack-navigator/) e [Bottom Tabs](https://reactnavigation.org/docs/bottom-tab-navigator)
+  - [Async Storage](https://reactnative.dev/docs/asyncstorage)
 
 Alguns pontos a destacar:
 
-- Cada aplicação possui ESLint configurado para padronização de código
-- A hospedagem de imagens de avatar de usuário é realizada na AWS S3
-- A autenticação do usuário baseia-se em JWT
-- O envio de e-mail de recuperação de senha usa Nodemailer e Gmail
+- Cada aplicação possui [ESLint](https://eslint.org/) configurado para padronização de código
+- A hospedagem de imagens de avatar de usuário é realizada na [AWS S3](https://aws.amazon.com/pt/s3/)
+- A autenticação do usuário baseia-se em [JWT](https://jwt.io/)
+- O envio de e-mail de recuperação de senha usa [Nodemailer](https://nodemailer.com/) e Gmail
 
-Se desejar explorar as rotas do servidor HTTP Node desenvolvido para essa plataforma, poderá fazer isso através do Insomnia:
+Se desejar explorar as rotas do servidor HTTP Node desenvolvido para essa plataforma, poderá fazer isso através do [Insomnia](https://insomnia.rest/):
 
 [![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=NLW%20%2302%20-%20Proffy&uri=https%3A%2F%2Fgithub.com%2Fmarcel099%2Frs-nlw-02-proffy%2Fblob%2Fmaster%2Fassets%2Finsomnia_collection.json)
 
@@ -136,7 +136,7 @@ A versão 2 da plataforma foi lançada como um desafio aos alunos que finalizara
 
 Antes de tudo, vale lembrar que se você quiser apenas acessar a plataforma para experimentá-la, você pode fazer isso através deste <a href="https://proffy.marcel099.vercel.app/">link</a>.
 
-Se deseja executar o projeto na sua máquina, você precisa, antes de tudo, instalar as seguintes ferramentas: [Git](https://git-scm.com), [Node.js](https://nodejs.org/en/). Caso queira alterar algum arquivo sugiro também que instale algum editor de texto, como o [Visual Studio Code](https://code.visualstudio.com/) e o [Sublime](https://www.sublimetext.com/3).
+Se deseja executar o projeto na sua máquina, você precisa, antes de tudo, instalar as seguintes ferramentas: [Git](https://git-scm.com), [Node.js](https://nodejs.org/en/), [Yarn](https://yarnpkg.com/) (opcional). Caso queira alterar algum arquivo sugiro também que instale algum editor de texto, como o [Visual Studio Code](https://code.visualstudio.com/) e o [Sublime](https://www.sublimetext.com/3).
 
 Após isso, clone o repositório na pasta de sua escolha utilizando o seguinte comando na linha de comando:
 
