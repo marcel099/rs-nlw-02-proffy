@@ -8,10 +8,10 @@
 </h4>
 
 <div align="center">
-  <img src="https://img.shields.io/badge/languages-3-blue.svg">
   <img src="https://img.shields.io/github/repo-size/marcel099/proffy.svg">
   <img src="https://img.shields.io/github/last-commit/marcel099/proffy.svg">
   <img src="https://img.shields.io/github/issues/marcel099/proffy.svg">
+  <img src="https://img.shields.io/github/issues-closed/marcel099/proffy.svg">
   <img src="https://img.shields.io/github/license/marcel099/proffy.svg">
   <img src="https://img.shields.io/github/stars/marcel099/proffy.svg?style=social">
 </div>
