@@ -29,9 +29,7 @@
 
 ## Sobre
 
-A primeira versão do projeto foi desenvolvida durante a segunda edição do evento Next Level Week propiciado pela empresa [Rocketseat](https://rocketseat.com.br/). Baseou-se em um layout elaborado no Figma.
-
-Por sua vez, a segunda versão baseou-se em um novo layout do Figma para [Web](https://www.figma.com/file/Agvethfp7FANyXDDU3LUfd/Proffy-Web-2.0) e [Mobile](https://www.figma.com/file/nZ7lMEBYZSMhRxfdvy6fKz/Proffy-Mobile-2.0) e em um [documento](https://www.notion.so/Vers-o-2-0-Proffy-eefca1b981694cd0a895613bc6235970) para descrever as novas funcionalidades. Um sumário das diferenças entre as versões pode ser conferido [abaixo](#comparação-entre-versões-1-e-2-da-plataforma).
+A primeira versão do projeto foi desenvolvida durante a segunda edição do evento Next Level Week propiciado pela empresa [Rocketseat](https://rocketseat.com.br/). Baseou-se em um layout elaborado no Figma. Por sua vez, a segunda versão baseou-se em um novo layout do Figma para [Web](https://www.figma.com/file/Agvethfp7FANyXDDU3LUfd/Proffy-Web-2.0) e [Mobile](https://www.figma.com/file/nZ7lMEBYZSMhRxfdvy6fKz/Proffy-Mobile-2.0) e em um [documento](https://www.notion.so/Vers-o-2-0-Proffy-eefca1b981694cd0a895613bc6235970) para descrever as novas funcionalidades. Um sumário das diferenças entre as versões pode ser conferido [abaixo](#comparação-entre-versões-1-e-2-da-plataforma).
 
 O sistema, desenvolvido em TypeScript, é composto de um servidor HTTP Node, um [site](https://proffy.marcel099.vercel.app/) em React e um aplicativo móvel em React Native.
 
