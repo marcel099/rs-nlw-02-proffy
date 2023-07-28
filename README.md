@@ -4,7 +4,7 @@
 <!-- <p align="center">:green_book: Plataforma de estudos online conectando alunos e professores </p> -->
 
 <h4 align="center"> 
-	Next Level Week Proffy v2 🚀
+	Next Level Week #02 - Proffy v2 🚀
 </h4>
 
 <div align="center">
