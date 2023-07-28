@@ -21,6 +21,7 @@
 <!--ts-->
    * [Índice](#índice)
    * [Sobre](#sobre-o-projeto)
+   * [Tecnologias](#principais-tecnologias-utilizadas)
    * [Como rodar na sua máquina?](#como-rodar-na-sua-máquina)
       * [Back-End](#back-end)
       * [Front-End Web](#front-end-web)
@@ -79,6 +80,31 @@ Se desejar explorar as rotas do servidor HTTP Node desenvolvido para essa plataf
 
 [![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=NLW%20%2302%20-%20Proffy&uri=https%3A%2F%2Fgithub.com%2Fmarcel099%2Frs-nlw-02-proffy%2Fblob%2Fmaster%2Fassets%2Finsomnia_collection.json)
 
+## Principais tecnologias utilizadas
+
+A plataforma foi desenvolvida em TypeScript. É composta de 3 partes:
+
+- Back-End
+  - Node
+  - Express
+  - Knex
+  - PostgreSQL
+- Front-End Web
+  - Vite
+  - React
+  - React Router
+- Front-End Mobile
+  - React Native
+  - React Navigation - Stack e Bottom Tabs
+  - Async Storage
+
+Alguns pontos a destacar:
+
+- Cada aplicação possui ESLint configurado para padronização de código
+- A hospedagem de imagens de avatar de usuário é realizada na AWS S3
+- A autenticação do usuário baseia-se em JWT
+- O envio de e-mail de recuperação de senha usa Nodemailer e Gmail
+
 ## Como rodar na sua máquina?
 
 Antes de tudo, vale lembrar que se você quiser apenas acessar a plataforma para experimentá-la, você pode fazer isso através deste <a href="https://proffy.marcel099.vercel.app/">link</a>.
@@ -88,7 +114,7 @@ Se deseja executar o projeto na sua máquina, você precisa, antes de tudo, inst
 Após isso, clone o repositório na pasta de sua escolha utilizando o seguinte comando na linha de comando:
 
 ```bash
-git clone https://github.com/Marcel099/proffy
+git clone https://github.com/marcel099/rs-nlw-02-proffy
 ```
 
 ### Back-End
