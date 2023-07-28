@@ -4,15 +4,16 @@
 <!-- <p align="center">:green_book: Plataforma de estudos online conectando alunos e professores </p> -->
 
 <h4 align="center"> 
-	Next Level Week #02 v2 🚀
+	Next Level Week Proffy v2 🚀
 </h4>
 
 <div align="center">
   <img src="https://img.shields.io/badge/languages-3-blue.svg">
-  <img src="https://img.shields.io/github/last-commit/Marcel099/proffy.svg">
-  <img src="https://img.shields.io/github/issues/Marcel099/proffy.svg">
-  <img src="https://img.shields.io/github/license/Marcel099/proffy.svg">
-  <img src="https://img.shields.io/github/stars/Marcel099/proffy.svg?style=social">
+  <img src="https://img.shields.io/github/repo-size/marcel099/proffy.svg">
+  <img src="https://img.shields.io/github/last-commit/marcel099/proffy.svg">
+  <img src="https://img.shields.io/github/issues/marcel099/proffy.svg">
+  <img src="https://img.shields.io/github/license/marcel099/proffy.svg">
+  <img src="https://img.shields.io/github/stars/marcel099/proffy.svg?style=social">
 </div>
 
 ## Índice
@@ -73,6 +74,10 @@ Por sua vez, professores podem personalizar seu perfil com informações referen
   <img alt="Interface Dar Aulas no aplicativo" style="height: 15rem" src="./assets/screenshots/give_classes_mobile.png" />
   <img alt="Interface Meu Perfil no site" style="height: 15rem" src="./assets/screenshots/my_profile_web.png" />
 </div>
+
+Se desejar explorar as rotas do servidor HTTP Node desenvolvido para essa plataforma, poderá fazer isso através do Insomnia:
+
+[![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=NLW%20%2302%20-%20Proffy&uri=https%3A%2F%2Fgithub.com%2Fmarcel099%2Frs-nlw-02-proffy%2Fblob%2Fimprove-readme%2Fassets%2Finsomnia-collection.json)
 
 ## Como rodar na sua máquina?
 
